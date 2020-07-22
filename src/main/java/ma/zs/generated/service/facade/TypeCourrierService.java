@@ -81,4 +81,7 @@ public interface TypeCourrierService {
      * @return the searhed list TypeCourrier 
      */
 	List<TypeCourrier> findByCriteria( TypeCourrierVo typeCourrierVo);
+
+	TypeCourrier findByCode(String code);
+
 }

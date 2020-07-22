@@ -12,6 +12,8 @@ public interface TypeCourrierDao extends JpaRepository<TypeCourrier,Long> {
 
 	TypeCourrier findByLibelle(String libelle);
        int deleteByLibelle(String libelle);
+    TypeCourrier findByCode(String code);
+
 
 
 }

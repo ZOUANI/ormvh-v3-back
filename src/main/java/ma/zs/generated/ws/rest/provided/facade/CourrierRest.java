@@ -432,7 +432,17 @@ public class CourrierRest {
     @PostMapping("/search")
 	public List<CourrierVo> findByCriteria(@RequestBody CourrierVo courrierVo){
        return courrierConverter.toVo(courrierService.findByCriteria(courrierVo));
-	}	
+	}
+	@GetMapping("/generateId")
+	public String generateIdCourrier() {
+		return courrierService.generateIdCourrier();
+	}
+
+	@PostMapping("/courriers/reservation/idCourier/{idCourier}/nbr/{nbr}")
+	public int reservation(@RequestBody Courrier courrier,@PathVariable  String idCourier, @PathVariable int nbr) {
+		return courrierService.reservation(courrier,idCourier,nbr);
+	}
+
 	public CourrierConverter getCourrierConverter(){
 		return courrierConverter;
 	}
@@ -447,6 +457,7 @@ public class CourrierRest {
 	public void setCourrierService( CourrierService courrierService){
 	 	this.courrierService=courrierService;
 	}
-	
+
+
 
 }

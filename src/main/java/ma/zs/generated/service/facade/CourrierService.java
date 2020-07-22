@@ -171,4 +171,9 @@ public interface CourrierService {
      * @return the searhed list Courrier 
      */
 	List<Courrier> findByCriteria( CourrierVo courrierVo);
-}
+
+     String generateIdCourrier();
+
+     int reservation(Courrier courrier , String idCourier, int nbr);
+
+    }
