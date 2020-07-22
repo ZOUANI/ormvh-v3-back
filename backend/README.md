@@ -1,2 +1,0 @@
-- create database ormvah
-- run spring project using your IDE or mvn
