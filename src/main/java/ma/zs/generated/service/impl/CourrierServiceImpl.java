@@ -84,6 +84,16 @@ public class CourrierServiceImpl implements CourrierService {
     }
 
     @Override
+    public List<Courrier> findByAccuse(Boolean accuse) {
+        return courrierDao.findByAccuse(accuse);
+    }
+
+    @Override
+    public List<Courrier> findByReponse(Boolean reponse) {
+        return courrierDao.findByReponse(reponse);
+    }
+
+    @Override
     public List<Courrier> findByCourrierObjectTitle(String title) {
         return courrierDao.findByCourrierObjectTitle(title);
     }
@@ -760,24 +770,25 @@ public class CourrierServiceImpl implements CourrierService {
         return numOrder;
 
     }
-	@Override
-	public  int reservation(Courrier courrier , String idCourier, int nbr) {
 
-		String onlyNumericText = idCourier.replaceAll("[^\\w\\s\\.]","");
-		String firstSixChar = onlyNumericText.substring(0,6);
-		String year = onlyNumericText.substring(7,11);
-		int id = Integer.parseInt(firstSixChar);
+    @Override
+    public int reservation(Courrier courrier, String idCourier, int nbr) {
 
-		for (int i = 0; i <nbr ; i++) {
-			String idCourrierNew = String.format("%06d", ++id)+'_'+year;
-			courrier = new Courrier();
-			courrier.setIdCourrier(idCourrierNew);
+        String onlyNumericText = idCourier.replaceAll("[^\\w\\s\\.]", "");
+        String firstSixChar = onlyNumericText.substring(0, 6);
+        String year = onlyNumericText.substring(7, 11);
+        int id = Integer.parseInt(firstSixChar);
+
+        for (int i = 0; i < nbr; i++) {
+            String idCourrierNew = String.format("%06d", ++id) + '_' + year;
+            courrier = new Courrier();
+            courrier.setIdCourrier(idCourrierNew);
 //			TypeCourrier tc = typeCourrierService.findByCode("brouillant");
 //			courrier.setTypeCourrier(tc);
-			save(courrier);
-		}
+            save(courrier);
+        }
 
-		return 1;
-	}
+        return 1;
+    }
 
 }
