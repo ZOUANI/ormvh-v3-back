@@ -111,6 +111,11 @@ public class TypeCourrierServiceImpl implements TypeCourrierService {
 		 	 query += SearchUtil.addConstraint( "o", "id","=",typeCourrierVo.getId());
 	 return entityManager.createQuery(query).getResultList();
 	}
-	
- 
+
+	@Override
+	public TypeCourrier findByCode(String code) {
+		return typeCourrierDao.findByCode(code);
+	}
+
+
 }
