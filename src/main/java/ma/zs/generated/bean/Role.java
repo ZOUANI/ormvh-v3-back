@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import ma.zs.generated.bean.User;
 import ma.zs.generated.bean.User;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 public class Role {

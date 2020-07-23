@@ -22,4 +22,6 @@ public interface UserDao extends JpaRepository<User,Long> {
        List<User> findByUpdatedById(Long id);
        int deleteByUpdatedById(Long id);
 
+       User findByEmail(String email);
+
 }
