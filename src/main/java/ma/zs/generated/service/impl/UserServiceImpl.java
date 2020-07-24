@@ -22,7 +22,7 @@ import ma.zs.generated.ws.rest.provided.vo.UserVo;
 import ma.zs.generated.service.util.*;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractService<User> implements UserService {
 
     @Autowired
     private UserDao userDao;
@@ -150,23 +150,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> save(List<User> users) {
-        List<User> list = new ArrayList<User>();
-        for (User user : users) {
-            list.add(save(user));
-        }
-        return list;
-    }
-
-
-    @Override
     public User update(User user) {
-
-
         User foundedUser = findById(user.getId());
         if (foundedUser == null)
             return null;
-
+        prepareUpdate(user);
         return userDao.save(user);
 
     }
@@ -188,29 +176,29 @@ public class UserServiceImpl implements UserService {
 
     public List<User> findByCriteria(UserVo userVo) {
         String query = "SELECT o FROM User o where 1=1 ";
-        query += SearchUtil.addConstraint("o", "credentialsNonExpired", "=", userVo.getCredentialsNonExpired());
-        query += SearchUtil.addConstraint("o", "enabled", "=", userVo.getEnabled());
-        query += SearchUtil.addConstraintDate("o", "createdAt", "=", userVo.getCreatedAt());
-        query += SearchUtil.addConstraintDate("o", "updatedAt", "=", userVo.getUpdatedAt());
-        query += SearchUtil.addConstraint("o", "email", "LIKE", userVo.getEmail());
+        query += addConstraint("o", "credentialsNonExpired", "=", userVo.getCredentialsNonExpired());
+        query += addConstraint("o", "enabled", "=", userVo.getEnabled());
+        query += addConstraintDate("o", "createdAt", "=", userVo.getCreatedAt());
+        query += addConstraintDate("o", "updatedAt", "=", userVo.getUpdatedAt());
+        query += addConstraint("o", "email", "LIKE", userVo.getEmail());
 
-        query += SearchUtil.addConstraint("o", "accountNonExpired", "=", userVo.getAccountNonExpired());
-        query += SearchUtil.addConstraint("o", "accountNonLocked", "=", userVo.getAccountNonLocked());
-        query += SearchUtil.addConstraint("o", "id", "=", userVo.getId());
-        query += SearchUtil.addConstraint("o", "username", "LIKE", userVo.getUsername());
+        query += addConstraint("o", "accountNonExpired", "=", userVo.getAccountNonExpired());
+        query += addConstraint("o", "accountNonLocked", "=", userVo.getAccountNonLocked());
+        query += addConstraint("o", "id", "=", userVo.getId());
+        query += addConstraint("o", "username", "LIKE", userVo.getUsername());
 
-        query += SearchUtil.addConstraint("o", "password", "LIKE", userVo.getPassword());
+        query += addConstraint("o", "password", "LIKE", userVo.getPassword());
 
-        query += SearchUtil.addConstraintMinMaxDate("o", "createdAt", userVo.getCreatedAtMin(), userVo.getCreatedAtMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "updatedAt", userVo.getUpdatedAtMin(), userVo.getUpdatedAtMax());
+        query += addConstraintMinMaxDate("o", "createdAt", userVo.getCreatedAtMin(), userVo.getCreatedAtMax());
+        query += addConstraintMinMaxDate("o", "updatedAt", userVo.getUpdatedAtMin(), userVo.getUpdatedAtMax());
         if (userVo.getCreatedByVo() != null) {
-            query += SearchUtil.addConstraint("o", "createdBy.id", "=", userVo.getCreatedByVo().getId());
-            query += SearchUtil.addConstraint("o", "createdBy.username", "LIKE", userVo.getCreatedByVo().getUsername());
+            query += addConstraint("o", "createdBy.id", "=", userVo.getCreatedByVo().getId());
+            query += addConstraint("o", "createdBy.username", "LIKE", userVo.getCreatedByVo().getUsername());
         }
 
         if (userVo.getUpdatedByVo() != null) {
-            query += SearchUtil.addConstraint("o", "updatedBy.id", "=", userVo.getUpdatedByVo().getId());
-            query += SearchUtil.addConstraint("o", "updatedBy.username", "LIKE", userVo.getUpdatedByVo().getUsername());
+            query += addConstraint("o", "updatedBy.id", "=", userVo.getUpdatedByVo().getId());
+            query += addConstraint("o", "updatedBy.username", "LIKE", userVo.getUpdatedByVo().getUsername());
         }
 
         return entityManager.createQuery(query).getResultList();

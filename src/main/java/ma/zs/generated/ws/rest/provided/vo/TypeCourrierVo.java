@@ -10,12 +10,15 @@ public class TypeCourrierVo {
      private String libelle ;
    
      private String id ;
-   
+
+    private String color;
 
 
 
 
- public TypeCourrierVo(){
+
+
+    public TypeCourrierVo(){
        super();
      }
 
@@ -52,10 +55,11 @@ public class TypeCourrierVo {
      }
 
 
-     
+    public String getColor() {
+        return color;
+    }
 
-
-
-
-
+    public void setColor(String color) {
+        this.color = color;
+    }
 }

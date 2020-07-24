@@ -50,18 +50,18 @@ public interface UserService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save User in database
-     * @param user - User to be saved 
-     * @return the saved User, If the User can't be saved return null.
+     * create User in database
+     * @param user - User to be created 
+     * @return the created User, If the User can't be created return null.
      */
-	User save(User user);
+	User create(User user);
 
 	/**
-     * save list User in database
-     * @param users - list of User to be saved 
-     * @return the saved User list
+     * create list User in database
+     * @param users - list of User to be created 
+     * @return the created User list
      */
-	List<User> save(List<User> users);
+	List<User> create(List<User> users);
     
      /**
      * update User in database

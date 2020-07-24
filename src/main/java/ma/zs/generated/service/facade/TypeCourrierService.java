@@ -38,18 +38,18 @@ public interface TypeCourrierService {
 	void deleteById(Long id);
 
     /**
-     * save TypeCourrier in database
-     * @param typeCourrier - TypeCourrier to be saved 
-     * @return the saved TypeCourrier, If the TypeCourrier can't be saved return null.
+     * create TypeCourrier in database
+     * @param typeCourrier - TypeCourrier to be created 
+     * @return the created TypeCourrier, If the TypeCourrier can't be created return null.
      */
-	TypeCourrier save(TypeCourrier typeCourrier);
+	TypeCourrier create(TypeCourrier typeCourrier);
 
 	/**
-     * save list TypeCourrier in database
-     * @param typeCourriers - list of TypeCourrier to be saved 
-     * @return the saved TypeCourrier list
+     * create list TypeCourrier in database
+     * @param typeCourriers - list of TypeCourrier to be created 
+     * @return the created TypeCourrier list
      */
-	List<TypeCourrier> save(List<TypeCourrier> typeCourriers);
+	List<TypeCourrier> create(List<TypeCourrier> typeCourriers);
     
      /**
      * update TypeCourrier in database

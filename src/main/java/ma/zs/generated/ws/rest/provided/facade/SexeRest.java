@@ -29,11 +29,11 @@ public class SexeRest {
 	@Autowired 
 	private SexeConverter sexeConverter ;
 
-    @ApiOperation("Saves the specified sexe")
+    @ApiOperation("creates the specified sexe")
 	@PostMapping("/")
-	public SexeVo save(@RequestBody SexeVo sexeVo){
+	public SexeVo create(@RequestBody SexeVo sexeVo){
 		Sexe sexe= sexeConverter.toItem(sexeVo);
-	  sexe=	sexeService.save(sexe);
+	  sexe=	sexeService.create(sexe);
 		return sexeConverter.toVo(sexe);
 	}
 

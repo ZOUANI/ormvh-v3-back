@@ -31,12 +31,12 @@ public class UserRest {
     @Autowired
     private UserConverter userConverter;
 
-    @ApiOperation("Saves the specified user")
+    @ApiOperation("creates the specified user")
     @PostMapping("/")
-    public UserVo save(@RequestBody UserVo userVo) {
+    public UserVo create(@RequestBody UserVo userVo) {
 
         User user = userConverter.toItem(userVo);
-        user = userService.save(user);
+        user = userService.create(user);
         return userConverter.toVo(user);
     }
 

@@ -50,18 +50,18 @@ public interface LeServiceService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save LeService in database
-     * @param leService - LeService to be saved 
-     * @return the saved LeService, If the LeService can't be saved return null.
+     * create LeService in database
+     * @param leService - LeService to be created 
+     * @return the created LeService, If the LeService can't be created return null.
      */
-	LeService save(LeService leService);
+	LeService create(LeService leService);
 
 	/**
-     * save list LeService in database
-     * @param leServices - list of LeService to be saved 
-     * @return the saved LeService list
+     * create list LeService in database
+     * @param leServices - list of LeService to be created 
+     * @return the created LeService list
      */
-	List<LeService> save(List<LeService> leServices);
+	List<LeService> create(List<LeService> leServices);
     
      /**
      * update LeService in database

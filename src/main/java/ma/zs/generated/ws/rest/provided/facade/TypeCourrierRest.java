@@ -29,11 +29,11 @@ public class TypeCourrierRest {
 	@Autowired 
 	private TypeCourrierConverter typeCourrierConverter ;
 
-    @ApiOperation("Saves the specified typeCourrier")
+    @ApiOperation("creates the specified typeCourrier")
 	@PostMapping("/")
-	public TypeCourrierVo save(@RequestBody TypeCourrierVo typeCourrierVo){
+	public TypeCourrierVo create(@RequestBody TypeCourrierVo typeCourrierVo){
 		TypeCourrier typeCourrier= typeCourrierConverter.toItem(typeCourrierVo);
-	  typeCourrier=	typeCourrierService.save(typeCourrier);
+	  typeCourrier=	typeCourrierService.create(typeCourrier);
 		return typeCourrierConverter.toVo(typeCourrier);
 	}
 

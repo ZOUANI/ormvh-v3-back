@@ -50,18 +50,18 @@ public interface StatusService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save Status in database
-     * @param status - Status to be saved 
-     * @return the saved Status, If the Status can't be saved return null.
+     * create Status in database
+     * @param status - Status to be created 
+     * @return the created Status, If the Status can't be created return null.
      */
-	Status save(Status status);
+	Status create(Status status);
 
 	/**
-     * save list Status in database
-     * @param statuss - list of Status to be saved 
-     * @return the saved Status list
+     * create list Status in database
+     * @param statuss - list of Status to be created 
+     * @return the created Status list
      */
-	List<Status> save(List<Status> statuss);
+	List<Status> create(List<Status> statuss);
     
      /**
      * update Status in database

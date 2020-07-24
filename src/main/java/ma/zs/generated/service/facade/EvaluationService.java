@@ -50,18 +50,18 @@ public interface EvaluationService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save Evaluation in database
-     * @param evaluation - Evaluation to be saved 
-     * @return the saved Evaluation, If the Evaluation can't be saved return null.
+     * create Evaluation in database
+     * @param evaluation - Evaluation to be created 
+     * @return the created Evaluation, If the Evaluation can't be created return null.
      */
-	Evaluation save(Evaluation evaluation);
+	Evaluation create(Evaluation evaluation);
 
 	/**
-     * save list Evaluation in database
-     * @param evaluations - list of Evaluation to be saved 
-     * @return the saved Evaluation list
+     * create list Evaluation in database
+     * @param evaluations - list of Evaluation to be created 
+     * @return the created Evaluation list
      */
-	List<Evaluation> save(List<Evaluation> evaluations);
+	List<Evaluation> create(List<Evaluation> evaluations);
     
      /**
      * update Evaluation in database

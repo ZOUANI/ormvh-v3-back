@@ -29,11 +29,11 @@ public class VoieRest {
 	@Autowired 
 	private VoieConverter voieConverter ;
 
-    @ApiOperation("Saves the specified voie")
+    @ApiOperation("creates the specified voie")
 	@PostMapping("/")
-	public VoieVo save(@RequestBody VoieVo voieVo){
+	public VoieVo create(@RequestBody VoieVo voieVo){
 		Voie voie= voieConverter.toItem(voieVo);
-	  voie=	voieService.save(voie);
+	  voie=	voieService.create(voie);
 		return voieConverter.toVo(voie);
 	}
 

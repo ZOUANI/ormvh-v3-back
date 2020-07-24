@@ -29,11 +29,11 @@ public class StatusRest {
 	@Autowired 
 	private StatusConverter statusConverter ;
 
-    @ApiOperation("Saves the specified status")
+    @ApiOperation("creates the specified status")
 	@PostMapping("/")
-	public StatusVo save(@RequestBody StatusVo statusVo){
+	public StatusVo create(@RequestBody StatusVo statusVo){
 		Status status= statusConverter.toItem(statusVo);
-	  status=	statusService.save(status);
+	  status=	statusService.create(status);
 		return statusConverter.toVo(status);
 	}
 

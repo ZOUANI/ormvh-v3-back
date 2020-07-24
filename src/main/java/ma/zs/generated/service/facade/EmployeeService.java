@@ -56,18 +56,18 @@ public interface EmployeeService {
     int deleteByUserId(Long id);
 			 
     /**
-     * save Employee in database
-     * @param employee - Employee to be saved 
-     * @return the saved Employee, If the Employee can't be saved return null.
+     * create Employee in database
+     * @param employee - Employee to be created 
+     * @return the created Employee, If the Employee can't be created return null.
      */
-	Employee save(Employee employee);
+	Employee create(Employee employee);
 
 	/**
-     * save list Employee in database
-     * @param employees - list of Employee to be saved 
-     * @return the saved Employee list
+     * create list Employee in database
+     * @param employees - list of Employee to be created 
+     * @return the created Employee list
      */
-	List<Employee> save(List<Employee> employees);
+	List<Employee> create(List<Employee> employees);
     
      /**
      * update Employee in database

@@ -25,17 +25,27 @@ import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
 @RequestMapping("generated/courrier")
 public class CourrierRest {
 
+
     @Autowired
     private CourrierService courrierService;
 
     @Autowired
     private CourrierConverter courrierConverter;
 
-    @ApiOperation("Saves the specified courrier")
+
+    public Long countByAccuse(Boolean accuse) {
+        return courrierService.countByAccuse(accuse);
+    }
+
+    public Long countByReponse(Boolean accuse) {
+        return courrierService.countByReponse(accuse);
+    }
+
+    @ApiOperation("creates the specified courrier")
     @PostMapping("/")
-    public CourrierVo save(@RequestBody CourrierVo courrierVo) {
+    public CourrierVo create(@RequestBody CourrierVo courrierVo) {
         Courrier courrier = courrierConverter.toItem(courrierVo);
-        courrier = courrierService.save(courrier);
+        courrier = courrierService.create(courrier);
         return courrierConverter.toVo(courrier);
     }
 
@@ -550,7 +560,14 @@ public class CourrierRest {
         return courrierConverter.toVo(courrierService.findByStatusLibelleAndCreatedAtBetween(status_libelle, DateUtil.parse(createdAt), DateUtil.parse(createdAt2)));
     }
 
-    public CourrierConverter getCourrierConverter() {
+    @ApiOperation("verify idCourier")
+    @GetMapping("/verify/IdCourier/{IdCourier}")
+    public String verifyIdCourier(@PathVariable String IdCourier) {
+        return courrierService.verifyIdCourier(IdCourier);
+    }
+
+
+        public CourrierConverter getCourrierConverter() {
         return courrierConverter;
     }
 

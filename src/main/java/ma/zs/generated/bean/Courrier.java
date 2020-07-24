@@ -1,18 +1,10 @@
 package ma.zs.generated.bean;
 
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.OneToMany;
 import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 import ma.zs.generated.bean.CourrierObject;
 import ma.zs.generated.bean.Voie;
@@ -97,7 +89,7 @@ public class Courrier {
     private User createdBy;
     @ManyToOne
     private User updatedBy;
-    @OneToMany(mappedBy = "courrier")
+    @OneToMany(mappedBy = "courrier",cascade = CascadeType.REMOVE)
     private List<Task> tasks;
     @OneToMany(mappedBy = "courrier")
     private List<CourrierServiceItem> courrierServiceItems;

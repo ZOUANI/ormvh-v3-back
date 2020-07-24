@@ -29,11 +29,11 @@ public class SubdivisionRest {
 	@Autowired 
 	private SubdivisionConverter subdivisionConverter ;
 
-    @ApiOperation("Saves the specified subdivision")
+    @ApiOperation("creates the specified subdivision")
 	@PostMapping("/")
-	public SubdivisionVo save(@RequestBody SubdivisionVo subdivisionVo){
+	public SubdivisionVo create(@RequestBody SubdivisionVo subdivisionVo){
 		Subdivision subdivision= subdivisionConverter.toItem(subdivisionVo);
-	  subdivision=	subdivisionService.save(subdivision);
+	  subdivision=	subdivisionService.create(subdivision);
 		return subdivisionConverter.toVo(subdivision);
 	}
 

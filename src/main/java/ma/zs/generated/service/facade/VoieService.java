@@ -50,18 +50,18 @@ public interface VoieService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save Voie in database
-     * @param voie - Voie to be saved 
-     * @return the saved Voie, If the Voie can't be saved return null.
+     * create Voie in database
+     * @param voie - Voie to be created 
+     * @return the created Voie, If the Voie can't be created return null.
      */
-	Voie save(Voie voie);
+	Voie create(Voie voie);
 
 	/**
-     * save list Voie in database
-     * @param voies - list of Voie to be saved 
-     * @return the saved Voie list
+     * create list Voie in database
+     * @param voies - list of Voie to be created 
+     * @return the created Voie list
      */
-	List<Voie> save(List<Voie> voies);
+	List<Voie> create(List<Voie> voies);
     
      /**
      * update Voie in database
