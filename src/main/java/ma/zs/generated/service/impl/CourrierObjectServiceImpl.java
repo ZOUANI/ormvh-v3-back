@@ -121,7 +121,7 @@ public class CourrierObjectServiceImpl extends  AbstractService<CourrierObject> 
         CourrierObject foundedCourrierObject = findById(courrierObject.getId());
         if (foundedCourrierObject == null)
             return null;
-
+        prepareUpdate(courrierObject);
         return courrierObjectDao.save(courrierObject);
 
     }

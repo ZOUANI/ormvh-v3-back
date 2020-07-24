@@ -650,12 +650,10 @@ public class CourrierServiceImpl extends  AbstractService<Courrier> implements C
 
     @Override
     public Courrier update(Courrier courrier) {
-
-
         Courrier foundedCourrier = findById(courrier.getId());
         if (foundedCourrier == null)
             return null;
-
+        prepareUpdate(courrier);
         return courrierDao.save(courrier);
 
     }

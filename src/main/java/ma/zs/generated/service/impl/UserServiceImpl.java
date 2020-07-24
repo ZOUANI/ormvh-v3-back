@@ -22,7 +22,7 @@ import ma.zs.generated.ws.rest.provided.vo.UserVo;
 import ma.zs.generated.service.util.*;
 
 @Service
-public class UserServiceImpl extends  AbstractService<User> implements UserService {
+public class UserServiceImpl extends AbstractService<User> implements UserService {
 
     @Autowired
     private UserDao userDao;
@@ -154,7 +154,7 @@ public class UserServiceImpl extends  AbstractService<User> implements UserServi
         User foundedUser = findById(user.getId());
         if (foundedUser == null)
             return null;
-
+        prepareUpdate(user);
         return userDao.save(user);
 
     }

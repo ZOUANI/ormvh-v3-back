@@ -113,12 +113,10 @@ public class CourrierServiceItemServiceImpl extends AbstractService<CourrierServ
 
     @Override
     public CourrierServiceItem update(CourrierServiceItem courrierServiceItem) {
-
-
         CourrierServiceItem foundedCourrierServiceItem = findById(courrierServiceItem.getId());
         if (foundedCourrierServiceItem == null)
             return null;
-
+        prepareUpdate(courrierServiceItem);
         return courrierServiceItemDao.save(courrierServiceItem);
 
     }

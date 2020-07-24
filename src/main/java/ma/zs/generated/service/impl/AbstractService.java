@@ -14,39 +14,43 @@ import ma.zs.generated.service.util.DateUtil;
 public abstract class AbstractService<T> {
     public abstract T save(T t);
 
-    public  List<T>  create(List<T> items){
+    public List<T> create(List<T> items) {
         List<T> list = new ArrayList<T>();
-        if(items!=null){
-            items.forEach(item->list.add(create(item)));
+        if (items != null) {
+            items.forEach(item -> list.add(create(item)));
         }
         return items;
     }
 
     public T create(T t) {
-        try {
-            prepareSave(t);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        prepareSave(t);
         return save(t);
 
     }
 
-    public void prepareSave(T item) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public void prepareSave(T item) {
         User connecteduser = null;
-        if (PropertyUtils.getProperty(item, "createdBy") == null) {
-            PropertyUtils.setProperty(item, "createdBy", connecteduser);
-        }
-        if (PropertyUtils.getProperty(item, "createdAt") == null) {
-            PropertyUtils.setProperty(item, "createdAt", new Date());
+        try {
+            if (PropertyUtils.getProperty(item, "createdBy") == null) {
+                PropertyUtils.setProperty(item, "createdBy", connecteduser);
+            }
+            if (PropertyUtils.getProperty(item, "createdAt") == null) {
+                PropertyUtils.setProperty(item, "createdAt", new Date());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
 
-    public void prepareUpdate(T item) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public void prepareUpdate(T item) {
         User connecteduser = null;
-        PropertyUtils.setProperty(item, "updatedBy", connecteduser);
-        PropertyUtils.setProperty(item, "updatedAt", new Date());
+        try {
+            PropertyUtils.setProperty(item, "updatedBy", connecteduser);
+            PropertyUtils.setProperty(item, "updatedAt", new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String addConstraint(String beanAbrev, String atributeName, String operator, Object value) {
