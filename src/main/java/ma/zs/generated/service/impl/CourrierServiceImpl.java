@@ -2,6 +2,8 @@ package ma.zs.generated.service.impl;
 
 import java.util.*;
 
+import ma.zs.generated.bean.*;
+import ma.zs.generated.service.facade.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,39 +11,13 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 
-import ma.zs.generated.bean.Courrier;
-import ma.zs.generated.bean.CourrierObject;
-import ma.zs.generated.bean.Voie;
-import ma.zs.generated.bean.NatureCourrier;
-import ma.zs.generated.bean.Expeditor;
-import ma.zs.generated.bean.LeService;
-import ma.zs.generated.bean.Evaluation;
-import ma.zs.generated.bean.ExpeditorType;
-import ma.zs.generated.bean.Subdivision;
-import ma.zs.generated.bean.Status;
-import ma.zs.generated.bean.TypeCourrier;
-import ma.zs.generated.bean.Task;
-import ma.zs.generated.bean.CourrierServiceItem;
 import ma.zs.generated.dao.CourrierDao;
-import ma.zs.generated.service.facade.CourrierService;
-import ma.zs.generated.service.facade.ExpeditorTypeService;
-import ma.zs.generated.service.facade.StatusService;
-import ma.zs.generated.service.facade.TaskService;
-import ma.zs.generated.service.facade.NatureCourrierService;
-import ma.zs.generated.service.facade.CourrierServiceItemService;
-import ma.zs.generated.service.facade.EvaluationService;
-import ma.zs.generated.service.facade.CourrierObjectService;
-import ma.zs.generated.service.facade.SubdivisionService;
-import ma.zs.generated.service.facade.ExpeditorService;
-import ma.zs.generated.service.facade.TypeCourrierService;
-import ma.zs.generated.service.facade.VoieService;
-import ma.zs.generated.service.facade.LeServiceService;
 
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
 import ma.zs.generated.service.util.*;
 
 @Service
-public class CourrierServiceImpl implements CourrierService {
+public class CourrierServiceImpl extends  AbstractService<Courrier> implements CourrierService {
 
     @Autowired
     private CourrierDao courrierDao;
@@ -829,6 +805,22 @@ public class CourrierServiceImpl implements CourrierService {
 		}
 
         return 1;
+    }
+
+    @Override
+    public String verifyIdCourier(String idCourier) {
+        Courrier courrier = findByIdCourrier(idCourier);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        if (idCourier.equals("")){
+            return "please insert the idCourier.";
+        }
+        else if (courrier!= null){
+            return "idCourier already exist!";
+        }else if(!idCourier.contains("-"+year)){
+            return "please insert the format 000000-YEAR.";
+        }else {
+            return "idCourier Correct.";
+        }
     }
 
 }

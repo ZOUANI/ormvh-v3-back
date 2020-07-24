@@ -536,7 +536,14 @@ public class CourrierRest {
         return courrierConverter.toVo(courrierService.findByStatusLibelleAndCreatedAtBetween(status_libelle, DateUtil.parse(createdAt), DateUtil.parse(createdAt2)));
     }
 
-    public CourrierConverter getCourrierConverter() {
+    @ApiOperation("verify idCourier")
+    @GetMapping("/verify/IdCourier/{IdCourier}")
+    public String verifyIdCourier(@PathVariable String IdCourier) {
+        return courrierService.verifyIdCourier(IdCourier);
+    }
+
+
+        public CourrierConverter getCourrierConverter() {
         return courrierConverter;
     }
 

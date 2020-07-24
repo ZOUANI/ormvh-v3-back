@@ -237,4 +237,6 @@ public interface CourrierService {
 
     int reservation(Courrier courrier, String idCourier, int nbr);
 
+    String verifyIdCourier(String IdCourier);
+
 }
