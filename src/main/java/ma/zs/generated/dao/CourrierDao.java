@@ -3,6 +3,7 @@ package ma.zs.generated.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -142,6 +143,26 @@ public interface CourrierDao extends JpaRepository<Courrier, Long> {
     List<Courrier> findByAccuse(Boolean accuse);
 
     List<Courrier> findByReponse(Boolean reponse);
+
+    List<Courrier> findByCreatedAt(Date createdAt);
+
+    List<Courrier> findByCreatedAtBetween(Date createdAt, Date createdAt2);
+
+    List<Courrier> findByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt);
+
+    List<Courrier> findByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2);
+
+    List<Courrier> findByAccuseAndCreatedAt(Boolean accuse, Date createdAt);
+
+    List<Courrier> findByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2);
+
+    List<Courrier> findByReponseAndCreatedAt(Boolean reponse, Date createdAt);
+
+    List<Courrier> findByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2);
+
+    List<Courrier> findByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt);
+
+    List<Courrier> findByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2);
 
 
 }
