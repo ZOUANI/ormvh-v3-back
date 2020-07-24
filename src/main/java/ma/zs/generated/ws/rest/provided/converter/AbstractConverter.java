@@ -1,6 +1,7 @@
 package  ma.zs.generated.ws.rest.provided.converter;
 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
