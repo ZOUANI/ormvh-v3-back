@@ -119,12 +119,10 @@ public class BordereauServiceImpl extends AbstractService<Bordereau> implements 
 
     @Override
     public Bordereau update(Bordereau bordereau) {
-
-
         Bordereau foundedBordereau = findById(bordereau.getId());
         if (foundedBordereau == null)
             return null;
-
+        prepareUpdate(bordereau);
         return bordereauDao.save(bordereau);
 
     }

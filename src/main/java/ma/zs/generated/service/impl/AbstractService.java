@@ -1,12 +1,14 @@
 package ma.zs.generated.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import ma.zs.generated.bean.Bordereau;
 import ma.zs.generated.bean.User;
+import ma.zs.generated.security.SecurityUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import ma.zs.generated.service.util.DateUtil;
@@ -14,39 +16,41 @@ import ma.zs.generated.service.util.DateUtil;
 public abstract class AbstractService<T> {
     public abstract T save(T t);
 
-    public  List<T>  create(List<T> items){
+    public List<T> create(List<T> items) {
         List<T> list = new ArrayList<T>();
-        if(items!=null){
-            items.forEach(item->list.add(create(item)));
+        if (items != null) {
+            items.forEach(item -> list.add(create(item)));
         }
         return items;
     }
 
     public T create(T t) {
-        try {
-            prepareSave(t);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        prepareSave(t);
         return save(t);
 
     }
 
-    public void prepareSave(T item) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        User connecteduser = null;
-        if (PropertyUtils.getProperty(item, "createdBy") == null) {
-            PropertyUtils.setProperty(item, "createdBy", connecteduser);
-        }
-        if (PropertyUtils.getProperty(item, "createdAt") == null) {
-            PropertyUtils.setProperty(item, "createdAt", new Date());
+    public void prepareSave(T item) {
+        try {
+            if (PropertyUtils.getProperty(item, "createdBy") == null) {
+                PropertyUtils.setProperty(item, "createdBy", SecurityUtil.getCurrentUser());
+            }
+            if (PropertyUtils.getProperty(item, "createdAt") == null) {
+                PropertyUtils.setProperty(item, "createdAt", new Date());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
 
-    public void prepareUpdate(T item) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        User connecteduser = null;
-        PropertyUtils.setProperty(item, "updatedBy", connecteduser);
-        PropertyUtils.setProperty(item, "updatedAt", new Date());
+    public void prepareUpdate(T item) {
+        try {
+            PropertyUtils.setProperty(item, "updatedBy", SecurityUtil.getCurrentUser());
+            PropertyUtils.setProperty(item, "updatedAt", new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String addConstraint(String beanAbrev, String atributeName, String operator, Object value) {

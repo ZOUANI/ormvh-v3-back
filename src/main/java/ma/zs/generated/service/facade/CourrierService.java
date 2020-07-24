@@ -17,6 +17,11 @@ public interface CourrierService {
 
     List<Courrier> findByAccuse(Boolean accuse);
 
+    Long countByAccuse(Boolean accuse);
+
+    Long countByReponse(Boolean accuse);
+
+
     List<Courrier> findByReponse(Boolean reponse);
 
     List<Courrier> findByCreatedAt(Date createdAt);

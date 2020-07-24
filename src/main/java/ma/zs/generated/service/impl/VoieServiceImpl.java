@@ -127,7 +127,7 @@ public class VoieServiceImpl extends AbstractService<Voie> implements VoieServic
         Voie foundedVoie = findById(voie.getId());
         if (foundedVoie == null)
             return null;
-
+        prepareUpdate(voie);
         return voieDao.save(voie);
 
     }
