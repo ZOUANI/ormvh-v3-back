@@ -17,7 +17,7 @@ import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
 import ma.zs.generated.service.util.*;
 
 @Service
-public class CourrierServiceImpl extends  AbstractService<Courrier> implements CourrierService {
+public class CourrierServiceImpl extends AbstractService<Courrier> implements CourrierService {
 
 
     @Autowired
@@ -63,6 +63,21 @@ public class CourrierServiceImpl extends  AbstractService<Courrier> implements C
     }
 
     @Override
+    public long count() {
+        return courrierDao.count();
+    }
+
+    @Override
+    public Long countByTypeCourrierLibelle(String typeCourrier_libelle) {
+        return courrierDao.countByTypeCourrierLibelle(typeCourrier_libelle);
+    }
+
+    @Override
+    public Long countByStatusLibelle(String libelle) {
+        return courrierDao.countByStatusLibelle(libelle);
+    }
+
+    @Override
     public List<Courrier> findAll() {
         return courrierDao.findAll();
     }
@@ -78,54 +93,55 @@ public class CourrierServiceImpl extends  AbstractService<Courrier> implements C
     }
 
     @Override
-    public List<Courrier> findByCreatedAt(Date createdAt) {
-        return courrierDao.findByCreatedAt(createdAt);
+    public Long countByCreatedAt(Date createdAt) {
+        return courrierDao.countByCreatedAt(createdAt);
     }
 
     @Override
-    public List<Courrier> findByCreatedAtBetween(Date createdAt, Date createdAt2) {
-        return courrierDao.findByCreatedAtBetween(createdAt, createdAt2);
+    public Long countByCreatedAtBetween(Date createdAt, Date createdAt2) {
+        return courrierDao.countByCreatedAtBetween(createdAt, createdAt2);
     }
 
     @Override
-    public List<Courrier> findByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt) {
-        return courrierDao.findByTypeCourrierLibelleAndCreatedAt(typeCourrier_libelle, createdAt);
+    public Long countByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt) {
+        return courrierDao.countByTypeCourrierLibelleAndCreatedAt(typeCourrier_libelle, createdAt);
     }
 
     @Override
-    public List<Courrier> findByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2) {
-        return courrierDao.findByTypeCourrierLibelleAndCreatedAtBetween(typeCourrier_libelle, createdAt, createdAt2);
+    public Long countByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2) {
+        return courrierDao.countByTypeCourrierLibelleAndCreatedAtBetween(typeCourrier_libelle, createdAt, createdAt2);
     }
 
     @Override
-    public List<Courrier> findByAccuseAndCreatedAt(Boolean accuse, Date createdAt) {
-        return courrierDao.findByAccuseAndCreatedAt(accuse, createdAt);
+    public Long countByAccuseAndCreatedAt(Boolean accuse, Date createdAt) {
+        return courrierDao.countByAccuseAndCreatedAt(accuse, createdAt);
     }
 
     @Override
-    public List<Courrier> findByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2) {
-        return courrierDao.findByAccuseAndCreatedAtBetween(accuse, createdAt, createdAt2);
+    public Long countByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2) {
+        return courrierDao.countByAccuseAndCreatedAtBetween(accuse, createdAt, createdAt2);
     }
 
     @Override
-    public List<Courrier> findByReponseAndCreatedAt(Boolean reponse, Date createdAt) {
-        return courrierDao.findByReponseAndCreatedAt(reponse, createdAt);
+    public Long countByReponseAndCreatedAt(Boolean reponse, Date createdAt) {
+        return courrierDao.countByReponseAndCreatedAt(reponse, createdAt);
     }
 
     @Override
-    public List<Courrier> findByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2) {
-        return courrierDao.findByReponseAndCreatedAtBetween(reponse, createdAt, createdAt2);
+    public Long countByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2) {
+        return courrierDao.countByReponseAndCreatedAtBetween(reponse, createdAt, createdAt2);
     }
 
     @Override
-    public List<Courrier> findByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt) {
-        return courrierDao.findByStatusLibelleAndCreatedAt(status_libelle, createdAt);
+    public Long countByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt) {
+        return courrierDao.countByStatusLibelleAndCreatedAt(status_libelle, createdAt);
     }
 
     @Override
-    public List<Courrier> findByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2) {
-        return courrierDao.findByStatusLibelleAndCreatedAtBetween(status_libelle, createdAt, createdAt2);
+    public Long countByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2) {
+        return courrierDao.countByStatusLibelleAndCreatedAtBetween(status_libelle, createdAt, createdAt2);
     }
+
 
     @Override
     public List<Courrier> findByCourrierObjectTitle(String title) {
@@ -623,7 +639,6 @@ public class CourrierServiceImpl extends  AbstractService<Courrier> implements C
     }
 
 
-
     private List<Task> prepareTasks(Courrier courrier, List<Task> tasks) {
         for (Task task : tasks) {
             task.setCourrier(courrier);
@@ -799,19 +814,19 @@ public class CourrierServiceImpl extends  AbstractService<Courrier> implements C
     @Override
     public int reservation(Courrier courrier, String idCourier, int nbr) {
 
-		String onlyNumericText = idCourier.replaceAll("[^\\w\\s\\.]","");
-		String firstSixChar = onlyNumericText.substring(0,6);
-		String year = onlyNumericText.substring(6,10);
-		int id = Integer.parseInt(firstSixChar)-1;
+        String onlyNumericText = idCourier.replaceAll("[^\\w\\s\\.]", "");
+        String firstSixChar = onlyNumericText.substring(0, 6);
+        String year = onlyNumericText.substring(6, 10);
+        int id = Integer.parseInt(firstSixChar) - 1;
 
-		for (int i = 0; i <nbr ; i++) {
-			String idCourrierNew = String.format("%06d", ++id)+'-'+year;
-			courrier = new Courrier();
-			courrier.setIdCourrier(idCourrierNew);
-			TypeCourrier tc = typeCourrierService.findByCode("brouillant");
-			courrier.setTypeCourrier(tc);
-			save(courrier);
-		}
+        for (int i = 0; i < nbr; i++) {
+            String idCourrierNew = String.format("%06d", ++id) + '-' + year;
+            courrier = new Courrier();
+            courrier.setIdCourrier(idCourrierNew);
+            TypeCourrier tc = typeCourrierService.findByCode("brouillant");
+            courrier.setTypeCourrier(tc);
+            save(courrier);
+        }
 
         return 1;
     }
@@ -820,14 +835,13 @@ public class CourrierServiceImpl extends  AbstractService<Courrier> implements C
     public String verifyIdCourier(String idCourier) {
         Courrier courrier = findByIdCourrier(idCourier);
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        if (idCourier.equals("")){
+        if (idCourier.equals("")) {
             return "please insert the idCourier.";
-        }
-        else if (courrier!= null){
+        } else if (courrier != null) {
             return "idCourier already exist!";
-        }else if(!idCourier.contains("-"+year)){
+        } else if (!idCourier.contains("-" + year)) {
             return "please insert the format 000000-YEAR.";
-        }else {
+        } else {
             return "idCourier Correct.";
         }
     }

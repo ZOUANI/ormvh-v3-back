@@ -21,28 +21,33 @@ public interface CourrierService {
 
     Long countByReponse(Boolean accuse);
 
+    long count();
+
+    Long countByTypeCourrierLibelle(String typeCourrier_libelle);
+
+    Long countByStatusLibelle(String libelle);
 
     List<Courrier> findByReponse(Boolean reponse);
 
-    List<Courrier> findByCreatedAt(Date createdAt);
+    Long countByCreatedAt(Date createdAt);
 
-    List<Courrier> findByCreatedAtBetween(Date createdAt, Date createdAt2);
+    Long countByCreatedAtBetween(Date createdAt, Date createdAt2);
 
-    List<Courrier> findByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt);
+    Long countByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt);
 
-    List<Courrier> findByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2);
+    Long countByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2);
 
-    List<Courrier> findByAccuseAndCreatedAt(Boolean accuse, Date createdAt);
+    Long countByAccuseAndCreatedAt(Boolean accuse, Date createdAt);
 
-    List<Courrier> findByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2);
+    Long countByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2);
 
-    List<Courrier> findByReponseAndCreatedAt(Boolean reponse, Date createdAt);
+    Long countByReponseAndCreatedAt(Boolean reponse, Date createdAt);
 
-    List<Courrier> findByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2);
+    Long countByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2);
 
-    List<Courrier> findByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt);
+    Long countByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt);
 
-    List<Courrier> findByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2);
+    Long countByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2);
 
     /**
      * find Courrier from database by idCourrier (reference)

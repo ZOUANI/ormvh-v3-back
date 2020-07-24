@@ -33,14 +33,6 @@ public class CourrierRest {
     private CourrierConverter courrierConverter;
 
 
-    public Long countByAccuse(Boolean accuse) {
-        return courrierService.countByAccuse(accuse);
-    }
-
-    public Long countByReponse(Boolean accuse) {
-        return courrierService.countByReponse(accuse);
-    }
-
     @ApiOperation("creates the specified courrier")
     @PostMapping("/")
     public CourrierVo create(@RequestBody CourrierVo courrierVo) {
@@ -488,76 +480,94 @@ public class CourrierRest {
         return courrierService.reservation(courrier, idCourier, nbr);
     }
 
+    @ApiOperation("Count all courriers")
+    @GetMapping("/countAll")
+    public long count() {
+        return courrierService.count();
+    }
+
+    @ApiOperation("Count by TypeCourrier")
+    @GetMapping("/countTypeCourrier/typeCourrier_libelle/{typeCourrier_libelle}")
+    public Long countByTypeCourrierLibelle(@PathVariable String typeCourrier_libelle) {
+        return courrierService.countByTypeCourrierLibelle(typeCourrier_libelle);
+    }
+
+    @ApiOperation("Count by staus")
+    @GetMapping("/countStatus/libelle/{libelle}")
+    public Long countByStatusLibelle(@PathVariable String libelle) {
+        return courrierService.countByStatusLibelle(libelle);
+    }
+
+    @ApiOperation("Count accused courriers")
+    @GetMapping("/countAccused/accuse/{accuse}")
+    public Long countByAccuse(@PathVariable Boolean accuse) {
+        return courrierService.countByAccuse(accuse);
+    }
+
+    @ApiOperation("Count responed courriers")
+    @GetMapping("/countResponse/reponse/{reponse}")
+    public Long countByReponse(@PathVariable Boolean reponse) {
+        return courrierService.countByReponse(reponse);
+    }
+
     @ApiOperation("Finds courriers by createdAt")
     @GetMapping("/createdAt/{createdAt}")
-    public List<CourrierVo> findByCreatedAt(@PathVariable String createdAt) {
-        //System.out.println(createdAt);
-        //System.out.println(DateUtil.parse(createdAt));
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByCreatedAt(DateUtil.parse(createdAt)));
+    public Long findByCreatedAt(@PathVariable String createdAt) {
+        return courrierService.countByCreatedAt(DateUtil.parse(createdAt));
     }
 
     @ApiOperation("Finds courriers between 2 createdAt")
     @GetMapping("/createdAt/{createdAt}/createdAt2/{createdAt2}")
-    public List<CourrierVo> findByCreatedAtBetween(@PathVariable String createdAt, @PathVariable String createdAt2) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByCreatedAtBetween(DateUtil.parse(createdAt), DateUtil.parse(createdAt2)));
+    public Long findByCreatedAtBetween(@PathVariable String createdAt, @PathVariable String createdAt2) {
+        return courrierService.countByCreatedAtBetween(DateUtil.parse(createdAt), DateUtil.parse(createdAt2));
     }
 
     @ApiOperation("Finds courriers by type and createdAt")
     @GetMapping("/typeCourrier_libelle/{typeCourrier_libelle}/createdAt/{createdAt}")
-    public List<CourrierVo> findByTypeCourrierLibelleAndCreatedAt(@PathVariable String typeCourrier_libelle, @PathVariable String createdAt) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByTypeCourrierLibelleAndCreatedAt(typeCourrier_libelle, DateUtil.parse(createdAt)));
+    public Long findByTypeCourrierLibelleAndCreatedAt(@PathVariable String typeCourrier_libelle, @PathVariable String createdAt) {
+        return courrierService.countByTypeCourrierLibelleAndCreatedAt(typeCourrier_libelle, DateUtil.parse(createdAt));
     }
 
     @ApiOperation("Finds courriers by type and between 2 createdAt")
     @GetMapping("/typeCourrier_libelle/{typeCourrier_libelle}/createdAt/{createdAt}/createdAt2/{createdAt2}")
-    public List<CourrierVo> findByTypeCourrierLibelleAndCreatedAtBetween(@PathVariable String typeCourrier_libelle, @PathVariable String createdAt, @PathVariable String createdAt2) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByTypeCourrierLibelleAndCreatedAtBetween(typeCourrier_libelle, DateUtil.parse(createdAt), DateUtil.parse(createdAt2)));
+    public Long findByTypeCourrierLibelleAndCreatedAtBetween(@PathVariable String typeCourrier_libelle, @PathVariable String createdAt, @PathVariable String createdAt2) {
+        return courrierService.countByTypeCourrierLibelleAndCreatedAtBetween(typeCourrier_libelle, DateUtil.parse(createdAt), DateUtil.parse(createdAt2));
     }
 
     @ApiOperation("Finds courriers by Accuse and createdAt")
     @GetMapping("/accuse/{accuse}/createdAt/{createdAt}")
-    public List<CourrierVo> findByAccuseAndCreatedAt(@PathVariable Boolean accuse, @PathVariable String createdAt) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByAccuseAndCreatedAt(accuse, DateUtil.parse(createdAt)));
+    public Long findByAccuseAndCreatedAt(@PathVariable Boolean accuse, @PathVariable String createdAt) {
+        return courrierService.countByAccuseAndCreatedAt(accuse, DateUtil.parse(createdAt));
     }
 
     @ApiOperation("Finds courriers by accuse and between 2 createdAt")
     @GetMapping("/accuse/{accuse}/createdAt/{createdAt}/createdAt2/{createdAt2}")
-    public List<CourrierVo> findByAccuseAndCreatedAtBetween(@PathVariable Boolean accuse, @PathVariable String createdAt, @PathVariable String createdAt2) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByAccuseAndCreatedAtBetween(accuse, DateUtil.parse(createdAt), DateUtil.parse(createdAt2)));
+    public Long findByAccuseAndCreatedAtBetween(@PathVariable Boolean accuse, @PathVariable String createdAt, @PathVariable String createdAt2) {
+        return courrierService.countByAccuseAndCreatedAtBetween(accuse, DateUtil.parse(createdAt), DateUtil.parse(createdAt2));
     }
 
     @ApiOperation("Finds courriers by reponse and createdAt")
     @GetMapping("/reponse/{reponse}/createdAt/{createdAt}")
-    public List<CourrierVo> findByReponseAndCreatedAt(@PathVariable Boolean reponse, @PathVariable String createdAt) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByReponseAndCreatedAt(reponse, DateUtil.parse(createdAt)));
+    public Long findByReponseAndCreatedAt(@PathVariable Boolean reponse, @PathVariable String createdAt) {
+        return courrierService.countByReponseAndCreatedAt(reponse, DateUtil.parse(createdAt));
     }
 
     @ApiOperation("Finds courriers by reponse and between 2 createdAt")
     @GetMapping("/reponse/{reponse}/createdAt/{createdAt}/createdAt2/{createdAt2}")
-    public List<CourrierVo> findByReponseAndCreatedAtBetween(@PathVariable Boolean reponse, @PathVariable String createdAt, @PathVariable String createdAt2) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByReponseAndCreatedAtBetween(reponse, DateUtil.parse(createdAt), DateUtil.parse(createdAt2)));
+    public Long findByReponseAndCreatedAtBetween(@PathVariable Boolean reponse, @PathVariable String createdAt, @PathVariable String createdAt2) {
+        return courrierService.countByReponseAndCreatedAtBetween(reponse, DateUtil.parse(createdAt), DateUtil.parse(createdAt2));
     }
 
     @ApiOperation("Finds courriers by status and createdAt")
     @GetMapping("/status_libelle/{status_libelle}/createdAt/{createdAt}")
-    public List<CourrierVo> findByStatusLibelleAndCreatedAt(@PathVariable String status_libelle, @PathVariable String createdAt) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByStatusLibelleAndCreatedAt(status_libelle, DateUtil.parse(createdAt)));
+    public Long findByStatusLibelleAndCreatedAt(@PathVariable String status_libelle, @PathVariable String createdAt) {
+        return courrierService.countByStatusLibelleAndCreatedAt(status_libelle, DateUtil.parse(createdAt));
     }
 
     @ApiOperation("Finds courriers by status_libelle and between 2 createdAt")
     @GetMapping("/status_libelle/{status_libelle}/createdAt/{createdAt}/createdAt2/{createdAt2}")
-    public List<CourrierVo> findByStatusLibelleAndCreatedAtBetween(@PathVariable String status_libelle, @PathVariable String createdAt, @PathVariable String createdAt2) {
-        courrierConverter.init(false);
-        return courrierConverter.toVo(courrierService.findByStatusLibelleAndCreatedAtBetween(status_libelle, DateUtil.parse(createdAt), DateUtil.parse(createdAt2)));
+    public Long findByStatusLibelleAndCreatedAtBetween(@PathVariable String status_libelle, @PathVariable String createdAt, @PathVariable String createdAt2) {
+        return courrierService.countByStatusLibelleAndCreatedAtBetween(status_libelle, DateUtil.parse(createdAt), DateUtil.parse(createdAt2));
     }
 
     @ApiOperation("verify idCourier")
@@ -567,7 +577,7 @@ public class CourrierRest {
     }
 
 
-        public CourrierConverter getCourrierConverter() {
+    public CourrierConverter getCourrierConverter() {
         return courrierConverter;
     }
 

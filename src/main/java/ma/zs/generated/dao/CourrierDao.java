@@ -18,6 +18,8 @@ public interface CourrierDao extends JpaRepository<Courrier, Long> {
 
     Long countByReponse(Boolean accuse);
 
+    long count();
+
     Courrier findByIdCourrier(String idCourrier);
 
     int deleteByIdCourrier(String idCourrier);
@@ -123,6 +125,10 @@ public interface CourrierDao extends JpaRepository<Courrier, Long> {
 
     List<Courrier> findByTypeCourrierLibelle(String libelle);
 
+    Long countByTypeCourrierLibelle(String typeCourrier_libelle);
+
+    Long countByStatusLibelle(String libelle);
+
     int deleteByTypeCourrierLibelle(String libelle);
 
     List<Courrier> findByTypeCourrierId(Long id);
@@ -149,25 +155,26 @@ public interface CourrierDao extends JpaRepository<Courrier, Long> {
 
     List<Courrier> findByReponse(Boolean reponse);
 
-    List<Courrier> findByCreatedAt(Date createdAt);
+    // --------------------------find by dates------------------------
+    Long countByCreatedAt(Date createdAt);
 
-    List<Courrier> findByCreatedAtBetween(Date createdAt, Date createdAt2);
+    Long countByCreatedAtBetween(Date createdAt, Date createdAt2);
 
-    List<Courrier> findByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt);
+    Long countByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt);
 
-    List<Courrier> findByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2);
+    Long countByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2);
 
-    List<Courrier> findByAccuseAndCreatedAt(Boolean accuse, Date createdAt);
+    Long countByAccuseAndCreatedAt(Boolean accuse, Date createdAt);
 
-    List<Courrier> findByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2);
+    Long countByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2);
 
-    List<Courrier> findByReponseAndCreatedAt(Boolean reponse, Date createdAt);
+    Long countByReponseAndCreatedAt(Boolean reponse, Date createdAt);
 
-    List<Courrier> findByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2);
+    Long countByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2);
 
-    List<Courrier> findByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt);
+    Long countByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt);
 
-    List<Courrier> findByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2);
+    Long countByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2);
 
 
 }
