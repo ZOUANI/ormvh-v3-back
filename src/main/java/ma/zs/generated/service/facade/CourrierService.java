@@ -1,5 +1,6 @@
 package ma.zs.generated.service.facade;
 
+import java.util.Date;
 import java.util.List;
 
 import ma.zs.generated.bean.Courrier;
@@ -17,6 +18,26 @@ public interface CourrierService {
     List<Courrier> findByAccuse(Boolean accuse);
 
     List<Courrier> findByReponse(Boolean reponse);
+
+    List<Courrier> findByCreatedAt(Date createdAt);
+
+    List<Courrier> findByCreatedAtBetween(Date createdAt, Date createdAt2);
+
+    List<Courrier> findByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt);
+
+    List<Courrier> findByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2);
+
+    List<Courrier> findByAccuseAndCreatedAt(Boolean accuse, Date createdAt);
+
+    List<Courrier> findByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2);
+
+    List<Courrier> findByReponseAndCreatedAt(Boolean reponse, Date createdAt);
+
+    List<Courrier> findByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2);
+
+    List<Courrier> findByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt);
+
+    List<Courrier> findByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2);
 
     /**
      * find Courrier from database by idCourrier (reference)

@@ -1,9 +1,6 @@
 package ma.zs.generated.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,6 +88,56 @@ public class CourrierServiceImpl extends  AbstractService<Courrier> implements C
     @Override
     public List<Courrier> findByReponse(Boolean reponse) {
         return courrierDao.findByReponse(reponse);
+    }
+
+    @Override
+    public List<Courrier> findByCreatedAt(Date createdAt) {
+        return courrierDao.findByCreatedAt(createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByCreatedAtBetween(Date createdAt, Date createdAt2) {
+        return courrierDao.findByCreatedAtBetween(createdAt, createdAt2);
+    }
+
+    @Override
+    public List<Courrier> findByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt) {
+        return courrierDao.findByTypeCourrierLibelleAndCreatedAt(typeCourrier_libelle, createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2) {
+        return courrierDao.findByTypeCourrierLibelleAndCreatedAtBetween(typeCourrier_libelle, createdAt, createdAt2);
+    }
+
+    @Override
+    public List<Courrier> findByAccuseAndCreatedAt(Boolean accuse, Date createdAt) {
+        return courrierDao.findByAccuseAndCreatedAt(accuse, createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2) {
+        return courrierDao.findByAccuseAndCreatedAtBetween(accuse, createdAt, createdAt2);
+    }
+
+    @Override
+    public List<Courrier> findByReponseAndCreatedAt(Boolean reponse, Date createdAt) {
+        return courrierDao.findByReponseAndCreatedAt(reponse, createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2) {
+        return courrierDao.findByReponseAndCreatedAtBetween(reponse, createdAt, createdAt2);
+    }
+
+    @Override
+    public List<Courrier> findByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt) {
+        return courrierDao.findByStatusLibelleAndCreatedAt(status_libelle, createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2) {
+        return courrierDao.findByStatusLibelleAndCreatedAtBetween(status_libelle, createdAt, createdAt2);
     }
 
     @Override
