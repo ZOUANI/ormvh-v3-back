@@ -16,7 +16,7 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.StatusVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class StatusServiceImpl implements StatusService {
+public class StatusServiceImpl extends  AbstractService<Status> implements StatusService {
 
    @Autowired
    private StatusDao statusDao;
@@ -113,7 +113,7 @@ public class StatusServiceImpl implements StatusService {
 	}
 
     @Override
-    public List<Status> save(List<Status> statuss){
+    public List<Status> create(List<Status> statuss){
 		List<Status> list = new ArrayList<Status>();
 		for(Status status: statuss){
 		        list.add(save(status));	
@@ -151,25 +151,25 @@ public class StatusServiceImpl implements StatusService {
 
 	public List<Status> findByCriteria(StatusVo statusVo){
       String query = "SELECT o FROM Status o where 1=1 ";
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",statusVo.getCreatedAt());
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",statusVo.getUpdatedAt());
-			 query += SearchUtil.addConstraint( "o", "libelleArab","LIKE",statusVo.getLibelleArab());
+	  query += addConstraintDate( "o", "createdAt","=",statusVo.getCreatedAt());
+	  query += addConstraintDate( "o", "updatedAt","=",statusVo.getUpdatedAt());
+			 query += addConstraint( "o", "libelleArab","LIKE",statusVo.getLibelleArab());
 
-			 query += SearchUtil.addConstraint( "o", "code","LIKE",statusVo.getCode());
+			 query += addConstraint( "o", "code","LIKE",statusVo.getCode());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",statusVo.getId());
-			 query += SearchUtil.addConstraint( "o", "libelle","LIKE",statusVo.getLibelle());
+		 	 query += addConstraint( "o", "id","=",statusVo.getId());
+			 query += addConstraint( "o", "libelle","LIKE",statusVo.getLibelle());
 
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",statusVo.getCreatedAtMin(),statusVo.getCreatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",statusVo.getUpdatedAtMin(),statusVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","createdAt",statusVo.getCreatedAtMin(),statusVo.getCreatedAtMax());
+	  query += addConstraintMinMaxDate("o","updatedAt",statusVo.getUpdatedAtMin(),statusVo.getUpdatedAtMax());
    if(statusVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",statusVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",statusVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",statusVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",statusVo.getCreatedByVo().getUsername());
    }
    
    if(statusVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",statusVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",statusVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",statusVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",statusVo.getUpdatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

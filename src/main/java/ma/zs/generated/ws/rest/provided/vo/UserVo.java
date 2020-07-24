@@ -1,5 +1,6 @@
 package  ma.zs.generated.ws.rest.provided.vo;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Date;
 
@@ -29,7 +30,7 @@ public class UserVo {
 	private UserVo createdByVo ;
 	private UserVo updatedByVo ;
 
-     private List<RoleVo> rolesVo ;
+     private Collection<RoleVo> rolesVo ;
 
      private String createdAtMax ;
      private String createdAtMin ;
@@ -176,11 +177,11 @@ public class UserVo {
      }
    
 
-      public List<RoleVo> getRolesVo(){
+      public Collection<RoleVo> getRolesVo(){
           return this.rolesVo;
      }
        
-     public void setRolesVo(List<RoleVo> rolesVo){
+     public void setRolesVo(Collection<RoleVo> rolesVo){
           this.rolesVo = rolesVo;
      }
 

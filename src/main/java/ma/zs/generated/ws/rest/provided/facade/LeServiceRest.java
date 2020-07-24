@@ -29,11 +29,11 @@ public class LeServiceRest {
 	@Autowired 
 	private LeServiceConverter leServiceConverter ;
 
-    @ApiOperation("Saves the specified leService")
+    @ApiOperation("creates the specified leService")
 	@PostMapping("/")
-	public LeServiceVo save(@RequestBody LeServiceVo leServiceVo){
+	public LeServiceVo create(@RequestBody LeServiceVo leServiceVo){
 		LeService leService= leServiceConverter.toItem(leServiceVo);
-	  leService=	leServiceService.save(leService);
+	  leService=	leServiceService.create(leService);
 		return leServiceConverter.toVo(leService);
 	}
 

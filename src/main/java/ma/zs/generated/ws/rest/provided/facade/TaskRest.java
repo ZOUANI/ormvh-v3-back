@@ -29,11 +29,11 @@ public class TaskRest {
 	@Autowired 
 	private TaskConverter taskConverter ;
 
-    @ApiOperation("Saves the specified task")
+    @ApiOperation("creates the specified task")
 	@PostMapping("/")
-	public TaskVo save(@RequestBody TaskVo taskVo){
+	public TaskVo create(@RequestBody TaskVo taskVo){
 		Task task= taskConverter.toItem(taskVo);
-	  task=	taskService.save(task);
+	  task=	taskService.create(task);
 		return taskConverter.toVo(task);
 	}
 

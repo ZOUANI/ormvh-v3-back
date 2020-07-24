@@ -16,7 +16,7 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.RoleVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends  AbstractService<Role> implements RoleService {
 
    @Autowired
    private RoleDao roleDao;
@@ -111,16 +111,6 @@ public class RoleServiceImpl implements RoleService {
 	   return savedRole;
 	}
 
-    @Override
-    public List<Role> save(List<Role> roles){
-		List<Role> list = new ArrayList<Role>();
-		for(Role role: roles){
-		        list.add(save(role));	
-		}
-		return list;
-	}
-
-
    @Override
    public Role update(Role role){
      
@@ -150,21 +140,21 @@ public class RoleServiceImpl implements RoleService {
 
 	public List<Role> findByCriteria(RoleVo roleVo){
       String query = "SELECT o FROM Role o where 1=1 ";
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",roleVo.getUpdatedAt());
-			 query += SearchUtil.addConstraint( "o", "authority","LIKE",roleVo.getAuthority());
+	  query += addConstraintDate( "o", "updatedAt","=",roleVo.getUpdatedAt());
+			 query += addConstraint( "o", "authority","LIKE",roleVo.getAuthority());
 
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",roleVo.getCreatedAt());
-		 	 query += SearchUtil.addConstraint( "o", "id","=",roleVo.getId());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",roleVo.getUpdatedAtMin(),roleVo.getUpdatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",roleVo.getCreatedAtMin(),roleVo.getCreatedAtMax());
+	  query += addConstraintDate( "o", "createdAt","=",roleVo.getCreatedAt());
+		 	 query += addConstraint( "o", "id","=",roleVo.getId());
+	  query += addConstraintMinMaxDate("o","updatedAt",roleVo.getUpdatedAtMin(),roleVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","createdAt",roleVo.getCreatedAtMin(),roleVo.getCreatedAtMax());
    if(roleVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",roleVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",roleVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",roleVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",roleVo.getUpdatedByVo().getUsername());
    }
    
    if(roleVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",roleVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",roleVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",roleVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",roleVo.getCreatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

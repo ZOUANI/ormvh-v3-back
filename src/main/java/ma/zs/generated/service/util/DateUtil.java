@@ -26,7 +26,7 @@ public class DateUtil {
             return null;
         } else {
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 return simpleDateFormat.parse(date);
             } catch (Exception ex) {
                 return null;

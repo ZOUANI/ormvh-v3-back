@@ -50,18 +50,18 @@ public interface NationalityService {
     int deleteByCreatedById(Long id);
 			 
     /**
-     * save Nationality in database
-     * @param nationality - Nationality to be saved 
-     * @return the saved Nationality, If the Nationality can't be saved return null.
+     * create Nationality in database
+     * @param nationality - Nationality to be created 
+     * @return the created Nationality, If the Nationality can't be created return null.
      */
-	Nationality save(Nationality nationality);
+	Nationality create(Nationality nationality);
 
 	/**
-     * save list Nationality in database
-     * @param nationalitys - list of Nationality to be saved 
-     * @return the saved Nationality list
+     * create list Nationality in database
+     * @param nationalitys - list of Nationality to be created 
+     * @return the created Nationality list
      */
-	List<Nationality> save(List<Nationality> nationalitys);
+	List<Nationality> create(List<Nationality> nationalitys);
     
      /**
      * update Nationality in database

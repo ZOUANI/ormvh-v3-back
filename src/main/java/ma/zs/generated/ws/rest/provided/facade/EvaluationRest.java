@@ -29,11 +29,11 @@ public class EvaluationRest {
 	@Autowired 
 	private EvaluationConverter evaluationConverter ;
 
-    @ApiOperation("Saves the specified evaluation")
+    @ApiOperation("creates the specified evaluation")
 	@PostMapping("/")
-	public EvaluationVo save(@RequestBody EvaluationVo evaluationVo){
+	public EvaluationVo create(@RequestBody EvaluationVo evaluationVo){
 		Evaluation evaluation= evaluationConverter.toItem(evaluationVo);
-	  evaluation=	evaluationService.save(evaluation);
+	  evaluation=	evaluationService.create(evaluation);
 		return evaluationConverter.toVo(evaluation);
 	}
 

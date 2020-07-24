@@ -29,11 +29,11 @@ public class NatureCourrierRest {
 	@Autowired 
 	private NatureCourrierConverter natureCourrierConverter ;
 
-    @ApiOperation("Saves the specified natureCourrier")
+    @ApiOperation("creates the specified natureCourrier")
 	@PostMapping("/")
-	public NatureCourrierVo save(@RequestBody NatureCourrierVo natureCourrierVo){
+	public NatureCourrierVo create(@RequestBody NatureCourrierVo natureCourrierVo){
 		NatureCourrier natureCourrier= natureCourrierConverter.toItem(natureCourrierVo);
-	  natureCourrier=	natureCourrierService.save(natureCourrier);
+	  natureCourrier=	natureCourrierService.create(natureCourrier);
 		return natureCourrierConverter.toVo(natureCourrier);
 	}
 

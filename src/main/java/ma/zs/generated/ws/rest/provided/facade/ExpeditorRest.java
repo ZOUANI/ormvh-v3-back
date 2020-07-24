@@ -29,11 +29,11 @@ public class ExpeditorRest {
 	@Autowired 
 	private ExpeditorConverter expeditorConverter ;
 
-    @ApiOperation("Saves the specified expeditor")
+    @ApiOperation("creates the specified expeditor")
 	@PostMapping("/")
-	public ExpeditorVo save(@RequestBody ExpeditorVo expeditorVo){
+	public ExpeditorVo create(@RequestBody ExpeditorVo expeditorVo){
 		Expeditor expeditor= expeditorConverter.toItem(expeditorVo);
-	  expeditor=	expeditorService.save(expeditor);
+	  expeditor=	expeditorService.create(expeditor);
 		return expeditorConverter.toVo(expeditor);
 	}
 

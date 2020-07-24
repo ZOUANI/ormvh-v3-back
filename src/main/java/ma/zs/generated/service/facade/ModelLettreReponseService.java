@@ -56,18 +56,18 @@ public interface ModelLettreReponseService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save ModelLettreReponse in database
-     * @param modelLettreReponse - ModelLettreReponse to be saved 
-     * @return the saved ModelLettreReponse, If the ModelLettreReponse can't be saved return null.
+     * create ModelLettreReponse in database
+     * @param modelLettreReponse - ModelLettreReponse to be created 
+     * @return the created ModelLettreReponse, If the ModelLettreReponse can't be created return null.
      */
-	ModelLettreReponse save(ModelLettreReponse modelLettreReponse);
+	ModelLettreReponse create(ModelLettreReponse modelLettreReponse);
 
 	/**
-     * save list ModelLettreReponse in database
-     * @param modelLettreReponses - list of ModelLettreReponse to be saved 
-     * @return the saved ModelLettreReponse list
+     * create list ModelLettreReponse in database
+     * @param modelLettreReponses - list of ModelLettreReponse to be created 
+     * @return the created ModelLettreReponse list
      */
-	List<ModelLettreReponse> save(List<ModelLettreReponse> modelLettreReponses);
+	List<ModelLettreReponse> create(List<ModelLettreReponse> modelLettreReponses);
     
      /**
      * update ModelLettreReponse in database

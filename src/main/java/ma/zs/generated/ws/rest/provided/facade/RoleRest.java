@@ -29,11 +29,11 @@ public class RoleRest {
 	@Autowired 
 	private RoleConverter roleConverter ;
 
-    @ApiOperation("Saves the specified role")
+    @ApiOperation("creates the specified role")
 	@PostMapping("/")
-	public RoleVo save(@RequestBody RoleVo roleVo){
+	public RoleVo create(@RequestBody RoleVo roleVo){
 		Role role= roleConverter.toItem(roleVo);
-	  role=	roleService.save(role);
+	  role=	roleService.create(role);
 		return roleConverter.toVo(role);
 	}
 

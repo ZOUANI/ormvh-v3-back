@@ -16,7 +16,7 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.NatureCourrierVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class NatureCourrierServiceImpl implements NatureCourrierService {
+public class NatureCourrierServiceImpl extends  AbstractService<NatureCourrier> implements NatureCourrierService {
 
    @Autowired
    private NatureCourrierDao natureCourrierDao;
@@ -110,7 +110,7 @@ public class NatureCourrierServiceImpl implements NatureCourrierService {
 	          if(natureCourrier.getCreatedBy()!=null){
 				    User createdBy = userService.findByUsername(natureCourrier.getCreatedBy().getUsername());
 				  if(createdBy == null)
-				  natureCourrier.setCreatedBy(userService.save(natureCourrier.getCreatedBy()));
+				  natureCourrier.setCreatedBy(userService.create(natureCourrier.getCreatedBy()));
 				  else
 				  natureCourrier.setCreatedBy(createdBy);
 			  }
@@ -118,22 +118,13 @@ public class NatureCourrierServiceImpl implements NatureCourrierService {
 	          if(natureCourrier.getUpdatedBy()!=null){
 				    User updatedBy = userService.findByUsername(natureCourrier.getUpdatedBy().getUsername());
 				  if(updatedBy == null)
-				  natureCourrier.setUpdatedBy(userService.save(natureCourrier.getUpdatedBy()));
+				  natureCourrier.setUpdatedBy(userService.create(natureCourrier.getUpdatedBy()));
 				  else
 				  natureCourrier.setUpdatedBy(updatedBy);
 			  }
 
 	    NatureCourrier savedNatureCourrier = natureCourrierDao.save(natureCourrier);
 	   return savedNatureCourrier;
-	}
-
-    @Override
-    public List<NatureCourrier> save(List<NatureCourrier> natureCourriers){
-		List<NatureCourrier> list = new ArrayList<NatureCourrier>();
-		for(NatureCourrier natureCourrier: natureCourriers){
-		        list.add(save(natureCourrier));	
-		}
-		return list;
 	}
 
 
@@ -166,29 +157,29 @@ public class NatureCourrierServiceImpl implements NatureCourrierService {
 
 	public List<NatureCourrier> findByCriteria(NatureCourrierVo natureCourrierVo){
       String query = "SELECT o FROM NatureCourrier o where 1=1 ";
-			 query += SearchUtil.addConstraint( "o", "code","LIKE",natureCourrierVo.getCode());
+			 query += addConstraint( "o", "code","LIKE",natureCourrierVo.getCode());
 
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",natureCourrierVo.getCreatedAt());
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",natureCourrierVo.getUpdatedAt());
-		 	 query += SearchUtil.addConstraint( "o", "delai","=",natureCourrierVo.getDelai());
-		 	 query += SearchUtil.addConstraint( "o", "relance","=",natureCourrierVo.getRelance());
-			 query += SearchUtil.addConstraint( "o", "libelleArab","LIKE",natureCourrierVo.getLibelleArab());
+	  query += addConstraintDate( "o", "createdAt","=",natureCourrierVo.getCreatedAt());
+	  query += addConstraintDate( "o", "updatedAt","=",natureCourrierVo.getUpdatedAt());
+		 	 query += addConstraint( "o", "delai","=",natureCourrierVo.getDelai());
+		 	 query += addConstraint( "o", "relance","=",natureCourrierVo.getRelance());
+			 query += addConstraint( "o", "libelleArab","LIKE",natureCourrierVo.getLibelleArab());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",natureCourrierVo.getId());
-			 query += SearchUtil.addConstraint( "o", "libelle","LIKE",natureCourrierVo.getLibelle());
+		 	 query += addConstraint( "o", "id","=",natureCourrierVo.getId());
+			 query += addConstraint( "o", "libelle","LIKE",natureCourrierVo.getLibelle());
 
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",natureCourrierVo.getCreatedAtMin(),natureCourrierVo.getCreatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",natureCourrierVo.getUpdatedAtMin(),natureCourrierVo.getUpdatedAtMax());
-	  query += SearchUtil.addConstraintMinMax("o","delai",natureCourrierVo.getDelaiMin(),natureCourrierVo.getDelaiMax());
-	  query += SearchUtil.addConstraintMinMax("o","relance",natureCourrierVo.getRelanceMin(),natureCourrierVo.getRelanceMax());
+	  query += addConstraintMinMaxDate("o","createdAt",natureCourrierVo.getCreatedAtMin(),natureCourrierVo.getCreatedAtMax());
+	  query += addConstraintMinMaxDate("o","updatedAt",natureCourrierVo.getUpdatedAtMin(),natureCourrierVo.getUpdatedAtMax());
+	  query += addConstraintMinMax("o","delai",natureCourrierVo.getDelaiMin(),natureCourrierVo.getDelaiMax());
+	  query += addConstraintMinMax("o","relance",natureCourrierVo.getRelanceMin(),natureCourrierVo.getRelanceMax());
    if(natureCourrierVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",natureCourrierVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",natureCourrierVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",natureCourrierVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",natureCourrierVo.getCreatedByVo().getUsername());
    }
    
    if(natureCourrierVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",natureCourrierVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",natureCourrierVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",natureCourrierVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",natureCourrierVo.getUpdatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

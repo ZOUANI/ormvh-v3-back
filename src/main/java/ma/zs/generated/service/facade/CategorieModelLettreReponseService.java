@@ -50,18 +50,18 @@ public interface CategorieModelLettreReponseService {
     int deleteByCreatedById(Long id);
 			 
     /**
-     * save CategorieModelLettreReponse in database
-     * @param categorieModelLettreReponse - CategorieModelLettreReponse to be saved 
-     * @return the saved CategorieModelLettreReponse, If the CategorieModelLettreReponse can't be saved return null.
+     * create CategorieModelLettreReponse in database
+     * @param categorieModelLettreReponse - CategorieModelLettreReponse to be created 
+     * @return the created CategorieModelLettreReponse, If the CategorieModelLettreReponse can't be created return null.
      */
-	CategorieModelLettreReponse save(CategorieModelLettreReponse categorieModelLettreReponse);
+	CategorieModelLettreReponse create(CategorieModelLettreReponse categorieModelLettreReponse);
 
 	/**
-     * save list CategorieModelLettreReponse in database
-     * @param categorieModelLettreReponses - list of CategorieModelLettreReponse to be saved 
-     * @return the saved CategorieModelLettreReponse list
+     * create list CategorieModelLettreReponse in database
+     * @param categorieModelLettreReponses - list of CategorieModelLettreReponse to be created 
+     * @return the created CategorieModelLettreReponse list
      */
-	List<CategorieModelLettreReponse> save(List<CategorieModelLettreReponse> categorieModelLettreReponses);
+	List<CategorieModelLettreReponse> create(List<CategorieModelLettreReponse> categorieModelLettreReponses);
     
      /**
      * update CategorieModelLettreReponse in database

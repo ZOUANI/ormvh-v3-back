@@ -50,18 +50,18 @@ public interface BordereauService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save Bordereau in database
-     * @param bordereau - Bordereau to be saved 
-     * @return the saved Bordereau, If the Bordereau can't be saved return null.
+     * create Bordereau in database
+     * @param bordereau - Bordereau to be created 
+     * @return the created Bordereau, If the Bordereau can't be created return null.
      */
-	Bordereau save(Bordereau bordereau);
+	Bordereau create(Bordereau bordereau);
 
 	/**
-     * save list Bordereau in database
-     * @param bordereaus - list of Bordereau to be saved 
-     * @return the saved Bordereau list
+     * create list Bordereau in database
+     * @param bordereaus - list of Bordereau to be created 
+     * @return the created Bordereau list
      */
-	List<Bordereau> save(List<Bordereau> bordereaus);
+	List<Bordereau> create(List<Bordereau> bordereaus);
     
      /**
      * update Bordereau in database

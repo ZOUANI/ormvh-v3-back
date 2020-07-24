@@ -16,7 +16,7 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.NationalityVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class NationalityServiceImpl implements NationalityService {
+public class NationalityServiceImpl extends  AbstractService<Nationality> implements NationalityService {
 
    @Autowired
    private NationalityDao nationalityDao;
@@ -82,8 +82,6 @@ public class NationalityServiceImpl implements NationalityService {
 		return nationalityDao.findByLibelle(libelle);
 	}
 
-   
-
 	@Override
 	@Transactional
 	public int deleteByLibelle(String  libelle) {
@@ -111,15 +109,6 @@ public class NationalityServiceImpl implements NationalityService {
 
 	    Nationality savedNationality = nationalityDao.save(nationality);
 	   return savedNationality;
-	}
-
-    @Override
-    public List<Nationality> save(List<Nationality> nationalitys){
-		List<Nationality> list = new ArrayList<Nationality>();
-		for(Nationality nationality: nationalitys){
-		        list.add(save(nationality));	
-		}
-		return list;
 	}
 
 
@@ -152,21 +141,21 @@ public class NationalityServiceImpl implements NationalityService {
 
 	public List<Nationality> findByCriteria(NationalityVo nationalityVo){
       String query = "SELECT o FROM Nationality o where 1=1 ";
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",nationalityVo.getUpdatedAt());
-			 query += SearchUtil.addConstraint( "o", "libelle","LIKE",nationalityVo.getLibelle());
+	  query += addConstraintDate( "o", "updatedAt","=",nationalityVo.getUpdatedAt());
+			 query += addConstraint( "o", "libelle","LIKE",nationalityVo.getLibelle());
 
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",nationalityVo.getCreatedAt());
-		 	 query += SearchUtil.addConstraint( "o", "id","=",nationalityVo.getId());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",nationalityVo.getUpdatedAtMin(),nationalityVo.getUpdatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",nationalityVo.getCreatedAtMin(),nationalityVo.getCreatedAtMax());
+	  query += addConstraintDate( "o", "createdAt","=",nationalityVo.getCreatedAt());
+		 	 query += addConstraint( "o", "id","=",nationalityVo.getId());
+	  query += addConstraintMinMaxDate("o","updatedAt",nationalityVo.getUpdatedAtMin(),nationalityVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","createdAt",nationalityVo.getCreatedAtMin(),nationalityVo.getCreatedAtMax());
    if(nationalityVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",nationalityVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",nationalityVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",nationalityVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",nationalityVo.getUpdatedByVo().getUsername());
    }
    
    if(nationalityVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",nationalityVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",nationalityVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",nationalityVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",nationalityVo.getCreatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

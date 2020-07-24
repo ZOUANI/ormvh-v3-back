@@ -81,6 +81,66 @@ public class CourrierServiceImpl implements CourrierService {
     }
 
     @Override
+    public List<Courrier> findByAccuse(Boolean accuse) {
+        return courrierDao.findByAccuse(accuse);
+    }
+
+    @Override
+    public List<Courrier> findByReponse(Boolean reponse) {
+        return courrierDao.findByReponse(reponse);
+    }
+
+    @Override
+    public List<Courrier> findByCreatedAt(Date createdAt) {
+        return courrierDao.findByCreatedAt(createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByCreatedAtBetween(Date createdAt, Date createdAt2) {
+        return courrierDao.findByCreatedAtBetween(createdAt, createdAt2);
+    }
+
+    @Override
+    public List<Courrier> findByTypeCourrierLibelleAndCreatedAt(String typeCourrier_libelle, Date createdAt) {
+        return courrierDao.findByTypeCourrierLibelleAndCreatedAt(typeCourrier_libelle, createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt, Date createdAt2) {
+        return courrierDao.findByTypeCourrierLibelleAndCreatedAtBetween(typeCourrier_libelle, createdAt, createdAt2);
+    }
+
+    @Override
+    public List<Courrier> findByAccuseAndCreatedAt(Boolean accuse, Date createdAt) {
+        return courrierDao.findByAccuseAndCreatedAt(accuse, createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByAccuseAndCreatedAtBetween(Boolean accuse, Date createdAt, Date createdAt2) {
+        return courrierDao.findByAccuseAndCreatedAtBetween(accuse, createdAt, createdAt2);
+    }
+
+    @Override
+    public List<Courrier> findByReponseAndCreatedAt(Boolean reponse, Date createdAt) {
+        return courrierDao.findByReponseAndCreatedAt(reponse, createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByReponseAndCreatedAtBetween(Boolean reponse, Date createdAt, Date createdAt2) {
+        return courrierDao.findByReponseAndCreatedAtBetween(reponse, createdAt, createdAt2);
+    }
+
+    @Override
+    public List<Courrier> findByStatusLibelleAndCreatedAt(String status_libelle, Date createdAt) {
+        return courrierDao.findByStatusLibelleAndCreatedAt(status_libelle, createdAt);
+    }
+
+    @Override
+    public List<Courrier> findByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2) {
+        return courrierDao.findByStatusLibelleAndCreatedAtBetween(status_libelle, createdAt, createdAt2);
+    }
+
+    @Override
     public List<Courrier> findByCourrierObjectTitle(String title) {
         return courrierDao.findByCourrierObjectTitle(title);
     }
@@ -497,7 +557,7 @@ public class CourrierServiceImpl implements CourrierService {
 
 
         //prepareCourrierId(courrier);
-        courrier.setCreatedAt(new Date());
+
         if (courrier.getCourrierObject() != null) {
             CourrierObject courrierObject = courrierObjectService.findByTitle(courrier.getCourrierObject().getTitle());
             courrier.setCourrierObject(courrierObject);
@@ -567,22 +627,15 @@ public class CourrierServiceImpl implements CourrierService {
 
         Courrier savedCourrier = courrierDao.save(courrier);
         if (ListUtil.isNotEmpty(courrier.getTasks())) {
-            savedCourrier.setTasks(taskService.save(prepareTasks(savedCourrier, courrier.getTasks())));
+            savedCourrier.setTasks(taskService.create(prepareTasks(savedCourrier, courrier.getTasks())));
         }
         if (ListUtil.isNotEmpty(courrier.getCourrierServiceItems())) {
-            savedCourrier.setCourrierServiceItems(courrierServiceItemService.save(prepareCourrierServiceItems(savedCourrier, courrier.getCourrierServiceItems())));
+            savedCourrier.setCourrierServiceItems(courrierServiceItemService.create(prepareCourrierServiceItems(savedCourrier, courrier.getCourrierServiceItems())));
         }
         return savedCourrier;
     }
 
-    @Override
-    public List<Courrier> save(List<Courrier> courriers) {
-        List<Courrier> list = new ArrayList<Courrier>();
-        for (Courrier courrier : courriers) {
-            list.add(save(courrier));
-        }
-        return list;
-    }
+
 
     private List<Task> prepareTasks(Courrier courrier, List<Task> tasks) {
         for (Task task : tasks) {
@@ -627,114 +680,114 @@ public class CourrierServiceImpl implements CourrierService {
 
     public List<Courrier> findByCriteria(CourrierVo courrierVo) {
         String query = "SELECT o FROM Courrier o where 1=1 ";
-        query += SearchUtil.addConstraint("o", "instruction", "LIKE", courrierVo.getInstruction());
+        query += addConstraint("o", "instruction", "LIKE", courrierVo.getInstruction());
 
-        query += SearchUtil.addConstraint("o", "expediteurDesc", "LIKE", courrierVo.getExpediteurDesc());
+        query += addConstraint("o", "expediteurDesc", "LIKE", courrierVo.getExpediteurDesc());
 
-        query += SearchUtil.addConstraintDate("o", "sentAt", "=", courrierVo.getSentAt());
-        query += SearchUtil.addConstraint("o", "destinataireDesc", "LIKE", courrierVo.getDestinataireDesc());
+        query += addConstraintDate("o", "sentAt", "=", courrierVo.getSentAt());
+        query += addConstraint("o", "destinataireDesc", "LIKE", courrierVo.getDestinataireDesc());
 
-        query += SearchUtil.addConstraint("o", "destinataireVille", "LIKE", courrierVo.getDestinataireVille());
+        query += addConstraint("o", "destinataireVille", "LIKE", courrierVo.getDestinataireVille());
 
-        query += SearchUtil.addConstraint("o", "relance", "=", courrierVo.getRelance());
-        query += SearchUtil.addConstraintDate("o", "dateRelance", "=", courrierVo.getDateRelance());
-        query += SearchUtil.addConstraint("o", "accuse", "=", courrierVo.getAccuse());
-        query += SearchUtil.addConstraint("o", "reponse", "=", courrierVo.getReponse());
-        query += SearchUtil.addConstraintDate("o", "dateAccuse", "=", courrierVo.getDateAccuse());
-        query += SearchUtil.addConstraintDate("o", "dateReponse", "=", courrierVo.getDateReponse());
-        query += SearchUtil.addConstraintDate("o", "receivedAt", "=", courrierVo.getReceivedAt());
-        query += SearchUtil.addConstraint("o", "id", "=", courrierVo.getId());
-        query += SearchUtil.addConstraint("o", "idCourrier", "LIKE", courrierVo.getIdCourrier());
+        query += addConstraint("o", "relance", "=", courrierVo.getRelance());
+        query += addConstraintDate("o", "dateRelance", "=", courrierVo.getDateRelance());
+        query += addConstraint("o", "accuse", "=", courrierVo.getAccuse());
+        query += addConstraint("o", "reponse", "=", courrierVo.getReponse());
+        query += addConstraintDate("o", "dateAccuse", "=", courrierVo.getDateAccuse());
+        query += addConstraintDate("o", "dateReponse", "=", courrierVo.getDateReponse());
+        query += addConstraintDate("o", "receivedAt", "=", courrierVo.getReceivedAt());
+        query += addConstraint("o", "id", "=", courrierVo.getId());
+        query += addConstraint("o", "idCourrier", "LIKE", courrierVo.getIdCourrier());
 
-        query += SearchUtil.addConstraint("o", "subject", "LIKE", courrierVo.getSubject());
+        query += addConstraint("o", "subject", "LIKE", courrierVo.getSubject());
 
-        query += SearchUtil.addConstraint("o", "description", "LIKE", courrierVo.getDescription());
+        query += addConstraint("o", "description", "LIKE", courrierVo.getDescription());
 
-        query += SearchUtil.addConstraintDate("o", "createdAt", "=", courrierVo.getCreatedAt());
-        query += SearchUtil.addConstraintDate("o", "updatedAt", "=", courrierVo.getUpdatedAt());
-        query += SearchUtil.addConstraint("o", "delai", "=", courrierVo.getDelai());
-        query += SearchUtil.addConstraintMinMaxDate("o", "sentAt", courrierVo.getSentAtMin(), courrierVo.getSentAtMax());
-        query += SearchUtil.addConstraintMinMax("o", "relance", courrierVo.getRelanceMin(), courrierVo.getRelanceMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "dateRelance", courrierVo.getDateRelanceMin(), courrierVo.getDateRelanceMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "dateAccuse", courrierVo.getDateAccuseMin(), courrierVo.getDateAccuseMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "dateReponse", courrierVo.getDateReponseMin(), courrierVo.getDateReponseMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "receivedAt", courrierVo.getReceivedAtMin(), courrierVo.getReceivedAtMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "createdAt", courrierVo.getCreatedAtMin(), courrierVo.getCreatedAtMax());
-        query += SearchUtil.addConstraintMinMaxDate("o", "updatedAt", courrierVo.getUpdatedAtMin(), courrierVo.getUpdatedAtMax());
-        query += SearchUtil.addConstraintMinMax("o", "delai", courrierVo.getDelaiMin(), courrierVo.getDelaiMax());
+        query += addConstraintDate("o", "createdAt", "=", courrierVo.getCreatedAt());
+        query += addConstraintDate("o", "updatedAt", "=", courrierVo.getUpdatedAt());
+        query += addConstraint("o", "delai", "=", courrierVo.getDelai());
+        query += addConstraintMinMaxDate("o", "sentAt", courrierVo.getSentAtMin(), courrierVo.getSentAtMax());
+        query += addConstraintMinMax("o", "relance", courrierVo.getRelanceMin(), courrierVo.getRelanceMax());
+        query += addConstraintMinMaxDate("o", "dateRelance", courrierVo.getDateRelanceMin(), courrierVo.getDateRelanceMax());
+        query += addConstraintMinMaxDate("o", "dateAccuse", courrierVo.getDateAccuseMin(), courrierVo.getDateAccuseMax());
+        query += addConstraintMinMaxDate("o", "dateReponse", courrierVo.getDateReponseMin(), courrierVo.getDateReponseMax());
+        query += addConstraintMinMaxDate("o", "receivedAt", courrierVo.getReceivedAtMin(), courrierVo.getReceivedAtMax());
+        query += addConstraintMinMaxDate("o", "createdAt", courrierVo.getCreatedAtMin(), courrierVo.getCreatedAtMax());
+        query += addConstraintMinMaxDate("o", "updatedAt", courrierVo.getUpdatedAtMin(), courrierVo.getUpdatedAtMax());
+        query += addConstraintMinMax("o", "delai", courrierVo.getDelaiMin(), courrierVo.getDelaiMax());
         if (courrierVo.getCourrierObjectVo() != null) {
-            query += SearchUtil.addConstraint("o", "courrierObject.id", "=", courrierVo.getCourrierObjectVo().getId());
-            query += SearchUtil.addConstraint("o", "courrierObject.title", "LIKE", courrierVo.getCourrierObjectVo().getTitle());
+            query += addConstraint("o", "courrierObject.id", "=", courrierVo.getCourrierObjectVo().getId());
+            query += addConstraint("o", "courrierObject.title", "LIKE", courrierVo.getCourrierObjectVo().getTitle());
         }
 
         if (courrierVo.getVoieVo() != null) {
-            query += SearchUtil.addConstraint("o", "voie.id", "=", courrierVo.getVoieVo().getId());
-            query += SearchUtil.addConstraint("o", "voie.libelle", "LIKE", courrierVo.getVoieVo().getLibelle());
+            query += addConstraint("o", "voie.id", "=", courrierVo.getVoieVo().getId());
+            query += addConstraint("o", "voie.libelle", "LIKE", courrierVo.getVoieVo().getLibelle());
         }
 
         if (courrierVo.getNatureCourrierVo() != null) {
-            query += SearchUtil.addConstraint("o", "natureCourrier.id", "=", courrierVo.getNatureCourrierVo().getId());
-            query += SearchUtil.addConstraint("o", "natureCourrier.libelle", "LIKE", courrierVo.getNatureCourrierVo().getLibelle());
+            query += addConstraint("o", "natureCourrier.id", "=", courrierVo.getNatureCourrierVo().getId());
+            query += addConstraint("o", "natureCourrier.libelle", "LIKE", courrierVo.getNatureCourrierVo().getLibelle());
         }
 
         if (courrierVo.getLinkedToVo() != null) {
-            query += SearchUtil.addConstraint("o", "linkedTo.id", "=", courrierVo.getLinkedToVo().getId());
-            query += SearchUtil.addConstraint("o", "linkedTo.idCourrier", "LIKE", courrierVo.getLinkedToVo().getIdCourrier());
+            query += addConstraint("o", "linkedTo.id", "=", courrierVo.getLinkedToVo().getId());
+            query += addConstraint("o", "linkedTo.idCourrier", "LIKE", courrierVo.getLinkedToVo().getIdCourrier());
         }
 
         if (courrierVo.getExpeditorVo() != null) {
-            query += SearchUtil.addConstraint("o", "expeditor.id", "=", courrierVo.getExpeditorVo().getId());
-            query += SearchUtil.addConstraint("o", "expeditor.title", "LIKE", courrierVo.getExpeditorVo().getTitle());
+            query += addConstraint("o", "expeditor.id", "=", courrierVo.getExpeditorVo().getId());
+            query += addConstraint("o", "expeditor.title", "LIKE", courrierVo.getExpeditorVo().getTitle());
         }
 
         if (courrierVo.getDestinatorVo() != null) {
-            query += SearchUtil.addConstraint("o", "destinator.id", "=", courrierVo.getDestinatorVo().getId());
-            query += SearchUtil.addConstraint("o", "destinator.title", "LIKE", courrierVo.getDestinatorVo().getTitle());
+            query += addConstraint("o", "destinator.id", "=", courrierVo.getDestinatorVo().getId());
+            query += addConstraint("o", "destinator.title", "LIKE", courrierVo.getDestinatorVo().getTitle());
         }
 
         if (courrierVo.getCoordinatorVo() != null) {
-            query += SearchUtil.addConstraint("o", "coordinator.id", "=", courrierVo.getCoordinatorVo().getId());
-            query += SearchUtil.addConstraint("o", "coordinator.title", "LIKE", courrierVo.getCoordinatorVo().getTitle());
+            query += addConstraint("o", "coordinator.id", "=", courrierVo.getCoordinatorVo().getId());
+            query += addConstraint("o", "coordinator.title", "LIKE", courrierVo.getCoordinatorVo().getTitle());
         }
 
         if (courrierVo.getEmetteurVo() != null) {
-            query += SearchUtil.addConstraint("o", "emetteur.id", "=", courrierVo.getEmetteurVo().getId());
-            query += SearchUtil.addConstraint("o", "emetteur.title", "LIKE", courrierVo.getEmetteurVo().getTitle());
+            query += addConstraint("o", "emetteur.id", "=", courrierVo.getEmetteurVo().getId());
+            query += addConstraint("o", "emetteur.title", "LIKE", courrierVo.getEmetteurVo().getTitle());
         }
 
         if (courrierVo.getEvaluationVo() != null) {
-            query += SearchUtil.addConstraint("o", "evaluation.id", "=", courrierVo.getEvaluationVo().getId());
-            query += SearchUtil.addConstraint("o", "evaluation.title", "LIKE", courrierVo.getEvaluationVo().getTitle());
+            query += addConstraint("o", "evaluation.id", "=", courrierVo.getEvaluationVo().getId());
+            query += addConstraint("o", "evaluation.title", "LIKE", courrierVo.getEvaluationVo().getTitle());
         }
 
         if (courrierVo.getExpeditorTypeVo() != null) {
-            query += SearchUtil.addConstraint("o", "expeditorType.id", "=", courrierVo.getExpeditorTypeVo().getId());
-            query += SearchUtil.addConstraint("o", "expeditorType.title", "LIKE", courrierVo.getExpeditorTypeVo().getTitle());
+            query += addConstraint("o", "expeditorType.id", "=", courrierVo.getExpeditorTypeVo().getId());
+            query += addConstraint("o", "expeditorType.title", "LIKE", courrierVo.getExpeditorTypeVo().getTitle());
         }
 
         if (courrierVo.getSubdivisionVo() != null) {
-            query += SearchUtil.addConstraint("o", "subdivision.id", "=", courrierVo.getSubdivisionVo().getId());
-            query += SearchUtil.addConstraint("o", "subdivision.title", "LIKE", courrierVo.getSubdivisionVo().getTitle());
+            query += addConstraint("o", "subdivision.id", "=", courrierVo.getSubdivisionVo().getId());
+            query += addConstraint("o", "subdivision.title", "LIKE", courrierVo.getSubdivisionVo().getTitle());
         }
 
         if (courrierVo.getStatusVo() != null) {
-            query += SearchUtil.addConstraint("o", "status.id", "=", courrierVo.getStatusVo().getId());
-            query += SearchUtil.addConstraint("o", "status.libelle", "LIKE", courrierVo.getStatusVo().getLibelle());
+            query += addConstraint("o", "status.id", "=", courrierVo.getStatusVo().getId());
+            query += addConstraint("o", "status.libelle", "LIKE", courrierVo.getStatusVo().getLibelle());
         }
 
         if (courrierVo.getTypeCourrierVo() != null) {
-            query += SearchUtil.addConstraint("o", "typeCourrier.id", "=", courrierVo.getTypeCourrierVo().getId());
-            query += SearchUtil.addConstraint("o", "typeCourrier.libelle", "LIKE", courrierVo.getTypeCourrierVo().getLibelle());
+            query += addConstraint("o", "typeCourrier.id", "=", courrierVo.getTypeCourrierVo().getId());
+            query += addConstraint("o", "typeCourrier.libelle", "LIKE", courrierVo.getTypeCourrierVo().getLibelle());
         }
 
         if (courrierVo.getCreatedByVo() != null) {
-            query += SearchUtil.addConstraint("o", "createdBy.id", "=", courrierVo.getCreatedByVo().getId());
-            query += SearchUtil.addConstraint("o", "createdBy.username", "LIKE", courrierVo.getCreatedByVo().getUsername());
+            query += addConstraint("o", "createdBy.id", "=", courrierVo.getCreatedByVo().getId());
+            query += addConstraint("o", "createdBy.username", "LIKE", courrierVo.getCreatedByVo().getUsername());
         }
 
         if (courrierVo.getUpdatedByVo() != null) {
-            query += SearchUtil.addConstraint("o", "updatedBy.id", "=", courrierVo.getUpdatedByVo().getId());
-            query += SearchUtil.addConstraint("o", "updatedBy.username", "LIKE", courrierVo.getUpdatedByVo().getUsername());
+            query += addConstraint("o", "updatedBy.id", "=", courrierVo.getUpdatedByVo().getId());
+            query += addConstraint("o", "updatedBy.username", "LIKE", courrierVo.getUpdatedByVo().getUsername());
         }
 
         return entityManager.createQuery(query).getResultList();
@@ -757,8 +810,9 @@ public class CourrierServiceImpl implements CourrierService {
         return numOrder;
 
     }
-	@Override
-	public  int reservation(Courrier courrier , String idCourier, int nbr) {
+
+    @Override
+    public int reservation(Courrier courrier, String idCourier, int nbr) {
 
 		String onlyNumericText = idCourier.replaceAll("[^\\w\\s\\.]","");
 		String firstSixChar = onlyNumericText.substring(0,6);
@@ -774,7 +828,7 @@ public class CourrierServiceImpl implements CourrierService {
 			save(courrier);
 		}
 
-		return 1;
-	}
+        return 1;
+    }
 
 }

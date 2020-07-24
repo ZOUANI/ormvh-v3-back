@@ -16,7 +16,7 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.SubdivisionVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class SubdivisionServiceImpl implements SubdivisionService {
+public class SubdivisionServiceImpl extends  AbstractService<Subdivision> implements SubdivisionService {
 
    @Autowired
    private SubdivisionDao subdivisionDao;
@@ -112,16 +112,6 @@ public class SubdivisionServiceImpl implements SubdivisionService {
 	   return savedSubdivision;
 	}
 
-    @Override
-    public List<Subdivision> save(List<Subdivision> subdivisions){
-		List<Subdivision> list = new ArrayList<Subdivision>();
-		for(Subdivision subdivision: subdivisions){
-		        list.add(save(subdivision));	
-		}
-		return list;
-	}
-
-
    @Override
    public Subdivision update(Subdivision subdivision){
      
@@ -151,25 +141,25 @@ public class SubdivisionServiceImpl implements SubdivisionService {
 
 	public List<Subdivision> findByCriteria(SubdivisionVo subdivisionVo){
       String query = "SELECT o FROM Subdivision o where 1=1 ";
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",subdivisionVo.getCreatedAt());
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",subdivisionVo.getUpdatedAt());
-			 query += SearchUtil.addConstraint( "o", "libelleArab","LIKE",subdivisionVo.getLibelleArab());
+	  query += addConstraintDate( "o", "createdAt","=",subdivisionVo.getCreatedAt());
+	  query += addConstraintDate( "o", "updatedAt","=",subdivisionVo.getUpdatedAt());
+			 query += addConstraint( "o", "libelleArab","LIKE",subdivisionVo.getLibelleArab());
 
-			 query += SearchUtil.addConstraint( "o", "code","LIKE",subdivisionVo.getCode());
+			 query += addConstraint( "o", "code","LIKE",subdivisionVo.getCode());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",subdivisionVo.getId());
-			 query += SearchUtil.addConstraint( "o", "title","LIKE",subdivisionVo.getTitle());
+		 	 query += addConstraint( "o", "id","=",subdivisionVo.getId());
+			 query += addConstraint( "o", "title","LIKE",subdivisionVo.getTitle());
 
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",subdivisionVo.getCreatedAtMin(),subdivisionVo.getCreatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",subdivisionVo.getUpdatedAtMin(),subdivisionVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","createdAt",subdivisionVo.getCreatedAtMin(),subdivisionVo.getCreatedAtMax());
+	  query += addConstraintMinMaxDate("o","updatedAt",subdivisionVo.getUpdatedAtMin(),subdivisionVo.getUpdatedAtMax());
    if(subdivisionVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",subdivisionVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",subdivisionVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",subdivisionVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",subdivisionVo.getCreatedByVo().getUsername());
    }
    
    if(subdivisionVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",subdivisionVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",subdivisionVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",subdivisionVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",subdivisionVo.getUpdatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

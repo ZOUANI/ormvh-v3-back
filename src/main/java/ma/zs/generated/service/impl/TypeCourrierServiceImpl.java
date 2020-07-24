@@ -14,11 +14,10 @@ import ma.zs.generated.service.facade.TypeCourrierService;
 import ma.zs.generated.ws.rest.provided.vo.TypeCourrierVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class TypeCourrierServiceImpl implements TypeCourrierService {
+public class TypeCourrierServiceImpl extends  AbstractService<TypeCourrier> implements TypeCourrierService {
 
    @Autowired
    private TypeCourrierDao typeCourrierDao;
-   
 
    @Autowired 
    private EntityManager entityManager; 
@@ -63,16 +62,6 @@ public class TypeCourrierServiceImpl implements TypeCourrierService {
 	   return savedTypeCourrier;
 	}
 
-    @Override
-    public List<TypeCourrier> save(List<TypeCourrier> typeCourriers){
-		List<TypeCourrier> list = new ArrayList<TypeCourrier>();
-		for(TypeCourrier typeCourrier: typeCourriers){
-		        list.add(save(typeCourrier));	
-		}
-		return list;
-	}
-
-
    @Override
    public TypeCourrier update(TypeCourrier typeCourrier){
      
@@ -102,13 +91,13 @@ public class TypeCourrierServiceImpl implements TypeCourrierService {
 
 	public List<TypeCourrier> findByCriteria(TypeCourrierVo typeCourrierVo){
       String query = "SELECT o FROM TypeCourrier o where 1=1 ";
-			 query += SearchUtil.addConstraint( "o", "libelleArab","LIKE",typeCourrierVo.getLibelleArab());
+			 query += addConstraint( "o", "libelleArab","LIKE",typeCourrierVo.getLibelleArab());
 
-			 query += SearchUtil.addConstraint( "o", "code","LIKE",typeCourrierVo.getCode());
+			 query += addConstraint( "o", "code","LIKE",typeCourrierVo.getCode());
 
-			 query += SearchUtil.addConstraint( "o", "libelle","LIKE",typeCourrierVo.getLibelle());
+			 query += addConstraint( "o", "libelle","LIKE",typeCourrierVo.getLibelle());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",typeCourrierVo.getId());
+		 	 query += addConstraint( "o", "id","=",typeCourrierVo.getId());
 	 return entityManager.createQuery(query).getResultList();
 	}
 
