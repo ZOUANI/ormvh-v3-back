@@ -14,7 +14,7 @@ import ma.zs.generated.service.facade.CategorieModelLettreReponseService;
 import ma.zs.generated.ws.rest.provided.vo.CategorieModelLettreReponseVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class CategorieModelLettreReponseServiceImpl implements CategorieModelLettreReponseService {
+public class CategorieModelLettreReponseServiceImpl extends  AbstractService<CategorieModelLettreReponse> implements CategorieModelLettreReponseService {
 
    @Autowired
    private CategorieModelLettreReponseDao categorieModelLettreReponseDao;
@@ -108,15 +108,6 @@ public class CategorieModelLettreReponseServiceImpl implements CategorieModelLet
 	   return savedCategorieModelLettreReponse;
 	}
 
-    @Override
-    public List<CategorieModelLettreReponse> save(List<CategorieModelLettreReponse> categorieModelLettreReponses){
-		List<CategorieModelLettreReponse> list = new ArrayList<CategorieModelLettreReponse>();
-		for(CategorieModelLettreReponse categorieModelLettreReponse: categorieModelLettreReponses){
-		        list.add(save(categorieModelLettreReponse));	
-		}
-		return list;
-	}
-
 
    @Override
    public CategorieModelLettreReponse update(CategorieModelLettreReponse categorieModelLettreReponse){
@@ -147,21 +138,21 @@ public class CategorieModelLettreReponseServiceImpl implements CategorieModelLet
 
 	public List<CategorieModelLettreReponse> findByCriteria(CategorieModelLettreReponseVo categorieModelLettreReponseVo){
       String query = "SELECT o FROM CategorieModelLettreReponse o where 1=1 ";
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",categorieModelLettreReponseVo.getUpdatedAt());
-			 query += SearchUtil.addConstraint( "o", "libelle","LIKE",categorieModelLettreReponseVo.getLibelle());
+	  query += addConstraintDate( "o", "updatedAt","=",categorieModelLettreReponseVo.getUpdatedAt());
+			 query += addConstraint( "o", "libelle","LIKE",categorieModelLettreReponseVo.getLibelle());
 
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",categorieModelLettreReponseVo.getCreatedAt());
-		 	 query += SearchUtil.addConstraint( "o", "id","=",categorieModelLettreReponseVo.getId());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",categorieModelLettreReponseVo.getUpdatedAtMin(),categorieModelLettreReponseVo.getUpdatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",categorieModelLettreReponseVo.getCreatedAtMin(),categorieModelLettreReponseVo.getCreatedAtMax());
+	  query += addConstraintDate( "o", "createdAt","=",categorieModelLettreReponseVo.getCreatedAt());
+		 	 query += addConstraint( "o", "id","=",categorieModelLettreReponseVo.getId());
+	  query += addConstraintMinMaxDate("o","updatedAt",categorieModelLettreReponseVo.getUpdatedAtMin(),categorieModelLettreReponseVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","createdAt",categorieModelLettreReponseVo.getCreatedAtMin(),categorieModelLettreReponseVo.getCreatedAtMax());
    if(categorieModelLettreReponseVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",categorieModelLettreReponseVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",categorieModelLettreReponseVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",categorieModelLettreReponseVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",categorieModelLettreReponseVo.getUpdatedByVo().getUsername());
    }
    
    if(categorieModelLettreReponseVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",categorieModelLettreReponseVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",categorieModelLettreReponseVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",categorieModelLettreReponseVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",categorieModelLettreReponseVo.getCreatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

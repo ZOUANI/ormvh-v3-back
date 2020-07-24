@@ -29,11 +29,11 @@ public class ModelLettreReponseRest {
 	@Autowired 
 	private ModelLettreReponseConverter modelLettreReponseConverter ;
 
-    @ApiOperation("Saves the specified modelLettreReponse")
+    @ApiOperation("creates the specified modelLettreReponse")
 	@PostMapping("/")
-	public ModelLettreReponseVo save(@RequestBody ModelLettreReponseVo modelLettreReponseVo){
+	public ModelLettreReponseVo create(@RequestBody ModelLettreReponseVo modelLettreReponseVo){
 		ModelLettreReponse modelLettreReponse= modelLettreReponseConverter.toItem(modelLettreReponseVo);
-	  modelLettreReponse=	modelLettreReponseService.save(modelLettreReponse);
+	  modelLettreReponse=	modelLettreReponseService.create(modelLettreReponse);
 		return modelLettreReponseConverter.toVo(modelLettreReponse);
 	}
 

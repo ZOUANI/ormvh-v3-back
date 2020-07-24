@@ -29,11 +29,11 @@ public class EmployeeRest {
 	@Autowired 
 	private EmployeeConverter employeeConverter ;
 
-    @ApiOperation("Saves the specified employee")
+    @ApiOperation("creates the specified employee")
 	@PostMapping("/")
-	public EmployeeVo save(@RequestBody EmployeeVo employeeVo){
+	public EmployeeVo create(@RequestBody EmployeeVo employeeVo){
 		Employee employee= employeeConverter.toItem(employeeVo);
-	  employee=	employeeService.save(employee);
+	  employee=	employeeService.create(employee);
 		return employeeConverter.toVo(employee);
 	}
 

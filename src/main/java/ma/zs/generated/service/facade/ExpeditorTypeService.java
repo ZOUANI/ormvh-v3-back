@@ -50,18 +50,18 @@ public interface ExpeditorTypeService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save ExpeditorType in database
-     * @param expeditorType - ExpeditorType to be saved 
-     * @return the saved ExpeditorType, If the ExpeditorType can't be saved return null.
+     * create ExpeditorType in database
+     * @param expeditorType - ExpeditorType to be created 
+     * @return the created ExpeditorType, If the ExpeditorType can't be created return null.
      */
-	ExpeditorType save(ExpeditorType expeditorType);
+	ExpeditorType create(ExpeditorType expeditorType);
 
 	/**
-     * save list ExpeditorType in database
-     * @param expeditorTypes - list of ExpeditorType to be saved 
-     * @return the saved ExpeditorType list
+     * create list ExpeditorType in database
+     * @param expeditorTypes - list of ExpeditorType to be created 
+     * @return the created ExpeditorType list
      */
-	List<ExpeditorType> save(List<ExpeditorType> expeditorTypes);
+	List<ExpeditorType> create(List<ExpeditorType> expeditorTypes);
     
      /**
      * update ExpeditorType in database

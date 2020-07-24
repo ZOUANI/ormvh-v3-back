@@ -62,16 +62,6 @@ public class SexeServiceImpl extends AbstractService<Sexe> implements SexeServic
 	   return savedSexe;
 	}
 
-    @Override
-    public List<Sexe> save(List<Sexe> sexes){
-		List<Sexe> list = new ArrayList<Sexe>();
-		for(Sexe sexe: sexes){
-		        list.add(save(sexe));	
-		}
-		return list;
-	}
-
-
    @Override
    public Sexe update(Sexe sexe){
      
@@ -101,11 +91,11 @@ public class SexeServiceImpl extends AbstractService<Sexe> implements SexeServic
 
 	public List<Sexe> findByCriteria(SexeVo sexeVo){
       String query = "SELECT o FROM Sexe o where 1=1 ";
-			 query += SearchUtil.addConstraint( "o", "libelle","LIKE",sexeVo.getLibelle());
+			 query += addConstraint( "o", "libelle","LIKE",sexeVo.getLibelle());
 
-			 query += SearchUtil.addConstraint( "o", "libelleArab","LIKE",sexeVo.getLibelleArab());
+			 query += addConstraint( "o", "libelleArab","LIKE",sexeVo.getLibelleArab());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",sexeVo.getId());
+		 	 query += addConstraint( "o", "id","=",sexeVo.getId());
 	 return entityManager.createQuery(query).getResultList();
 	}
 	

@@ -42,18 +42,18 @@ public interface CourrierServiceItemService {
     int deleteByServiceId(Long id);
 			 
     /**
-     * save CourrierServiceItem in database
-     * @param courrierServiceItem - CourrierServiceItem to be saved 
-     * @return the saved CourrierServiceItem, If the CourrierServiceItem can't be saved return null.
+     * create CourrierServiceItem in database
+     * @param courrierServiceItem - CourrierServiceItem to be created 
+     * @return the created CourrierServiceItem, If the CourrierServiceItem can't be created return null.
      */
-	CourrierServiceItem save(CourrierServiceItem courrierServiceItem);
+	CourrierServiceItem create(CourrierServiceItem courrierServiceItem);
 
 	/**
-     * save list CourrierServiceItem in database
-     * @param courrierServiceItems - list of CourrierServiceItem to be saved 
-     * @return the saved CourrierServiceItem list
+     * create list CourrierServiceItem in database
+     * @param courrierServiceItems - list of CourrierServiceItem to be created 
+     * @return the created CourrierServiceItem list
      */
-	List<CourrierServiceItem> save(List<CourrierServiceItem> courrierServiceItems);
+	List<CourrierServiceItem> create(List<CourrierServiceItem> courrierServiceItems);
     
      /**
      * update CourrierServiceItem in database

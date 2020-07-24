@@ -68,18 +68,18 @@ public interface TaskService {
     int deleteByStatusId(Long id);
 			 
     /**
-     * save Task in database
-     * @param task - Task to be saved 
-     * @return the saved Task, If the Task can't be saved return null.
+     * create Task in database
+     * @param task - Task to be created 
+     * @return the created Task, If the Task can't be created return null.
      */
-	Task save(Task task);
+	Task create(Task task);
 
 	/**
-     * save list Task in database
-     * @param tasks - list of Task to be saved 
-     * @return the saved Task list
+     * create list Task in database
+     * @param tasks - list of Task to be created 
+     * @return the created Task list
      */
-	List<Task> save(List<Task> tasks);
+	List<Task> create(List<Task> tasks);
     
      /**
      * update Task in database

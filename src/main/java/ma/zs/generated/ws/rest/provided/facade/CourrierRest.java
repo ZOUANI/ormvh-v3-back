@@ -29,11 +29,11 @@ public class CourrierRest {
     @Autowired
     private CourrierConverter courrierConverter;
 
-    @ApiOperation("Saves the specified courrier")
+    @ApiOperation("creates the specified courrier")
     @PostMapping("/")
-    public CourrierVo save(@RequestBody CourrierVo courrierVo) {
+    public CourrierVo create(@RequestBody CourrierVo courrierVo) {
         Courrier courrier = courrierConverter.toItem(courrierVo);
-        courrier = courrierService.save(courrier);
+        courrier = courrierService.create(courrier);
         return courrierConverter.toVo(courrier);
     }
 

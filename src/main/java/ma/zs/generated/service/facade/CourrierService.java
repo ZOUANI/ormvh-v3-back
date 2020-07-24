@@ -164,20 +164,20 @@ public interface CourrierService {
     int deleteByUpdatedById(Long id);
 
     /**
-     * save Courrier in database
+     * create Courrier in database
      *
-     * @param courrier - Courrier to be saved
-     * @return the saved Courrier, If the Courrier can't be saved return null.
+     * @param courrier - Courrier to be created
+     * @return the created Courrier, If the Courrier can't be created return null.
      */
-    Courrier save(Courrier courrier);
+    Courrier create(Courrier courrier);
 
     /**
-     * save list Courrier in database
+     * create list Courrier in database
      *
-     * @param courriers - list of Courrier to be saved
-     * @return the saved Courrier list
+     * @param courriers - list of Courrier to be created
+     * @return the created Courrier list
      */
-    List<Courrier> save(List<Courrier> courriers);
+    List<Courrier> create(List<Courrier> courriers);
 
     /**
      * update Courrier in database

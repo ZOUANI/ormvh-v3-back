@@ -16,7 +16,7 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.ExpeditorTypeVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class ExpeditorTypeServiceImpl implements ExpeditorTypeService {
+public class ExpeditorTypeServiceImpl extends  AbstractService<ExpeditorType> implements ExpeditorTypeService {
 
    @Autowired
    private ExpeditorTypeDao expeditorTypeDao;
@@ -112,16 +112,6 @@ public class ExpeditorTypeServiceImpl implements ExpeditorTypeService {
 	   return savedExpeditorType;
 	}
 
-    @Override
-    public List<ExpeditorType> save(List<ExpeditorType> expeditorTypes){
-		List<ExpeditorType> list = new ArrayList<ExpeditorType>();
-		for(ExpeditorType expeditorType: expeditorTypes){
-		        list.add(save(expeditorType));	
-		}
-		return list;
-	}
-
-
    @Override
    public ExpeditorType update(ExpeditorType expeditorType){
      
@@ -151,25 +141,25 @@ public class ExpeditorTypeServiceImpl implements ExpeditorTypeService {
 
 	public List<ExpeditorType> findByCriteria(ExpeditorTypeVo expeditorTypeVo){
       String query = "SELECT o FROM ExpeditorType o where 1=1 ";
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",expeditorTypeVo.getCreatedAt());
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",expeditorTypeVo.getUpdatedAt());
-			 query += SearchUtil.addConstraint( "o", "libelleArab","LIKE",expeditorTypeVo.getLibelleArab());
+	  query += addConstraintDate( "o", "createdAt","=",expeditorTypeVo.getCreatedAt());
+	  query += addConstraintDate( "o", "updatedAt","=",expeditorTypeVo.getUpdatedAt());
+			 query += addConstraint( "o", "libelleArab","LIKE",expeditorTypeVo.getLibelleArab());
 
-			 query += SearchUtil.addConstraint( "o", "code","LIKE",expeditorTypeVo.getCode());
+			 query += addConstraint( "o", "code","LIKE",expeditorTypeVo.getCode());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",expeditorTypeVo.getId());
-			 query += SearchUtil.addConstraint( "o", "title","LIKE",expeditorTypeVo.getTitle());
+		 	 query += addConstraint( "o", "id","=",expeditorTypeVo.getId());
+			 query += addConstraint( "o", "title","LIKE",expeditorTypeVo.getTitle());
 
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",expeditorTypeVo.getCreatedAtMin(),expeditorTypeVo.getCreatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",expeditorTypeVo.getUpdatedAtMin(),expeditorTypeVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","createdAt",expeditorTypeVo.getCreatedAtMin(),expeditorTypeVo.getCreatedAtMax());
+	  query += addConstraintMinMaxDate("o","updatedAt",expeditorTypeVo.getUpdatedAtMin(),expeditorTypeVo.getUpdatedAtMax());
    if(expeditorTypeVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",expeditorTypeVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",expeditorTypeVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",expeditorTypeVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",expeditorTypeVo.getCreatedByVo().getUsername());
    }
    
    if(expeditorTypeVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",expeditorTypeVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",expeditorTypeVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",expeditorTypeVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",expeditorTypeVo.getUpdatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

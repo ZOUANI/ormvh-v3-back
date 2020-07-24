@@ -50,18 +50,18 @@ public interface SubdivisionService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save Subdivision in database
-     * @param subdivision - Subdivision to be saved 
-     * @return the saved Subdivision, If the Subdivision can't be saved return null.
+     * create Subdivision in database
+     * @param subdivision - Subdivision to be created 
+     * @return the created Subdivision, If the Subdivision can't be created return null.
      */
-	Subdivision save(Subdivision subdivision);
+	Subdivision create(Subdivision subdivision);
 
 	/**
-     * save list Subdivision in database
-     * @param subdivisions - list of Subdivision to be saved 
-     * @return the saved Subdivision list
+     * create list Subdivision in database
+     * @param subdivisions - list of Subdivision to be created 
+     * @return the created Subdivision list
      */
-	List<Subdivision> save(List<Subdivision> subdivisions);
+	List<Subdivision> create(List<Subdivision> subdivisions);
     
      /**
      * update Subdivision in database

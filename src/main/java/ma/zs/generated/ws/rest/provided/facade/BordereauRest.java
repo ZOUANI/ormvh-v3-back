@@ -29,11 +29,11 @@ public class BordereauRest {
 	@Autowired 
 	private BordereauConverter bordereauConverter ;
 
-    @ApiOperation("Saves the specified bordereau")
+    @ApiOperation("creates the specified bordereau")
 	@PostMapping("/")
-	public BordereauVo save(@RequestBody BordereauVo bordereauVo){
+	public BordereauVo create(@RequestBody BordereauVo bordereauVo){
 		Bordereau bordereau= bordereauConverter.toItem(bordereauVo);
-	  bordereau=	bordereauService.save(bordereau);
+	  bordereau=	bordereauService.create(bordereau);
 		return bordereauConverter.toVo(bordereau);
 	}
 

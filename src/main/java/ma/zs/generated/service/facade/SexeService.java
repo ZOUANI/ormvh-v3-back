@@ -38,18 +38,18 @@ public interface SexeService {
 	void deleteById(Long id);
 
     /**
-     * save Sexe in database
-     * @param sexe - Sexe to be saved 
-     * @return the saved Sexe, If the Sexe can't be saved return null.
+     * create Sexe in database
+     * @param sexe - Sexe to be created 
+     * @return the created Sexe, If the Sexe can't be created return null.
      */
-	Sexe save(Sexe sexe);
+	Sexe create(Sexe sexe);
 
 	/**
-     * save list Sexe in database
-     * @param sexes - list of Sexe to be saved 
-     * @return the saved Sexe list
+     * create list Sexe in database
+     * @param sexes - list of Sexe to be created 
+     * @return the created Sexe list
      */
-	List<Sexe> save(List<Sexe> sexes);
+	List<Sexe> create(List<Sexe> sexes);
     
      /**
      * update Sexe in database

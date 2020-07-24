@@ -20,7 +20,7 @@ import ma.zs.generated.service.facade.CourrierService;
 import ma.zs.generated.ws.rest.provided.vo.TaskVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class TaskServiceImpl implements TaskService {
+public class TaskServiceImpl extends  AbstractService<Task> implements TaskService {
 
    @Autowired
    private TaskDao taskDao;
@@ -202,16 +202,6 @@ public class TaskServiceImpl implements TaskService {
 	   return savedTask;
 	}
 
-    @Override
-    public List<Task> save(List<Task> tasks){
-		List<Task> list = new ArrayList<Task>();
-		for(Task task: tasks){
-		        list.add(save(task));	
-		}
-		return list;
-	}
-
-
    @Override
    public Task update(Task task){
      
@@ -241,54 +231,54 @@ public class TaskServiceImpl implements TaskService {
 
 	public List<Task> findByCriteria(TaskVo taskVo){
       String query = "SELECT o FROM Task o where 1=1 ";
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",taskVo.getCreatedAt());
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",taskVo.getUpdatedAt());
-	  query += SearchUtil.addConstraintDate( "o", "assignedAt","=",taskVo.getAssignedAt());
-	  query += SearchUtil.addConstraintDate( "o", "dateAccuse","=",taskVo.getDateAccuse());
-	  query += SearchUtil.addConstraintDate( "o", "dateReponse","=",taskVo.getDateReponse());
-	  query += SearchUtil.addConstraintDate( "o", "processedAt","=",taskVo.getProcessedAt());
-		 	 query += SearchUtil.addConstraint( "o", "delai","=",taskVo.getDelai());
-		 	 query += SearchUtil.addConstraint( "o", "relance","=",taskVo.getRelance());
-		 	 query += SearchUtil.addConstraint( "o", "accuse","=",taskVo.getAccuse());
-		 	 query += SearchUtil.addConstraint( "o", "reponse","=",taskVo.getReponse());
-		 	 query += SearchUtil.addConstraint( "o", "id","=",taskVo.getId());
-			 query += SearchUtil.addConstraint( "o", "title","LIKE",taskVo.getTitle());
+	  query += addConstraintDate( "o", "createdAt","=",taskVo.getCreatedAt());
+	  query += addConstraintDate( "o", "updatedAt","=",taskVo.getUpdatedAt());
+	  query += addConstraintDate( "o", "assignedAt","=",taskVo.getAssignedAt());
+	  query += addConstraintDate( "o", "dateAccuse","=",taskVo.getDateAccuse());
+	  query += addConstraintDate( "o", "dateReponse","=",taskVo.getDateReponse());
+	  query += addConstraintDate( "o", "processedAt","=",taskVo.getProcessedAt());
+		 	 query += addConstraint( "o", "delai","=",taskVo.getDelai());
+		 	 query += addConstraint( "o", "relance","=",taskVo.getRelance());
+		 	 query += addConstraint( "o", "accuse","=",taskVo.getAccuse());
+		 	 query += addConstraint( "o", "reponse","=",taskVo.getReponse());
+		 	 query += addConstraint( "o", "id","=",taskVo.getId());
+			 query += addConstraint( "o", "title","LIKE",taskVo.getTitle());
 
-			 query += SearchUtil.addConstraint( "o", "description","LIKE",taskVo.getDescription());
+			 query += addConstraint( "o", "description","LIKE",taskVo.getDescription());
 
-			 query += SearchUtil.addConstraint( "o", "observation","LIKE",taskVo.getObservation());
+			 query += addConstraint( "o", "observation","LIKE",taskVo.getObservation());
 
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",taskVo.getCreatedAtMin(),taskVo.getCreatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",taskVo.getUpdatedAtMin(),taskVo.getUpdatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","assignedAt",taskVo.getAssignedAtMin(),taskVo.getAssignedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","dateAccuse",taskVo.getDateAccuseMin(),taskVo.getDateAccuseMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","dateReponse",taskVo.getDateReponseMin(),taskVo.getDateReponseMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","processedAt",taskVo.getProcessedAtMin(),taskVo.getProcessedAtMax());
-	  query += SearchUtil.addConstraintMinMax("o","delai",taskVo.getDelaiMin(),taskVo.getDelaiMax());
-	  query += SearchUtil.addConstraintMinMax("o","relance",taskVo.getRelanceMin(),taskVo.getRelanceMax());
+	  query += addConstraintMinMaxDate("o","createdAt",taskVo.getCreatedAtMin(),taskVo.getCreatedAtMax());
+	  query += addConstraintMinMaxDate("o","updatedAt",taskVo.getUpdatedAtMin(),taskVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","assignedAt",taskVo.getAssignedAtMin(),taskVo.getAssignedAtMax());
+	  query += addConstraintMinMaxDate("o","dateAccuse",taskVo.getDateAccuseMin(),taskVo.getDateAccuseMax());
+	  query += addConstraintMinMaxDate("o","dateReponse",taskVo.getDateReponseMin(),taskVo.getDateReponseMax());
+	  query += addConstraintMinMaxDate("o","processedAt",taskVo.getProcessedAtMin(),taskVo.getProcessedAtMax());
+	  query += addConstraintMinMax("o","delai",taskVo.getDelaiMin(),taskVo.getDelaiMax());
+	  query += addConstraintMinMax("o","relance",taskVo.getRelanceMin(),taskVo.getRelanceMax());
    if(taskVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",taskVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",taskVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",taskVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",taskVo.getUpdatedByVo().getUsername());
    }
    
    if(taskVo.getCourrierVo()!=null){
-     query += SearchUtil.addConstraint( "o", "courrier.id","=",taskVo.getCourrierVo().getId());
-     query += SearchUtil.addConstraint( "o", "courrier.idCourrier","LIKE",taskVo.getCourrierVo().getIdCourrier());
+     query += addConstraint( "o", "courrier.id","=",taskVo.getCourrierVo().getId());
+     query += addConstraint( "o", "courrier.idCourrier","LIKE",taskVo.getCourrierVo().getIdCourrier());
    }
    
    if(taskVo.getAssigneVo()!=null){
-     query += SearchUtil.addConstraint( "o", "assigne.id","=",taskVo.getAssigneVo().getId());
-     query += SearchUtil.addConstraint( "o", "assigne.username","LIKE",taskVo.getAssigneVo().getUsername());
+     query += addConstraint( "o", "assigne.id","=",taskVo.getAssigneVo().getId());
+     query += addConstraint( "o", "assigne.username","LIKE",taskVo.getAssigneVo().getUsername());
    }
    
    if(taskVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",taskVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",taskVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",taskVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",taskVo.getCreatedByVo().getUsername());
    }
    
    if(taskVo.getStatusVo()!=null){
-     query += SearchUtil.addConstraint( "o", "status.id","=",taskVo.getStatusVo().getId());
-     query += SearchUtil.addConstraint( "o", "status.libelle","LIKE",taskVo.getStatusVo().getLibelle());
+     query += addConstraint( "o", "status.id","=",taskVo.getStatusVo().getId());
+     query += addConstraint( "o", "status.libelle","LIKE",taskVo.getStatusVo().getLibelle());
    }
    
 	 return entityManager.createQuery(query).getResultList();

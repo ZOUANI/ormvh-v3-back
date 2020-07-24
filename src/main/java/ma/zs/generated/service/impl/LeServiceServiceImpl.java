@@ -16,7 +16,7 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.LeServiceVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class LeServiceServiceImpl implements LeServiceService {
+public class LeServiceServiceImpl extends  AbstractService<LeService> implements LeServiceService {
 
    @Autowired
    private LeServiceDao leServiceDao;
@@ -112,21 +112,10 @@ public class LeServiceServiceImpl implements LeServiceService {
 	   return savedLeService;
 	}
 
-    @Override
-    public List<LeService> save(List<LeService> leServices){
-		List<LeService> list = new ArrayList<LeService>();
-		for(LeService leService: leServices){
-		        list.add(save(leService));	
-		}
-		return list;
-	}
-
 
    @Override
    public LeService update(LeService leService){
-     
-    
-		  LeService foundedLeService = findById(leService.getId()); 
+		  LeService foundedLeService = findById(leService.getId());
 		       if(foundedLeService==null)
 	          return null;	  
 	  
@@ -151,27 +140,27 @@ public class LeServiceServiceImpl implements LeServiceService {
 
 	public List<LeService> findByCriteria(LeServiceVo leServiceVo){
       String query = "SELECT o FROM LeService o where 1=1 ";
-			 query += SearchUtil.addConstraint( "o", "description","LIKE",leServiceVo.getDescription());
+			 query += addConstraint( "o", "description","LIKE",leServiceVo.getDescription());
 
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",leServiceVo.getCreatedAt());
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",leServiceVo.getUpdatedAt());
-			 query += SearchUtil.addConstraint( "o", "libelleArab","LIKE",leServiceVo.getLibelleArab());
+	  query += addConstraintDate( "o", "createdAt","=",leServiceVo.getCreatedAt());
+	  query += addConstraintDate( "o", "updatedAt","=",leServiceVo.getUpdatedAt());
+			 query += addConstraint( "o", "libelleArab","LIKE",leServiceVo.getLibelleArab());
 
-			 query += SearchUtil.addConstraint( "o", "code","LIKE",leServiceVo.getCode());
+			 query += addConstraint( "o", "code","LIKE",leServiceVo.getCode());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",leServiceVo.getId());
-			 query += SearchUtil.addConstraint( "o", "title","LIKE",leServiceVo.getTitle());
+		 	 query += addConstraint( "o", "id","=",leServiceVo.getId());
+			 query += addConstraint( "o", "title","LIKE",leServiceVo.getTitle());
 
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",leServiceVo.getCreatedAtMin(),leServiceVo.getCreatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",leServiceVo.getUpdatedAtMin(),leServiceVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","createdAt",leServiceVo.getCreatedAtMin(),leServiceVo.getCreatedAtMax());
+	  query += addConstraintMinMaxDate("o","updatedAt",leServiceVo.getUpdatedAtMin(),leServiceVo.getUpdatedAtMax());
    if(leServiceVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",leServiceVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",leServiceVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",leServiceVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",leServiceVo.getCreatedByVo().getUsername());
    }
    
    if(leServiceVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",leServiceVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",leServiceVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",leServiceVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",leServiceVo.getUpdatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

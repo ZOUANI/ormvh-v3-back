@@ -29,11 +29,11 @@ public class NationalityRest {
 	@Autowired 
 	private NationalityConverter nationalityConverter ;
 
-    @ApiOperation("Saves the specified nationality")
+    @ApiOperation("creates the specified nationality")
 	@PostMapping("/")
-	public NationalityVo save(@RequestBody NationalityVo nationalityVo){
+	public NationalityVo create(@RequestBody NationalityVo nationalityVo){
 		Nationality nationality= nationalityConverter.toItem(nationalityVo);
-	  nationality=	nationalityService.save(nationality);
+	  nationality=	nationalityService.create(nationality);
 		return nationalityConverter.toVo(nationality);
 	}
 

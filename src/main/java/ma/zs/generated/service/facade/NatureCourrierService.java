@@ -50,18 +50,18 @@ public interface NatureCourrierService {
     int deleteByUpdatedById(Long id);
 			 
     /**
-     * save NatureCourrier in database
-     * @param natureCourrier - NatureCourrier to be saved 
-     * @return the saved NatureCourrier, If the NatureCourrier can't be saved return null.
+     * create NatureCourrier in database
+     * @param natureCourrier - NatureCourrier to be created 
+     * @return the created NatureCourrier, If the NatureCourrier can't be created return null.
      */
-	NatureCourrier save(NatureCourrier natureCourrier);
+	NatureCourrier create(NatureCourrier natureCourrier);
 
 	/**
-     * save list NatureCourrier in database
-     * @param natureCourriers - list of NatureCourrier to be saved 
-     * @return the saved NatureCourrier list
+     * create list NatureCourrier in database
+     * @param natureCourriers - list of NatureCourrier to be created 
+     * @return the created NatureCourrier list
      */
-	List<NatureCourrier> save(List<NatureCourrier> natureCourriers);
+	List<NatureCourrier> create(List<NatureCourrier> natureCourriers);
     
      /**
      * update NatureCourrier in database

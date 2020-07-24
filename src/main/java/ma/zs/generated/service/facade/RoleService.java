@@ -50,18 +50,18 @@ public interface RoleService {
     int deleteByCreatedById(Long id);
 			 
     /**
-     * save Role in database
-     * @param role - Role to be saved 
-     * @return the saved Role, If the Role can't be saved return null.
+     * create Role in database
+     * @param role - Role to be created 
+     * @return the created Role, If the Role can't be created return null.
      */
-	Role save(Role role);
+	Role create(Role role);
 
 	/**
-     * save list Role in database
-     * @param roles - list of Role to be saved 
-     * @return the saved Role list
+     * create list Role in database
+     * @param roles - list of Role to be created 
+     * @return the created Role list
      */
-	List<Role> save(List<Role> roles);
+	List<Role> create(List<Role> roles);
     
      /**
      * update Role in database

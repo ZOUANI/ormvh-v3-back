@@ -18,7 +18,7 @@ import ma.zs.generated.service.facade.CategorieModelLettreReponseService;
 import ma.zs.generated.ws.rest.provided.vo.ModelLettreReponseVo;
 import ma.zs.generated.service.util.*;
 @Service
-public class ModelLettreReponseServiceImpl implements ModelLettreReponseService {
+public class ModelLettreReponseServiceImpl extends  AbstractService<ModelLettreReponse> implements ModelLettreReponseService {
 
    @Autowired
    private ModelLettreReponseDao modelLettreReponseDao;
@@ -144,21 +144,9 @@ public class ModelLettreReponseServiceImpl implements ModelLettreReponseService 
 	   return savedModelLettreReponse;
 	}
 
-    @Override
-    public List<ModelLettreReponse> save(List<ModelLettreReponse> modelLettreReponses){
-		List<ModelLettreReponse> list = new ArrayList<ModelLettreReponse>();
-		for(ModelLettreReponse modelLettreReponse: modelLettreReponses){
-		        list.add(save(modelLettreReponse));	
-		}
-		return list;
-	}
-
-
    @Override
    public ModelLettreReponse update(ModelLettreReponse modelLettreReponse){
-     
-    
-		  ModelLettreReponse foundedModelLettreReponse = findById(modelLettreReponse.getId()); 
+		  ModelLettreReponse foundedModelLettreReponse = findById(modelLettreReponse.getId());
 		       if(foundedModelLettreReponse==null)
 	          return null;	  
 	  
@@ -183,32 +171,32 @@ public class ModelLettreReponseServiceImpl implements ModelLettreReponseService 
 
 	public List<ModelLettreReponse> findByCriteria(ModelLettreReponseVo modelLettreReponseVo){
       String query = "SELECT o FROM ModelLettreReponse o where 1=1 ";
-	  query += SearchUtil.addConstraintDate( "o", "createdAt","=",modelLettreReponseVo.getCreatedAt());
-	  query += SearchUtil.addConstraintDate( "o", "updatedAt","=",modelLettreReponseVo.getUpdatedAt());
-			 query += SearchUtil.addConstraint( "o", "libelleArab","LIKE",modelLettreReponseVo.getLibelleArab());
+	  query += addConstraintDate( "o", "createdAt","=",modelLettreReponseVo.getCreatedAt());
+	  query += addConstraintDate( "o", "updatedAt","=",modelLettreReponseVo.getUpdatedAt());
+			 query += addConstraint( "o", "libelleArab","LIKE",modelLettreReponseVo.getLibelleArab());
 
-			 query += SearchUtil.addConstraint( "o", "code","LIKE",modelLettreReponseVo.getCode());
+			 query += addConstraint( "o", "code","LIKE",modelLettreReponseVo.getCode());
 
-			 query += SearchUtil.addConstraint( "o", "chemin","LIKE",modelLettreReponseVo.getChemin());
+			 query += addConstraint( "o", "chemin","LIKE",modelLettreReponseVo.getChemin());
 
-		 	 query += SearchUtil.addConstraint( "o", "id","=",modelLettreReponseVo.getId());
-			 query += SearchUtil.addConstraint( "o", "libelle","LIKE",modelLettreReponseVo.getLibelle());
+		 	 query += addConstraint( "o", "id","=",modelLettreReponseVo.getId());
+			 query += addConstraint( "o", "libelle","LIKE",modelLettreReponseVo.getLibelle());
 
-	  query += SearchUtil.addConstraintMinMaxDate("o","createdAt",modelLettreReponseVo.getCreatedAtMin(),modelLettreReponseVo.getCreatedAtMax());
-	  query += SearchUtil.addConstraintMinMaxDate("o","updatedAt",modelLettreReponseVo.getUpdatedAtMin(),modelLettreReponseVo.getUpdatedAtMax());
+	  query += addConstraintMinMaxDate("o","createdAt",modelLettreReponseVo.getCreatedAtMin(),modelLettreReponseVo.getCreatedAtMax());
+	  query += addConstraintMinMaxDate("o","updatedAt",modelLettreReponseVo.getUpdatedAtMin(),modelLettreReponseVo.getUpdatedAtMax());
    if(modelLettreReponseVo.getCategorieModelLettreReponseVo()!=null){
-     query += SearchUtil.addConstraint( "o", "categorieModelLettreReponse.id","=",modelLettreReponseVo.getCategorieModelLettreReponseVo().getId());
-     query += SearchUtil.addConstraint( "o", "categorieModelLettreReponse.libelle","LIKE",modelLettreReponseVo.getCategorieModelLettreReponseVo().getLibelle());
+     query += addConstraint( "o", "categorieModelLettreReponse.id","=",modelLettreReponseVo.getCategorieModelLettreReponseVo().getId());
+     query += addConstraint( "o", "categorieModelLettreReponse.libelle","LIKE",modelLettreReponseVo.getCategorieModelLettreReponseVo().getLibelle());
    }
    
    if(modelLettreReponseVo.getCreatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "createdBy.id","=",modelLettreReponseVo.getCreatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "createdBy.username","LIKE",modelLettreReponseVo.getCreatedByVo().getUsername());
+     query += addConstraint( "o", "createdBy.id","=",modelLettreReponseVo.getCreatedByVo().getId());
+     query += addConstraint( "o", "createdBy.username","LIKE",modelLettreReponseVo.getCreatedByVo().getUsername());
    }
    
    if(modelLettreReponseVo.getUpdatedByVo()!=null){
-     query += SearchUtil.addConstraint( "o", "updatedBy.id","=",modelLettreReponseVo.getUpdatedByVo().getId());
-     query += SearchUtil.addConstraint( "o", "updatedBy.username","LIKE",modelLettreReponseVo.getUpdatedByVo().getUsername());
+     query += addConstraint( "o", "updatedBy.id","=",modelLettreReponseVo.getUpdatedByVo().getId());
+     query += addConstraint( "o", "updatedBy.username","LIKE",modelLettreReponseVo.getUpdatedByVo().getUsername());
    }
    
 	 return entityManager.createQuery(query).getResultList();

@@ -29,11 +29,11 @@ public class CategorieModelLettreReponseRest {
 	@Autowired 
 	private CategorieModelLettreReponseConverter categorieModelLettreReponseConverter ;
 
-    @ApiOperation("Saves the specified categorieModelLettreReponse")
+    @ApiOperation("creates the specified categorieModelLettreReponse")
 	@PostMapping("/")
-	public CategorieModelLettreReponseVo save(@RequestBody CategorieModelLettreReponseVo categorieModelLettreReponseVo){
+	public CategorieModelLettreReponseVo create(@RequestBody CategorieModelLettreReponseVo categorieModelLettreReponseVo){
 		CategorieModelLettreReponse categorieModelLettreReponse= categorieModelLettreReponseConverter.toItem(categorieModelLettreReponseVo);
-	  categorieModelLettreReponse=	categorieModelLettreReponseService.save(categorieModelLettreReponse);
+	  categorieModelLettreReponse=	categorieModelLettreReponseService.create(categorieModelLettreReponse);
 		return categorieModelLettreReponseConverter.toVo(categorieModelLettreReponse);
 	}
 
