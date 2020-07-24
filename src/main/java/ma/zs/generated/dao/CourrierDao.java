@@ -13,6 +13,11 @@ import ma.zs.generated.bean.Courrier;
 @Repository
 public interface CourrierDao extends JpaRepository<Courrier, Long> {
 
+
+    Long countByAccuse(Boolean accuse);
+
+    Long countByReponse(Boolean accuse);
+
     Courrier findByIdCourrier(String idCourrier);
 
     int deleteByIdCourrier(String idCourrier);

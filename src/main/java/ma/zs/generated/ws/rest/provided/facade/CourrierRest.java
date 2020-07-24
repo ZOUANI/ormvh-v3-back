@@ -25,11 +25,21 @@ import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
 @RequestMapping("generated/courrier")
 public class CourrierRest {
 
+
     @Autowired
     private CourrierService courrierService;
 
     @Autowired
     private CourrierConverter courrierConverter;
+
+
+    public Long countByAccuse(Boolean accuse) {
+        return courrierService.countByAccuse(accuse);
+    }
+
+    public Long countByReponse(Boolean accuse) {
+        return courrierService.countByReponse(accuse);
+    }
 
     @ApiOperation("creates the specified courrier")
     @PostMapping("/")

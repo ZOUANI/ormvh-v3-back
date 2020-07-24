@@ -43,6 +43,7 @@ import ma.zs.generated.service.util.*;
 @Service
 public class CourrierServiceImpl extends  AbstractService<Courrier> implements CourrierService {
 
+
     @Autowired
     private CourrierDao courrierDao;
 
@@ -74,6 +75,16 @@ public class CourrierServiceImpl extends  AbstractService<Courrier> implements C
 
     @Autowired
     private EntityManager entityManager;
+
+    @Override
+    public Long countByAccuse(Boolean accuse) {
+        return courrierDao.countByAccuse(accuse);
+    }
+
+    @Override
+    public Long countByReponse(Boolean accuse) {
+        return courrierDao.countByReponse(accuse);
+    }
 
     @Override
     public List<Courrier> findAll() {
