@@ -1,9 +1,6 @@
 package ma.zs.generated.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -500,7 +497,7 @@ public class CourrierServiceImpl implements CourrierService {
 
 
         //prepareCourrierId(courrier);
-
+        courrier.setCreatedAt(new Date());
         if (courrier.getCourrierObject() != null) {
             CourrierObject courrierObject = courrierObjectService.findByTitle(courrier.getCourrierObject().getTitle());
             courrier.setCourrierObject(courrierObject);
@@ -751,12 +748,12 @@ public class CourrierServiceImpl implements CourrierService {
         if (last.isPresent()) {
             String value = last.get().getIdCourrier();
             if (value != null) {
-                String[] split = value.split("_");
+                String[] split = value.split("-");
                 num = Integer.parseInt(split[0]);
             }
         }
         String format = String.format("%06d", ++num);
-        String numOrder = format + "_" + year;
+        String numOrder = format + "-" + year;
         return numOrder;
 
     }
@@ -765,15 +762,15 @@ public class CourrierServiceImpl implements CourrierService {
 
 		String onlyNumericText = idCourier.replaceAll("[^\\w\\s\\.]","");
 		String firstSixChar = onlyNumericText.substring(0,6);
-		String year = onlyNumericText.substring(7,11);
-		int id = Integer.parseInt(firstSixChar);
+		String year = onlyNumericText.substring(6,10);
+		int id = Integer.parseInt(firstSixChar)-1;
 
 		for (int i = 0; i <nbr ; i++) {
-			String idCourrierNew = String.format("%06d", ++id)+'_'+year;
+			String idCourrierNew = String.format("%06d", ++id)+'-'+year;
 			courrier = new Courrier();
 			courrier.setIdCourrier(idCourrierNew);
-//			TypeCourrier tc = typeCourrierService.findByCode("brouillant");
-//			courrier.setTypeCourrier(tc);
+			TypeCourrier tc = typeCourrierService.findByCode("brouillant");
+			courrier.setTypeCourrier(tc);
 			save(courrier);
 		}
 
