@@ -2,6 +2,7 @@ package ma.zs.generated.ws.rest.provided.facade;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import ma.zs.generated.service.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -187,8 +188,14 @@ public class CourrierRest {
 
     @ApiOperation("Finds courrier by id of linkedTo")
     @GetMapping("/linkedTo/id/{id}")
-    public List<CourrierVo> findByLinkedToId(@PathVariable Long id) {
+    public Set<CourrierVo> findByLinkedToId(@PathVariable Long id) {
         return courrierConverter.toVo(courrierService.findByLinkedToId(id));
+    }
+    
+    @ApiOperation("Finds all linked courrier")
+    @GetMapping("/linked/{id}")
+    public Set<CourrierVo> findAllLinkd(@PathVariable Long id) {
+        return courrierConverter.toVo(courrierService.findAllLinked(id));
     }
 
     @ApiOperation("Deletes courrier by id of linkedTo")

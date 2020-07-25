@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import ma.zs.generated.bean.Courrier;
 
@@ -55,7 +56,6 @@ public interface CourrierDao extends JpaRepository<Courrier, Long> {
 
     int deleteByLinkedToIdCourrier(String idCourrier);
 
-    List<Courrier> findByLinkedToId(Long id);
 
     int deleteByLinkedToId(Long id);
 
@@ -154,6 +154,9 @@ public interface CourrierDao extends JpaRepository<Courrier, Long> {
     List<Courrier> findByAccuse(Boolean accuse);
 
     List<Courrier> findByReponse(Boolean reponse);
+    
+
+    Set<Courrier> findByLinkedToId(Long id);
 
     // --------------------------find by dates------------------------
     Long countByCreatedAt(Date createdAt);

@@ -2,6 +2,7 @@ package ma.zs.generated.service.facade;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import ma.zs.generated.bean.Courrier;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
@@ -102,9 +103,28 @@ public interface CourrierService {
 
     int deleteByLinkedToIdCourrier(String idCourrier);
 
-    List<Courrier> findByLinkedToId(Long id);
 
+    Set<Courrier> findByLinkedToId(Long id);
     int deleteByLinkedToId(Long id);
+    
+    
+    Set<Courrier> findAllLinked(Long id);
+      
+      /**
+       * get all Linked Courier 
+       *
+       * @param id the id of the entity.
+       */
+      Set<Courrier> findAllLinkedToCourrier(Long id);
+
+      
+      /**
+       * get all Linked Courier 
+       *
+       * @param id the id of the entity.
+       */    
+      Set<Courrier> findAllLinkedByCourrier(Long id) ;
+
 
     List<Courrier> findByExpeditorTitle(String title);
 
