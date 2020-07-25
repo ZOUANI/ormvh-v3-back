@@ -1,37 +1,54 @@
 package ma.zs.generated.security;
 
 
-import org.springframework.stereotype.Component;
+import ma.zs.generated.GeneratedApplication;
+import ma.zs.generated.bean.User;
+import ma.zs.generated.service.facade.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
-@Component
+@Service
 public class SecurityUtil {
     /**
      * Get the login of the current user.
      *
      * @return the login of the current user.
      */
-    public static Optional<UserDetails> getCurrentUser() {
+    @Autowired
+    private static ApplicationContext applicationContext;
+
+    public static User getCurrentUser() {
+        UserService userService= GeneratedApplication.getCtx().getBean(UserService.class);
+
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        return Optional.ofNullable(securityContext.getAuthentication())
-                .map(authentication -> {
-                    if (authentication.getPrincipal() instanceof UserDetails) {
-                        UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-                        return springSecurityUser;
-//                        return springSecurityUser.getUsername();
-                    }
-//                    else if (authentication.getPrincipal() instanceof String) {
-//                        return (String) authentication.getPrincipal();
+        Object user = securityContext.getAuthentication().getPrincipal();
+        System.out.println(user);
+        if (user instanceof String) {
+            return userService.findByUsername((String) user);
+        } else if (user instanceof User) {
+            return (User) user;
+        } else {
+            return null;
+        }
+//        return (User)Optional.ofNullable(securityContext.getAuthentication())
+//                .map(authentication -> {
+//                    if (authentication.getPrincipal() instanceof UserDetails) {
+//                        UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+//                        return springSecurityUser;
+////                        return springSecurityUser.getUsername();
 //                    }
-                    return null;
-                });
+////                    else if (authentication.getPrincipal() instanceof String) {
+////                        return (String) authentication.getPrincipal();
+////                    }
+//                    return null;
+//                }).get();
     }
 
     /**
