@@ -2,7 +2,9 @@ package  ma.zs.generated.ws.rest.provided.converter;
 
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
 
 public abstract class AbstractConverter<T, VO> {
@@ -22,12 +24,26 @@ public abstract class AbstractConverter<T, VO> {
             return items;
         }
     }
+    
+  
 
     public List<VO> toVo(List<T> items) {
         if (items == null || items.isEmpty()) {
             return null;
         } else {
             List<VO> vos = new ArrayList();
+            for (T item : items) {
+                vos.add(toVo(item));
+            }
+            return vos;
+        }
+    }
+    
+    public Set<VO> toVo(Set<T> items) {
+        if (items == null || items.isEmpty()) {
+            return null;
+        } else {
+            Set<VO> vos = new HashSet<>();
             for (T item : items) {
                 vos.add(toVo(item));
             }

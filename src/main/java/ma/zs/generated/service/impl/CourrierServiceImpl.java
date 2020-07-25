@@ -1,6 +1,7 @@
 package ma.zs.generated.service.impl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import ma.zs.generated.bean.*;
 import ma.zs.generated.service.facade.*;
@@ -227,7 +228,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
     }
 
     @Override
-    public List<Courrier> findByLinkedToId(Long id) {
+    public Set<Courrier> findByLinkedToId(Long id) {
         return courrierDao.findByLinkedToId(id);
 
     }
@@ -677,6 +678,52 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
         return 1;
     }
 
+    
+    @Override
+   	public Set<Courrier> findAllLinked(Long id) {
+   		Set<Courrier> linkedList = new HashSet();
+   		Set<Courrier> linkedToList = findAllLinkedToCourrier(id);
+   		Set<Courrier> linkedByList = findAllLinkedByCourrier(id);
+
+   		if(linkedToList!=null)
+           	linkedList.addAll(linkedToList);
+           if(linkedByList!=null)
+           	linkedList.addAll(linkedByList);
+//   	   linkedList = linkedList.stream().sorted((c1,c2)->c2.getCreatedAt().compareTo(c1.getCreatedAt()))
+//   			    .collect(Collectors.toSet());
+   		return linkedList;
+   	}
+   	
+   	@Override
+   	public Set<Courrier> findAllLinkedToCourrier(Long id) {
+
+   		Courrier courrier = findById(id);
+   		if (courrier==null)
+   			return null;
+
+   		Set<Courrier> linkedList = new HashSet();
+   		linkedList.add(courrier);
+   		if (courrier.getLinkedTo() != null) {
+   			
+   			Courrier changedCourier = courrier.getLinkedTo();
+   			while (linkedList.add(changedCourier) == true && changedCourier.getLinkedTo() != null) {
+   					changedCourier = changedCourier.getLinkedTo();
+   			}
+   			
+   		}
+
+   		return linkedList;
+   	}
+
+   	public Set<Courrier> findAllLinkedByCourrier(Long id) {
+   		Set<Courrier> linkedList = (Set<Courrier>) courrierDao.findByLinkedToId(id);
+   		for (Courrier courrier : linkedList) {
+   			Set<Courrier> chanegedList = findAllLinkedByCourrier(courrier.getId());
+   			if(chanegedList!=null)
+   			linkedList.addAll(chanegedList);
+   		}
+   		return linkedList;
+   	}
 
     public List<Courrier> findByCriteria(CourrierVo courrierVo) {
         String query = "SELECT o FROM Courrier o where 1=1 ";
