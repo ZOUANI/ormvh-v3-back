@@ -239,6 +239,9 @@ INSERT INTO `voie` (`id`, `code`, `created_at`, `libelle`, `libelle_arab`, `upda
 (2, 'email', NULL, 'Email', NULL, NULL, NULL, NULL),
 (3, 'courrierPortee', NULL, 'CourrierPortee', NULL, NULL, NULL, NULL),
 (4, 'poste', NULL, 'Poste', NULL, NULL, NULL, NULL);
+
+
+
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 

@@ -1,2 +1,3 @@
 - create database ormvah
+- import data from V1__init.sql
 - run spring project using your IDE or mvn
