@@ -8,8 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 public class DateUtil {
 
+    private static String datePatter="yyyy-MM-dd HH:mm:ss.SSS";
     public static String formateDate(Date date) {
-        return formateDate("yyyy-MM-dd hh:mm:ss.SSS", date);
+        return formateDate(datePatter, date);
     }
 
     public static String formateDate(String pattern, Date date) {
@@ -26,7 +27,7 @@ public class DateUtil {
             return null;
         } else {
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePatter);
                 return simpleDateFormat.parse(date);
             } catch (Exception ex) {
                 return null;
@@ -37,7 +38,7 @@ public class DateUtil {
     public static Date parseTimestamp(String date) {
 
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(datePatter);
             Date parsedDate = dateFormat.parse(date);
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             return timestamp;
@@ -50,7 +51,7 @@ public class DateUtil {
     	if(StringUtil.isEmpty(date))
     		return null;
         try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePatter);
             return simpleDateFormat.parse(date);
         } catch (ParseException ex) {
             return null;
