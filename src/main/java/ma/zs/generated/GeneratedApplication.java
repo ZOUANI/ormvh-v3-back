@@ -2,14 +2,18 @@ package  ma.zs.generated;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class GeneratedApplication {
 
+	private static ConfigurableApplicationContext ctx;
+
 	public static void main(String[] args) {
-		SpringApplication.run(GeneratedApplication.class, args);
+		ConfigurableApplicationContext myCtx=SpringApplication.run(GeneratedApplication.class, args);
+		ctx=myCtx;
 	}
 
 	@Bean
@@ -17,4 +21,7 @@ public class GeneratedApplication {
 		return new BCryptPasswordEncoder();
 	}
 
+	public static ConfigurableApplicationContext getCtx() {
+		return ctx;
+	}
 }
