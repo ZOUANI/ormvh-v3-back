@@ -608,7 +608,7 @@ public class CourrierRest {
     public Map<LeService,List<Courrier>> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
   		return courrierService.findCourrierSusceptibleRelance(courrierVo);
   	}
-    @PostMapping("/sendcouriers/subject/{subject}")
+    @PostMapping("/sendcouriers/to/{to}/subject/{subject}")
   	public int sendCourriers(@RequestBody List<Courrier> courriers,@PathVariable String to, @PathVariable String subject) throws MessagingException {
   		return courrierService.sendCourrier(courriers,to, subject);
   	}
