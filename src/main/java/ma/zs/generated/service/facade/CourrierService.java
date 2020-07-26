@@ -277,15 +277,17 @@ public interface CourrierService {
 	/**
 	 * @return
 	 */
-	List<Courrier> findCourrierSusceptibleRelance(CourrierVo courrierVo);
+	Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(CourrierVo courrierVo);
 	
-	int sendCourrier(List<Courrier> courriers,String subject) throws MessagingException;
-
 	/**
-	 * @param courrierVo
+	 * @param courriers
+	 * @param to
+	 * @param subject
 	 * @return
+	 * @throws MessagingException
 	 */
-	Map<LeService, List<Courrier>> findCourrierSusceptibleRelanceGrpByService(CourrierVo courrierVo);
+	int sendCourrier(List<Courrier> courriers, String to, String subject) throws MessagingException;
+
 	
 	
 

@@ -1,6 +1,7 @@
 package ma.zs.generated.ws.rest.provided.facade;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import ma.zs.generated.bean.Courrier;
+import ma.zs.generated.bean.LeService;
 import ma.zs.generated.service.facade.CourrierService;
 import ma.zs.generated.service.util.DateUtil;
 import ma.zs.generated.ws.rest.provided.converter.CourrierConverter;
@@ -603,12 +605,12 @@ public class CourrierRest {
         this.courrierService = courrierService;
     }
     @PostMapping("/couriersusceptiblerelance")
-    public List<Courrier> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
+    public Map<LeService,List<Courrier>> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
   		return courrierService.findCourrierSusceptibleRelance(courrierVo);
   	}
-    @PostMapping("/sendcouriersusceptiblerelance/subject/{subject}")
-  	public int sendCourrier(@RequestBody List<Courrier> courriers, @PathVariable String subject) throws MessagingException {
-  		return courrierService.sendCourrier(courriers, subject);
+    @PostMapping("/sendcouriers/subject/{subject}")
+  	public int sendCourriers(@RequestBody List<Courrier> courriers,@PathVariable String to, @PathVariable String subject) throws MessagingException {
+  		return courrierService.sendCourrier(courriers,to, subject);
   	}
 
 

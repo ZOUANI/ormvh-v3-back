@@ -972,23 +972,20 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
     }
     
     @Override 
-    public List<Courrier> findCourrierSusceptibleRelance(CourrierVo courrierVo){
-    	return findByCriteria(courrierVo);
+    public Map<LeService,List<Courrier>> findCourrierSusceptibleRelance(CourrierVo courrierVo){
+    	return findByCriteria(courrierVo).stream().collect(Collectors.groupingBy(Courrier::getCoordinator));
     }
 	@Override
-	public int sendCourrier(List<Courrier> courriers, String subject) throws MessagingException {
+	public int sendCourrier(List<Courrier> courriers,String to, String subject) throws MessagingException {
 		String content = "";
 		for (Courrier courrier : courriers) {
 			content += "\n"+courrier.getIdCourrier();
 		}
-		mailService.sendSimpleMail("ouiamsui27@gmail.com", subject, content);
+		mailService.sendSimpleMail(to, subject, content);
 		return 1;
 	}
 	
-    @Override 
-    public Map<LeService,List<Courrier>> findCourrierSusceptibleRelanceGrpByService(CourrierVo courrierVo)  {
-    	return	findByCriteria(courrierVo).stream().collect(Collectors.groupingBy(Courrier::getCoordinator));    	
-    }
+    
     
 
 }
