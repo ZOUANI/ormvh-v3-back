@@ -1,10 +1,15 @@
 package ma.zs.generated.service.facade;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import ma.zs.generated.bean.Courrier;
+import ma.zs.generated.bean.LeService;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
 
 public interface CourrierService {
@@ -268,5 +273,20 @@ public interface CourrierService {
     int reservation(Courrier courrier, String idCourier, int nbr);
 
     String verifyIdCourier(String IdCourier);
+
+	/**
+	 * @return
+	 */
+	List<Courrier> findCourrierSusceptibleRelance(CourrierVo courrierVo);
+	
+	int sendCourrier(List<Courrier> courriers,String subject) throws MessagingException;
+
+	/**
+	 * @param courrierVo
+	 * @return
+	 */
+	Map<LeService, List<Courrier>> findCourrierSusceptibleRelanceGrpByService(CourrierVo courrierVo);
+	
+	
 
 }
