@@ -71,7 +71,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
         return res;
 
     }
-
     private Long getStatTypeCourrierCode(Date dateMin, Date dateMax, String typeCourrierCode){
         String query = "SELECT COUNT(c.id) FROM Courrier c";
         query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
@@ -98,8 +97,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
         query+=addConstraint("c","reponse","=",reponse);
         return (Long) entityManager.createQuery(query).getSingleResult();
     }
-
-
     @Override
     public Long countByAccuse(Boolean accuse) {
         return courrierDao.countByAccuse(accuse);
