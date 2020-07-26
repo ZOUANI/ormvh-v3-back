@@ -53,6 +53,53 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
     @Autowired
     private EntityManager entityManager;
 
+    public List<Long> getStat(Date dateMin, Date dateMax, String typeCourrierCode, Boolean accuse, Boolean reponse){
+        List<Long> res= new ArrayList<>();
+        res.add(getStatTypeCourrierCode(dateMin,dateMax,"arrive"));
+        res.add(getStatTypeCourrierCode(dateMin,dateMax,"sortie"));
+
+        res.add(getStatStatusCode(dateMin,dateMax,"ouvert"));
+        res.add(getStatStatusCode(dateMin,dateMax,"encours"));
+        res.add(getStatStatusCode(dateMin,dateMax,"traite"));
+
+        res.add(getStatAccuse(dateMin,dateMax,Boolean.TRUE));
+        res.add(getStatReponse(dateMin,dateMax,Boolean.TRUE));
+
+        Long sum = res.stream().mapToLong(Long::valueOf).sum();
+        res.add(sum);
+
+        return res;
+
+    }
+
+        public Long getStatTypeCourrierCode(Date dateMin, Date dateMax, String typeCourrierCode){
+        String query = "SELECT COUNT(c.id) FROM Courrier c";
+        query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
+        query+=addConstraint("c","typeCourrier.code","=",typeCourrierCode);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
+
+    public Long getStatStatusCode(Date dateMin, Date dateMax, String statusCourrierCode){
+        String query = "SELECT COUNT(c.id) FROM Courrier c";
+        query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
+        query+=addConstraint("c","status.code","=",statusCourrierCode);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
+    private Long getStatAccuse(Date dateMin, Date dateMax, Boolean accuse){
+        String query = "SELECT COUNT(c.id) FROM Courrier c";
+        query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
+        query+=addConstraint("c","accuse","=",accuse);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
+
+    private Long getStatReponse(Date dateMin, Date dateMax, Boolean reponse){
+        String query = "SELECT COUNT(c.id) FROM Courrier c";
+        query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
+        query+=addConstraint("c","reponse","=",reponse);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
+
+
     @Override
     public Long countByAccuse(Boolean accuse) {
         return courrierDao.countByAccuse(accuse);
