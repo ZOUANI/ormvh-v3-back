@@ -55,6 +55,11 @@ public interface CourrierService {
 
     Long countByStatusLibelleAndCreatedAtBetween(String status_libelle, Date createdAt, Date createdAt2);
 
+
+    public List<Long> getStat(Date dateMin, Date dateMax, String titleCoordinator);
+
+    // public List<Long> getStatsLeServiceCoordinator(Date dateMin, Date dateMax, String leServiceCoordinatorTitle);
+
     /**
      * find Courrier from database by idCourrier (reference)
      *
@@ -110,25 +115,26 @@ public interface CourrierService {
 
 
     Set<Courrier> findByLinkedToId(Long id);
-    int deleteByLinkedToId(Long id);
-    
-    
-    Set<Courrier> findAllLinked(Long id);
-      
-      /**
-       * get all Linked Courier 
-       *
-       * @param id the id of the entity.
-       */
-      Set<Courrier> findAllLinkedToCourrier(Long id);
 
-      
-      /**
-       * get all Linked Courier 
-       *
-       * @param id the id of the entity.
-       */    
-      Set<Courrier> findAllLinkedByCourrier(Long id) ;
+    int deleteByLinkedToId(Long id);
+
+
+    Set<Courrier> findAllLinked(Long id);
+
+    /**
+     * get all Linked Courier
+     *
+     * @param id the id of the entity.
+     */
+    Set<Courrier> findAllLinkedToCourrier(Long id);
+
+
+    /**
+     * get all Linked Courier
+     *
+     * @param id the id of the entity.
+     */
+    Set<Courrier> findAllLinkedByCourrier(Long id);
 
 
     List<Courrier> findByExpeditorTitle(String title);
@@ -274,21 +280,19 @@ public interface CourrierService {
 
     String verifyIdCourier(String IdCourier);
 
-	/**
-	 * @return
-	 */
-	Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(CourrierVo courrierVo);
-	
-	/**
-	 * @param courriers
-	 * @param to
-	 * @param subject
-	 * @return
-	 * @throws MessagingException
-	 */
-	int sendCourrier(List<Courrier> courriers, String to, String subject) throws MessagingException;
+    /**
+     * @return
+     */
+    Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(CourrierVo courrierVo);
 
-	
-	
+    /**
+     * @param courriers
+     * @param to
+     * @param subject
+     * @return
+     * @throws MessagingException
+     */
+    int sendCourrier(List<Courrier> courriers, String to, String subject) throws MessagingException;
+
 
 }
