@@ -1,11 +1,13 @@
 package ma.zs.generated.ws.rest.provided.facade;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import ma.zs.generated.service.util.NumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +36,8 @@ public class CourrierRest {
     @Autowired
     private CourrierService courrierService;
 
-  
-	@Autowired
+
+    @Autowired
     private CourrierConverter courrierConverter;
 
 
@@ -196,7 +198,7 @@ public class CourrierRest {
     public Set<CourrierVo> findByLinkedToId(@PathVariable Long id) {
         return courrierConverter.toVo(courrierService.findByLinkedToId(id));
     }
-    
+
     @ApiOperation("Finds all linked courrier")
     @GetMapping("/linked/{id}")
     public Set<CourrierVo> findAllLinkd(@PathVariable Long id) {
@@ -492,6 +494,13 @@ public class CourrierRest {
         return courrierService.reservation(courrier, idCourier, nbr);
     }
 
+    @ApiOperation("get all stats")
+    @GetMapping("/stats/dateMin/{dateMin}/dateMax/{dateMax}/titleCoordinator/{titleCoordinator}")
+    public List<Long> getStat(@PathVariable String dateMin, @PathVariable String dateMax, @PathVariable String titleCoordinator) {
+        return courrierService.getStat(DateUtil.parse(dateMin), DateUtil.parse(dateMax), titleCoordinator);
+    }
+
+
     @ApiOperation("Count all courriers")
     @GetMapping("/countAll")
     public long count() {
@@ -604,14 +613,16 @@ public class CourrierRest {
     public void setCourrierService(CourrierService courrierService) {
         this.courrierService = courrierService;
     }
+
     @PostMapping("/couriersusceptiblerelance")
-    public Map<LeService,List<Courrier>> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
-  		return courrierService.findCourrierSusceptibleRelance(courrierVo);
-  	}
+    public Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
+        return courrierService.findCourrierSusceptibleRelance(courrierVo);
+    }
+
     @PostMapping("/sendcouriers/to/{to}/subject/{subject}")
-  	public int sendCourriers(@RequestBody List<Courrier> courriers,@PathVariable String to, @PathVariable String subject) throws MessagingException {
-  		return courrierService.sendCourrier(courriers,to, subject);
-  	}
+    public int sendCourriers(@RequestBody List<Courrier> courriers, @PathVariable String to, @PathVariable String subject) throws MessagingException {
+        return courrierService.sendCourrier(courriers, to, subject);
+    }
 
 
 }

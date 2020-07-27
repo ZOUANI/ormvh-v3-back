@@ -56,7 +56,7 @@ public abstract class AbstractService<T> {
     public String addConstraint(String beanAbrev, String atributeName, String operator, Object value) {
         boolean condition = value != null;
         if (value != null && value.getClass().getSimpleName().equals("String")) {
-            condition = condition && !value.equals("");
+            condition = condition && !value.equals("") && !value.equals("null");
         }
         if (condition && operator.equals("LIKE")) {
             return " AND " + beanAbrev + "." + atributeName + " " + operator + " '%" + value + "%'";
