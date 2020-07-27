@@ -27,6 +27,7 @@ public class Status {
      private String libelleArab ;
      private String code ;
      private String libelle ;
+     private String color;
 
      @ManyToOne
 	private User createdBy ;
@@ -86,7 +87,12 @@ public class Status {
           this.updatedBy = updatedBy;
      }
 
+     public String getColor() {
+          return color;
+     }
 
-
+     public void setColor(String color) {
+          this.color = color;
+     }
 }
 
