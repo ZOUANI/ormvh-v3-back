@@ -545,10 +545,10 @@ CREATE TABLE IF NOT EXISTS `status` (
 -- Déchargement des données de la table `status`
 --
 
-INSERT INTO `status` (`id`, `code`, `created_at`, `libelle`, `libelle_arab`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'ouvert', NULL, 'Ouvert', NULL, NULL, NULL, NULL),
-(2, 'encours', NULL, 'Encours', NULL, NULL, NULL, NULL),
-(3, 'traite', NULL, 'Traite', NULL, NULL, NULL, NULL);
+INSERT INTO `status` (`id`, `code`, `created_at`, `libelle`, `libelle_arab`, `updated_at`, `created_by`, `updated_by`, `color`) VALUES
+(1, 'ouvert', NULL, 'Ouvert', NULL, NULL, NULL, NULL, ' #e6f0ff\r\n'),
+(2, 'encours', NULL, 'Encours', NULL, NULL, NULL, NULL, ' #80b3ff\r\n'),
+(3, 'traite', NULL, 'Traite', NULL, NULL, NULL, NULL, ' #66ff66\r\n\r\n');
 
 -- --------------------------------------------------------
 
@@ -638,9 +638,10 @@ CREATE TABLE IF NOT EXISTS `type_courrier` (
 -- Déchargement des données de la table `type_courrier`
 --
 
-INSERT INTO `type_courrier` (`id`, `code`, `libelle`, `libelle_arab`, `color`) VALUES
-(1, 'arrive', 'Arrivee', NULL, NULL),
-(2, 'sortie', 'Sortie', NULL, NULL);
+INSERT INTO `type_courrier` (`id`, `code`, `color`, `libelle`, `libelle_arab`) VALUES
+(1, 'arrive', ' #ffff66\r\n\r\n', 'Arrivee', NULL),
+(2, 'sortie', ' #99ffdd\r\n', 'Sortie', NULL),
+(6, 'brouillant', ' #ff704d\r\n', 'Brouillant', NULL);
 
 -- --------------------------------------------------------
 
