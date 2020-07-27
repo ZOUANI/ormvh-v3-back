@@ -1,14 +1,15 @@
 package ma.zs.generated.ws.rest.provided.facade;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 
 import javax.mail.MessagingException;
 
+import ma.zs.generated.service.util.GeneratePdf;
 import ma.zs.generated.service.util.NumberUtil;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -622,6 +623,16 @@ public class CourrierRest {
     @PostMapping("/sendcouriers/to/{to}/subject/{subject}")
     public int sendCourriers(@RequestBody List<Courrier> courriers, @PathVariable String to, @PathVariable String subject) throws MessagingException {
         return courrierService.sendCourrier(courriers, to, subject);
+    }
+
+    @PostMapping("/pdf")
+    public ResponseEntity<Object> CommandePrint(@RequestBody List<CourrierVo> courriers) throws IOException, JRException {
+        List<Courrier> toPrint = new ArrayList<>();
+        for (CourrierVo courrier : courriers) {
+            toPrint.add(courrierService.findByIdCourrier(courrier.getIdCourrier()));
+        }
+        Map<String, Object> parameters = new HashMap<>();
+        return GeneratePdf.generatePdfs("courriers", parameters, toPrint, "/reports/courriers.jasper");
     }
 
 
