@@ -26,13 +26,15 @@ public class Status {
      private Date updatedAt ;
      private String libelleArab ;
      private String code ;
+     private String color ;
      private String libelle ;
-     private String color;
 
      @ManyToOne
 	private User createdBy ;
      @ManyToOne
 	private User updatedBy ;
+
+
 
      public Status(){
        super();
