@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ma.zs.generated.bean.Bordereau;
-import ma.zs.generated.bean.User;
+import ma.zs.generated.bean.*;
 import ma.zs.generated.security.SecurityUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -32,11 +31,15 @@ public abstract class AbstractService<T> {
 
     public void prepareSave(T item) {
         try {
-            if (PropertyUtils.getProperty(item, "createdBy") == null) {
-                PropertyUtils.setProperty(item, "createdBy", SecurityUtil.getCurrentUser());
-            }
-            if (PropertyUtils.getProperty(item, "createdAt") == null) {
-                PropertyUtils.setProperty(item, "createdAt", new Date());
+
+            if( !(item instanceof CourrierServiceItem) && !(item instanceof Sexe) &&
+                    !(item instanceof TypeCourrier)) {
+                if (PropertyUtils.getProperty(item, "createdBy") == null) {
+                    PropertyUtils.setProperty(item, "createdBy", SecurityUtil.getCurrentUser());
+                }
+                if (PropertyUtils.getProperty(item, "createdAt") == null) {
+                    PropertyUtils.setProperty(item, "createdAt", new Date());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

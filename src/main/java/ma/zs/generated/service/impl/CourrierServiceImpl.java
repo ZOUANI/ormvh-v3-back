@@ -805,6 +805,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
     private List<Task> prepareTasks(Courrier courrier, List<Task> tasks) {
         for (Task task : tasks) {
+            task.setId(null);
             task.setCourrier(courrier);
         }
         return tasks;
@@ -812,6 +813,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
     private List<CourrierServiceItem> prepareCourrierServiceItems(Courrier courrier, List<CourrierServiceItem> courrierServiceItems) {
         for (CourrierServiceItem courrierServiceItem : courrierServiceItems) {
+            courrierServiceItem.setId(null);
             courrierServiceItem.setCourrier(courrier);
         }
         return courrierServiceItems;
@@ -822,7 +824,14 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
         Courrier foundedCourrier = findById(courrier.getId());
         if (foundedCourrier == null)
             return null;
-        prepareUpdate(courrier);
+        taskService.deleteByCourrierId(courrier.getId());
+        courrierServiceItemService.deleteByCourrierId(courrier.getId());
+        if (ListUtil.isNotEmpty(courrier.getTasks())) {
+            taskService.create(prepareTasks(courrier, courrier.getTasks()));
+        }
+        if (ListUtil.isNotEmpty(courrier.getCourrierServiceItems())) {
+            courrierServiceItemService.create(prepareCourrierServiceItems(courrier, courrier.getCourrierServiceItems()));
+        }
         return courrierDao.save(courrier);
 
     }
