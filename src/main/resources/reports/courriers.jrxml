@@ -14,7 +14,7 @@
 		<band height="91" splitType="Stretch">
 			<image>
 				<reportElement x="243" y="0" width="85" height="80" uuid="36c067d7-e842-490c-87e5-fefcf4dd14c6"/>
-				<imageExpression><![CDATA["C:\\Users\\ismail\\IdeaProjects\\ormvh-v3-back\\src\\main\\resources\\img\\ormvah.png"]]></imageExpression>
+				<imageExpression><![CDATA["..\\img\\ormvah.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
