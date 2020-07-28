@@ -13,8 +13,8 @@
 	<title>
 		<band height="91" splitType="Stretch">
 			<image>
-				<reportElement x="243" y="0" width="85" height="80" uuid="36c067d7-e842-490c-87e5-fefcf4dd14c6"/>
-				<imageExpression><![CDATA["..\\img\\ormvah.png"]]></imageExpression>
+				<reportElement x="239" y="0" width="93" height="91" uuid="06313e30-b73b-4443-a5ec-ec085f621e8e"/>
+				<imageExpression><![CDATA[".\\img\\ormvah.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
