@@ -37,6 +37,7 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
                 item.setCredentialsNonExpired(vo.getCredentialsNonExpired());
 
                 item.setEnabled(vo.getEnabled());
+                item.setPasswordChanged(vo.getPasswordChanged());
 
             if (StringUtil.isNotEmpty(vo.getCreatedAt()))
                 item.setCreatedAt(DateUtil.parse(vo.getCreatedAt()));
@@ -71,7 +72,8 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
             return null;
         } else {
             UserVo vo = new UserVo();
-
+            if (item.isPasswordChanged() != null)
+                vo.setPasswordChanged(item.isPasswordChanged());
 
             if (item.isCredentialsNonExpired() != null)
                 vo.setCredentialsNonExpired(item.isCredentialsNonExpired());

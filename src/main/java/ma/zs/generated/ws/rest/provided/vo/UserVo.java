@@ -25,8 +25,8 @@ public class UserVo {
      private String username ;
    
      private String password ;
-   
 
+    private boolean passwordChanged;
 	private UserVo createdByVo ;
 	private UserVo updatedByVo ;
 
@@ -175,5 +175,13 @@ public class UserVo {
 
     public void setUpdatedAtMin(String updatedAtMin) {
         this.updatedAtMin = updatedAtMin;
+    }
+
+    public boolean getPasswordChanged() {
+        return passwordChanged;
+    }
+
+    public void setPasswordChanged(boolean passwordChanged) {
+        this.passwordChanged = passwordChanged;
     }
 }

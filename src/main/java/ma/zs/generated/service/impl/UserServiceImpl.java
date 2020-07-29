@@ -129,6 +129,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             user.setAccountNonLocked(true);
             user.setCredentialsNonExpired(true);
             user.setEnabled(true);
+            user.setPasswordChanged(false);
             user.setCreatedAt(new Date());
             for (Role role : user.getRoles()) {
                 authorities.add(role.getAuthority());
