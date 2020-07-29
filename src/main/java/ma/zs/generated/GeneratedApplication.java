@@ -21,6 +21,11 @@ public class GeneratedApplication {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	public SpringApplicationContext springApplicationContext() {
+		return new SpringApplicationContext();
+	}
+
 	public static ConfigurableApplicationContext getCtx() {
 		return ctx;
 	}

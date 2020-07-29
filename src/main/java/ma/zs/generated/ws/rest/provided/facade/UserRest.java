@@ -141,6 +141,11 @@ public class UserRest {
         return userConverter.toVo(userService.findByCriteria(userVo));
     }
 
+    @GetMapping("/isPasswordChanged/{username}")
+    public Boolean isPasswordChanged(@PathVariable String username){
+        return  this.userService.findByUsername(username).isPasswordChanged();
+    }
+
     public UserConverter getUserConverter() {
         return userConverter;
     }
