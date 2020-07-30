@@ -518,7 +518,8 @@ CREATE TABLE IF NOT EXISTS `sexe` (
 INSERT INTO `sexe` (`id`, `libelle`, `libelle_arab`) VALUES
 (1, 'Homme', NULL),
 (2, 'Femme', NULL),
-(3, 'Inconnu', NULL);
+(3, 'Inconnu', NULL),
+(4, 'UNKONWN', 'MAJHOULE');
 
 -- --------------------------------------------------------
 
@@ -530,6 +531,7 @@ DROP TABLE IF EXISTS `status`;
 CREATE TABLE IF NOT EXISTS `status` (
                                         `id` bigint(20) NOT NULL,
                                         `code` varchar(255) DEFAULT NULL,
+                                        `color` varchar(255) DEFAULT NULL,
                                         `created_at` datetime DEFAULT NULL,
                                         `libelle` varchar(255) DEFAULT NULL,
                                         `libelle_arab` varchar(255) DEFAULT NULL,

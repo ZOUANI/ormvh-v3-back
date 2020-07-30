@@ -3,6 +3,7 @@ package ma.zs.generated.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ma.zs.generated.GeneratedApplication;
 import ma.zs.generated.SpringApplicationContext;
 import ma.zs.generated.service.facade.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +53,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             roles.add(a.getAuthority());
         });
 
-        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
-        boolean passwordChanged = userService.findByUsername(user.getUsername()).isPasswordChanged();
+        UserService userService = GeneratedApplication.getCtx().getBean(UserService.class);
+       ma.zs.generated.bean.User myUser= userService.findByUsername(user.getUsername());
+        Boolean passwordChanged = myUser.isPasswordChanged();
+        if (passwordChanged == null) {
+            passwordChanged=Boolean.FALSE;
+        }
 
         String jwt= JWT.create()
                 .withIssuer(request.getRequestURI())
