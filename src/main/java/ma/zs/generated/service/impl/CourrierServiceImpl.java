@@ -3,7 +3,6 @@ package ma.zs.generated.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,6 @@ import ma.zs.generated.bean.Task;
 import ma.zs.generated.bean.TypeCourrier;
 import ma.zs.generated.bean.Voie;
 import ma.zs.generated.dao.CourrierDao;
-import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.service.facade.CourrierObjectService;
 import ma.zs.generated.service.facade.CourrierService;
 import ma.zs.generated.service.facade.CourrierServiceItemService;
@@ -84,8 +82,8 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
     @Autowired
     private EntityManager entityManager;
-    @Autowired 
-    private MailService mailService;
+    //@Autowired 
+    //private MailService mailService;
 
     public List<Long> getStat(Date dateMin, Date dateMax, String typeCourrierCode, Boolean accuse, Boolean reponse){
         List<Long> res= new ArrayList<>();
@@ -981,7 +979,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		for (Courrier courrier : courriers) {
 			content += "\n"+courrier.getIdCourrier();
 		}
-		mailService.sendSimpleMail("ouiamsui27@gmail.com", subject, content);
+	//	mailService.sendSimpleMail("ouiamsui27@gmail.com", subject, content);
 		return 1;
 	}
 	
