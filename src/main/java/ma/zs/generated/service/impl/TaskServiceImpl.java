@@ -192,22 +192,12 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
 
     @Override
     public Task save(Task task) {
-        Task foundedTask = findByTitle(task.getTitle());
-        if (foundedTask != null)
-            return null;
-
-        if (task.getCourrier() != null) {
-            Courrier courrier = courrierService.findByIdCourrier(task.getCourrier().getIdCourrier());
-            task.setCourrier(courrier);
-        }
-
+       
         if (task.getAssigne() != null) {
             User assigne = userService.findByUsername(task.getAssigne().getUsername());
 
             task.setAssigne(assigne);
         }
-
-
         if (task.getStatus() != null) {
             Status status = statusService.findByLibelle(task.getStatus().getLibelle());
             task.setStatus(status);

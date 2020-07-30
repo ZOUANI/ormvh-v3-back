@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fa7531d6-868e-4de7-8211-07bcfb067c1a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="idCourrier" class="java.lang.String"/>
+	<field name="subject" class="java.lang.String"/>
+	<field name="status.libelle" class="java.lang.String"/>
+	<field name="voie.libelle" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<image>
+				<reportElement x="239" y="0" width="93" height="91" uuid="06313e30-b73b-4443-a5ec-ec085f621e8e"/>
+				<imageExpression><![CDATA[".\\img\\ormvah.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="65" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="7" width="12" height="20" forecolor="#F0F0F0" backcolor="#999999" uuid="6447fb67-68ed-4d68-a34a-1a6a2fb837d9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="12" y="7" width="543" height="20" forecolor="#F0F0F0" backcolor="#339900" uuid="f0737826-ac33-46c0-b709-5b05502cf98b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="22" y="10" width="205" height="17" forecolor="#FFFFFF" uuid="4a278b4a-ca65-414f-afe9-ad39b9f2cd2c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Courries N°]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="66" y="7" width="138" height="20" forecolor="#FFFFFF" uuid="c7f338ee-3039-463f-a374-12ea092374ff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idCourrier}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="56" y="42" width="138" height="20" forecolor="#FFFFFF" backcolor="#339900" uuid="b6397a60-05e6-4083-af8d-89edb6b924af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Sujet]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="56" y="63" width="138" height="20" forecolor="#FFFFFF" backcolor="#339900" uuid="13b868de-b544-4233-93c2-dc771a46101f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="56" y="84" width="138" height="20" forecolor="#FFFFFF" backcolor="#339900" uuid="3384c8d3-17fb-48a7-a5bb-60ed8d80c6ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Voie]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="194" y="43" width="138" height="20" uuid="0dbe8f17-3da7-4646-b128-b5a5fb9a5d68"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isUnderline="false" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subject}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="63" width="138" height="20" uuid="4324e225-2793-400f-a0fa-6609dd17a66a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isUnderline="false" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status.libelle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="84" width="138" height="20" uuid="becd20e4-824b-46ae-ad02-cb5edcfbfd62"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isUnderline="false" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{voie.libelle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="396" y="0" width="100" height="20" uuid="8a1bb1c0-492e-463a-b707-34633bdff59e"/>
+				<text><![CDATA[Signature :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="12" y="39" width="543" height="20" forecolor="#F0F0F0" backcolor="#339900" uuid="8e30efd2-f9c1-44b9-a7c5-1cdca0eefb25"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="39" width="12" height="20" forecolor="#F0F0F0" backcolor="#999999" uuid="84422cb6-26aa-4d59-a039-9d026f3674f8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="183" y="43" width="193" height="15" forecolor="#FFFFFF" uuid="9053b203-9f7f-48e8-9a6f-27025d3ae944"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[©  Tous droits réservés ORMVAH 2020]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="52" splitType="Stretch"/>
+	</summary>
+</jasperReport>

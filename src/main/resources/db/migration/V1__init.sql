@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  sam. 25 juil. 2020 à 15:33
+-- Généré le :  mar. 28 juil. 2020 à 15:59
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -124,6 +124,18 @@ CREATE TABLE IF NOT EXISTS `courrier` (
                                           KEY `FKhhl4cif4ydpmevjf34dlil9wx` (`voie`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `courrier`
+--
+
+INSERT INTO `courrier` (`id`, `accuse`, `created_at`, `date_accuse`, `date_relance`, `date_reponse`, `delai`, `description`, `destinataire_desc`, `destinataire_ville`, `expediteur_desc`, `id_courrier`, `instruction`, `received_at`, `relance`, `reponse`, `sent_at`, `subject`, `updated_at`, `coordinator`, `courrier_object`, `created_by`, `destinator`, `emetteur`, `evaluation`, `expeditor`, `expeditor_type`, `linked_to`, `nature_courrier`, `status`, `subdivision`, `type_courrier`, `updated_by`, `voie`) VALUES
+(102, NULL, '2020-07-23 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '000001-2020', NULL, NULL, NULL, NULL, NULL, NULL, '2020-07-26 23:00:00', NULL, 4, NULL, NULL, NULL, NULL, NULL, 1, NULL, 1, 3, NULL, 1, NULL, 1),
+(104, NULL, '2020-07-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '000002-2020', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 1, NULL, 1),
+(105, NULL, '2020-07-24 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '000003-2020', NULL, NULL, NULL, NULL, NULL, NULL, '2020-07-27 20:26:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 104, 1, 2, NULL, 1, 12, 1),
+(106, NULL, '2020-07-25 00:00:00', NULL, NULL, NULL, NULL, 'walooooooooooooooooooooo', NULL, NULL, NULL, '000004-2020', 'walooooooooooooooooooooowalooooooooooooooooooooo', NULL, NULL, NULL, NULL, 'walo', NULL, NULL, NULL, 12, NULL, NULL, NULL, NULL, NULL, 104, NULL, NULL, NULL, NULL, NULL, NULL),
+(107, NULL, '2020-07-26 00:00:00', NULL, NULL, NULL, NULL, 'subject 05subject 05subject 05subject 05subject 05subject 05subject 05subject 05subject 05subject 05', NULL, NULL, NULL, '000005-2020', 'subject 05subject 05subject 05subject 05subject 05subject 05', NULL, NULL, NULL, NULL, 'subject 05', NULL, NULL, 1, 12, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 1, NULL, 1),
+(108, NULL, '2020-07-26 00:00:00', NULL, NULL, NULL, NULL, 'zero setazero setazero setazero setazero setazero seta', NULL, NULL, NULL, '000006-2020', 'zero setazero setazero seta', NULL, NULL, NULL, NULL, 'zero seta', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 107, NULL, NULL, NULL, 2, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -152,22 +164,22 @@ CREATE TABLE IF NOT EXISTS `courrier_object` (
 INSERT INTO `courrier_object` (`id`, `code`, `created_at`, `title`, `title_arab`, `updated_at`, `created_by`, `updated_by`) VALUES
 (1, NULL, NULL, 'CORRECTION DU NOM DE L\'EXPLOITANT', NULL, NULL, NULL, NULL),
 (2, NULL, NULL, 'DEMANDE D\'ATTESTATION', NULL, NULL, NULL, NULL),
-(3, NULL, NULL, 'DEMANDE D\'ACTUALISATION DE L\'ENQUÊTE FONCIERE', NULL, NULL, NULL, NULL),
+(3, NULL, NULL, 'DEMANDE D\'ACTUALISATION DE L\'ENQU?TE FONCIERE', NULL, NULL, NULL, NULL),
 (4, NULL, NULL, 'AUTRES', NULL, NULL, NULL, NULL),
 (5, NULL, NULL, 'DEMANDE D\'INFORMATION', NULL, NULL, NULL, NULL),
 (6, NULL, NULL, 'EXPROPRIATION', NULL, NULL, NULL, NULL),
-(7, NULL, NULL, 'INDÉMNISATION', NULL, NULL, NULL, NULL),
+(7, NULL, NULL, 'IND?MNISATION', NULL, NULL, NULL, NULL),
 (8, NULL, NULL, 'DEMANDE D\'AUDIENCE', NULL, NULL, NULL, NULL),
 (9, NULL, NULL, 'DEMANDE DE POSSESSION DE CLES DE BORNE', NULL, NULL, NULL, NULL),
 (10, NULL, NULL, 'LITIGES ENTRES AYANTS DROITS OU AGRICULTEURS', NULL, NULL, NULL, NULL),
-(11, NULL, NULL, 'RÉÉCHELONNEMENT DE DETTES ET FACILITÉS DE PAIEMENT', NULL, NULL, NULL, NULL),
+(11, NULL, NULL, 'R??CHELONNEMENT DE DETTES ET FACILIT?S DE PAIEMENT', NULL, NULL, NULL, NULL),
 (12, NULL, NULL, 'DEMANDE DE CREUSEMENT DE PUIT', NULL, NULL, NULL, NULL),
-(13, NULL, NULL, 'VOL D’EAU ET VANDALISME', NULL, NULL, NULL, NULL),
+(13, NULL, NULL, 'VOL D?EAU ET VANDALISME', NULL, NULL, NULL, NULL),
 (14, NULL, NULL, 'DEMANDE D\'ESSAI DE LA CONDUITE PRINCIPALE', NULL, NULL, NULL, NULL),
 (15, NULL, NULL, 'IMPLANTATION D\'OUVRAGE', NULL, NULL, NULL, NULL),
 (16, NULL, NULL, 'REPARATION REMPLACEMENT DE CONDUITE PRINCIPALE', NULL, NULL, NULL, NULL),
 (17, NULL, NULL, 'DEMANDE DE RETABLISSEMENT DES LIMITES DES PARCELLES', NULL, NULL, NULL, NULL),
-(18, NULL, NULL, 'DEMANDE D\'ARRÊT D\'IRRIGATION', NULL, NULL, NULL, NULL),
+(18, NULL, NULL, 'DEMANDE D\'ARR?T D\'IRRIGATION', NULL, NULL, NULL, NULL),
 (19, NULL, NULL, 'ACCELERATION DES TRAVAUX DES EQUIPEMENTS INTERNES', NULL, NULL, NULL, NULL),
 (20, NULL, NULL, 'IMPLANTATION DE BORNE', NULL, NULL, NULL, NULL),
 (21, NULL, NULL, 'DEMANDE D\'EAU D\'IRRIGATION POUR LA MISE EN EAU DES SECTEURS EQUIPES EN GG', NULL, NULL, NULL, NULL),
@@ -179,7 +191,7 @@ INSERT INTO `courrier_object` (`id`, `code`, `created_at`, `title`, `title_arab`
 (27, NULL, NULL, 'DEMANDE DE CHANGEMENT DE PRISE PROPRIETE', NULL, NULL, NULL, NULL),
 (28, NULL, NULL, 'DEGATS CAUSES PAR LES TRAVAUX', NULL, NULL, NULL, NULL),
 (29, NULL, NULL, 'DEMANDE DE REVISION DE LA REDEVANCE D\'EAU D\'IRRIGATION', NULL, NULL, NULL, NULL),
-(30, NULL, NULL, 'ACCÈS À LA PARCELLE', NULL, NULL, NULL, NULL),
+(30, NULL, NULL, 'ACC?S ? LA PARCELLE', NULL, NULL, NULL, NULL),
 (31, NULL, NULL, 'DEMANDE D\'AMENAGEMENT DE SEGUIA', NULL, NULL, NULL, NULL),
 (32, NULL, NULL, 'DEMANDE D\'ACCES A L\'IRRIGATION LOCALISEE', NULL, NULL, NULL, NULL),
 (33, NULL, NULL, 'DEMANDE DE REVISION DE DOTATIONS', NULL, NULL, NULL, NULL),
@@ -226,6 +238,13 @@ CREATE TABLE IF NOT EXISTS `employee` (
                                           KEY `FKjdyul4cmndt1b48vw1166bee5` (`user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `employee`
+--
+
+INSERT INTO `employee` (`id`, `created_at`, `title`, `updated_at`, `created_by`, `updated_by`, `user`) VALUES
+(103, '2020-07-25 21:00:16', 'ana', NULL, 12, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -252,12 +271,12 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
 --
 
 INSERT INTO `evaluation` (`id`, `code`, `created_at`, `libelle_arab`, `title`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, NULL, NULL, NULL, 'Requête conforme', NULL, NULL, NULL),
-(2, NULL, NULL, NULL, 'Objet est devant la justice ou une autre autorité compétente / décision judiciaire rendu', NULL, NULL, NULL),
-(3, NULL, NULL, NULL, 'Objet hors champs de mission de l’ORMVAH', NULL, NULL, NULL),
+(1, NULL, NULL, NULL, 'Requ?te conforme', NULL, NULL, NULL),
+(2, NULL, NULL, NULL, 'Objet est devant la justice ou une autre autorit? comp?tente / d?cision judiciaire rendu', NULL, NULL, NULL),
+(3, NULL, NULL, NULL, 'Objet hors champs de mission de l?ORMVAH', NULL, NULL, NULL),
 (4, NULL, NULL, NULL, 'Insultes ou diffamation', NULL, NULL, NULL),
-(5, NULL, NULL, NULL, 'Non-conformité au modèle (Article 7 décret 2.17.265)', NULL, NULL, NULL),
-(6, NULL, NULL, NULL, 'Manque de clarté et absence de documents et arguments', NULL, NULL, NULL);
+(5, NULL, NULL, NULL, 'Non-conformit? au mod?le (Article 7 d?cret 2.17.265)', NULL, NULL, NULL),
+(6, NULL, NULL, NULL, 'Manque de clart? et absence de documents et arguments', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -341,6 +360,35 @@ INSERT INTO `expeditor_type` (`id`, `code`, `created_at`, `libelle_arab`, `title
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `flyway_schema_history`
+--
+
+DROP TABLE IF EXISTS `flyway_schema_history`;
+CREATE TABLE IF NOT EXISTS `flyway_schema_history` (
+                                                       `installed_rank` int(11) NOT NULL,
+                                                       `version` varchar(50) DEFAULT NULL,
+                                                       `description` varchar(200) NOT NULL,
+                                                       `type` varchar(20) NOT NULL,
+                                                       `script` varchar(1000) NOT NULL,
+                                                       `checksum` int(11) DEFAULT NULL,
+                                                       `installed_by` varchar(100) NOT NULL,
+                                                       `installed_on` timestamp NOT NULL DEFAULT current_timestamp(),
+                                                       `execution_time` int(11) NOT NULL,
+                                                       `success` tinyint(1) NOT NULL,
+                                                       PRIMARY KEY (`installed_rank`),
+                                                       KEY `flyway_schema_history_s_idx` (`success`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `flyway_schema_history`
+--
+
+INSERT INTO `flyway_schema_history` (`installed_rank`, `version`, `description`, `type`, `script`, `checksum`, `installed_by`, `installed_on`, `execution_time`, `success`) VALUES
+(1, '1', 'init', 'SQL', 'V1__init.sql', -1286186172, 'root', '2020-07-27 23:31:39', 1868, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `hibernate_sequence`
 --
 
@@ -349,7 +397,13 @@ CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
     `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `hibernate_sequence` (`next_val`) VALUES ('100');
+--
+-- Déchargement des données de la table `hibernate_sequence`
+--
+
+INSERT INTO `hibernate_sequence` (`next_val`) VALUES
+(123);
+
 -- --------------------------------------------------------
 
 --
@@ -429,7 +483,9 @@ CREATE TABLE IF NOT EXISTS `nationality` (
 
 INSERT INTO `nationality` (`id`, `created_at`, `libelle`, `updated_at`, `created_by`, `updated_by`) VALUES
 (1, NULL, 'Maroc', NULL, NULL, NULL),
-(2, NULL, 'Francais', NULL, NULL, NULL);
+(2, NULL, 'Francais', NULL, NULL, NULL),
+(100, '2020-07-25 20:25:47', 'Americain', NULL, 12, NULL),
+(101, '2020-07-24 23:00:00', 'Belguim', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -530,6 +586,7 @@ DROP TABLE IF EXISTS `status`;
 CREATE TABLE IF NOT EXISTS `status` (
                                         `id` bigint(20) NOT NULL,
                                         `code` varchar(255) DEFAULT NULL,
+                                        `color` varchar(255) DEFAULT NULL,
                                         `created_at` datetime DEFAULT NULL,
                                         `libelle` varchar(255) DEFAULT NULL,
                                         `libelle_arab` varchar(255) DEFAULT NULL,
@@ -545,10 +602,10 @@ CREATE TABLE IF NOT EXISTS `status` (
 -- Déchargement des données de la table `status`
 --
 
-INSERT INTO `status` (`id`, `code`, `created_at`, `libelle`, `libelle_arab`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'ouvert', NULL, 'Ouvert', NULL, NULL, NULL, NULL),
-(2, 'encours', NULL, 'Encours', NULL, NULL, NULL, NULL),
-(3, 'traite', NULL, 'Traite', NULL, NULL, NULL, NULL);
+INSERT INTO `status` (`id`, `code`, `color`, `created_at`, `libelle`, `libelle_arab`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'ouvert', '#8ad076', NULL, 'Ouvert', NULL, '2020-07-27 23:33:40', NULL, 12),
+(2, 'encours', '#984c9a', NULL, 'Encours', NULL, '2020-07-27 23:33:52', NULL, 12),
+(3, 'traite', '#a31919', NULL, 'Traite', NULL, '2020-07-27 23:34:07', NULL, 12);
 
 -- --------------------------------------------------------
 
@@ -618,6 +675,15 @@ CREATE TABLE IF NOT EXISTS `task` (
                                       KEY `FK3fm0tvu62v5p7c3lkw24sstou` (`updated_by`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `task`
+--
+
+INSERT INTO `task` (`id`, `accuse`, `assigned_at`, `created_at`, `date_accuse`, `date_reponse`, `delai`, `description`, `observation`, `processed_at`, `relance`, `reponse`, `title`, `updated_at`, `assigne`, `courrier`, `created_by`, `status`, `updated_by`) VALUES
+(114, NULL, NULL, '2020-07-26 23:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'T06-2', NULL, NULL, 108, 12, NULL, NULL),
+(113, NULL, NULL, '2020-07-26 23:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'T06-1', NULL, NULL, 108, 12, NULL, NULL),
+(115, NULL, NULL, '2020-07-28 08:10:53', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'T06-3', NULL, NULL, 108, 12, 1, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -639,8 +705,8 @@ CREATE TABLE IF NOT EXISTS `type_courrier` (
 --
 
 INSERT INTO `type_courrier` (`id`, `code`, `libelle`, `libelle_arab`, `color`) VALUES
-(1, 'arrive', 'Arrivee', NULL, NULL),
-(2, 'sortie', 'Sortie', NULL, NULL);
+(1, 'arrive', 'Arrivee', NULL, '#bf1818'),
+(2, 'sortie', 'Sortie', NULL, '#b9d629');
 
 -- --------------------------------------------------------
 
@@ -657,6 +723,7 @@ CREATE TABLE IF NOT EXISTS `user` (
                                       `credentials_non_expired` bit(1) DEFAULT NULL,
                                       `email` varchar(255) DEFAULT NULL,
                                       `enabled` bit(1) DEFAULT NULL,
+                                      `password_changed` bit(1) DEFAULT NULL,
                                       `password` varchar(255) DEFAULT NULL,
                                       `updated_at` datetime DEFAULT NULL,
                                       `username` varchar(255) DEFAULT NULL,
@@ -671,9 +738,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id`, `account_non_expired`, `account_non_locked`, `created_at`, `credentials_non_expired`, `email`, `enabled`, `password`, `updated_at`, `username`, `created_by`, `updated_by`) VALUES
-(12, b'1', b'1', '2020-07-22 14:06:35', b'1', 'admin@gmail.com', b'1', '$2a$10$yesMI6MKbWs8H7wothzNR.TcTVz6zqTRjBQUbuUT83ZwqCVj1NAhG', NULL, 'admin', NULL, NULL),
-(29, b'1', b'1', '2020-07-22 14:54:54', b'1', 'ismail@gmail.com', b'1', '$2a$10$LTrcvoKU7/3eRvyl8/WN8.YZWAWaI61KwiH/nimw.VVsKJ2W7s.jK', NULL, 'ismail', NULL, NULL);
+INSERT INTO `user` (`id`, `account_non_expired`, `account_non_locked`, `created_at`, `credentials_non_expired`, `email`, `enabled`, `password`, `updated_at`, `username`, `created_by`, `updated_by`, `password_changed`) VALUES
+(12, b'1', b'1', '2020-07-22 14:06:35', b'1', 'admin@gmail.com', b'1', '$2a$10$yesMI6MKbWs8H7wothzNR.TcTVz6zqTRjBQUbuUT83ZwqCVj1NAhG', NULL, 'admin', NULL, NULL, b'1'),
+(29, b'1', b'1', '2020-07-22 14:54:54', b'1', 'ismail@gmail.com', b'1', '$2a$10$LTrcvoKU7/3eRvyl8/WN8.YZWAWaI61KwiH/nimw.VVsKJ2W7s.jK', NULL, 'ismail', NULL, NULL, b'1');
 
 -- --------------------------------------------------------
 

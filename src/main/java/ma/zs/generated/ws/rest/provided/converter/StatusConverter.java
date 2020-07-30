@@ -34,6 +34,8 @@ public class StatusConverter extends AbstractConverter<Status,StatusVo>{
                   item.setLibelleArab(vo.getLibelleArab());
 			 if(StringUtil.isNotEmpty(vo.getCode()))
                   item.setCode(vo.getCode());
+		if(StringUtil.isNotEmpty(vo.getColor()))
+			item.setColor(vo.getColor());
 			 if(StringUtil.isNotEmpty(vo.getId()))
                   item.setId(NumberUtil.toLong(vo.getId()));
 			 if(StringUtil.isNotEmpty(vo.getLibelle()))
@@ -64,7 +66,10 @@ public class StatusConverter extends AbstractConverter<Status,StatusVo>{
 			
 			if(StringUtil.isNotEmpty(item.getCode()))
 				vo.setCode(item.getCode());
-			
+
+			if(StringUtil.isNotEmpty(item.getColor()))
+				vo.setColor(item.getColor());
+
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
 			if(StringUtil.isNotEmpty(item.getLibelle()))

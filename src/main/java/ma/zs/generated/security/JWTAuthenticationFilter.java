@@ -3,6 +3,10 @@ package ma.zs.generated.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ma.zs.generated.GeneratedApplication;
+import ma.zs.generated.SpringApplicationContext;
+import ma.zs.generated.service.facade.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,11 +52,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         authResult.getAuthorities().forEach(a->{
             roles.add(a.getAuthority());
         });
+
+        UserService userService = GeneratedApplication.getCtx().getBean(UserService.class);
+       ma.zs.generated.bean.User myUser= userService.findByUsername(user.getUsername());
+        Boolean passwordChanged = myUser.isPasswordChanged();
+        if (passwordChanged == null) {
+            passwordChanged=Boolean.FALSE;
+        }
+
         String jwt= JWT.create()
                 .withIssuer(request.getRequestURI())
                 .withSubject(user.getUsername())
                 .withArrayClaim("roles",roles.toArray(new String[roles.size()]))
                 .withExpiresAt(new Date(System.currentTimeMillis()+ SecurityParams.EXPIRATION))
+                .withClaim("passwordChanged",passwordChanged)
                 .sign(Algorithm.HMAC256(SecurityParams.SECRET));
         response.addHeader(SecurityParams.JWT_HEADER_NAME,SecurityParams.HEADER_PREFIX+jwt);
         System.out.println(jwt);

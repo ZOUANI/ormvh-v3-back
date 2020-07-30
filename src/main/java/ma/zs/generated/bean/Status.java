@@ -26,12 +26,15 @@ public class Status {
      private Date updatedAt ;
      private String libelleArab ;
      private String code ;
+     private String color ;
      private String libelle ;
 
      @ManyToOne
 	private User createdBy ;
      @ManyToOne
 	private User updatedBy ;
+
+
 
      public Status(){
        super();
@@ -86,7 +89,12 @@ public class Status {
           this.updatedBy = updatedBy;
      }
 
+     public String getColor() {
+          return color;
+     }
 
-
+     public void setColor(String color) {
+          this.color = color;
+     }
 }
 

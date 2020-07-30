@@ -116,7 +116,6 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-//    @Transactional
     public User save(User user) {
 
         User foundedUserByUsername = findByUsername(user.getUsername());
@@ -125,11 +124,12 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             return null;
         else {
             List<String> authorities = new ArrayList<>();
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setPassword(bCryptPasswordEncoder.encode(user.getUsername()));
             user.setAccountNonExpired(true);
             user.setAccountNonLocked(true);
             user.setCredentialsNonExpired(true);
             user.setEnabled(true);
+            user.setPasswordChanged(false);
             user.setCreatedAt(new Date());
             for (Role role : user.getRoles()) {
                 authorities.add(role.getAuthority());
@@ -138,13 +138,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             for (String authority : authorities) {
                 user.getRoles().add(roleService.findByAuthority(authority));
             }
+            prepareSave(user);
             User savedUser = userDao.save(user);
-
-//			for (Role role : user.getRoles()) {
-//                System.out.println("loop add role ...");
-//				savedUser.getRoles().add(roleService.findByAuthority(role.getAuthority()));
-//			}
-//            savedUser.getRoles().add(roleService.findByAuthority("ADMIN"));
             return savedUser;
         }
     }
@@ -154,8 +149,23 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         User foundedUser = findById(user.getId());
         if (foundedUser == null)
             return null;
-        prepareUpdate(user);
-        return userDao.save(user);
+        else {
+            foundedUser.setEmail(user.getEmail());
+            foundedUser.setUsername(user.getUsername());
+            foundedUser.setEnabled(user.isEnabled());
+            foundedUser.setCredentialsNonExpired(user.isCredentialsNonExpired());
+            foundedUser.setAccountNonLocked(user.isAccountNonLocked());
+            foundedUser.setAccountNonExpired(user.isAccountNonExpired());
+            foundedUser.setRoles(new ArrayList<>());
+
+            for (Role role : user.getRoles()) {
+                foundedUser.getRoles().add(roleService.findByAuthority(role.getAuthority()));
+            }
+
+            prepareUpdate(foundedUser);
+            return userDao.save(foundedUser);
+        }
+
 
     }
 

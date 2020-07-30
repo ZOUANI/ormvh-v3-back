@@ -1,14 +1,16 @@
 package ma.zs.generated.service.util;
- 
- 
- 
+
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
 public class DateUtil {
 
-    private static String datePatter="yyyy-MM-dd HH:mm:ss.SSS";
+    private static String datePatter = "yyyy-MM-dd HH:mm:ss.SSS";
+
     public static String formateDate(Date date) {
         return formateDate(datePatter, date);
     }
@@ -27,7 +29,7 @@ public class DateUtil {
             return null;
         } else {
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePatter);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 return simpleDateFormat.parse(date);
             } catch (Exception ex) {
                 return null;
@@ -48,14 +50,25 @@ public class DateUtil {
     }
 
     public static Date convert(String date) {
-    	if(StringUtil.isEmpty(date))
-    		return null;
+        if (StringUtil.isEmpty(date))
+            return null;
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePatter);
             return simpleDateFormat.parse(date);
         } catch (ParseException ex) {
             return null;
         }
+    }
+
+    public static Date adaptDate(Date oldDate) {
+        if (oldDate != null) {
+            Calendar c = Calendar.getInstance();
+            c.setTime(oldDate);
+            c.add(Calendar.DATE, 1); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+            oldDate = c.getTime();
+            return oldDate;
+        } else return null;
+
     }
 
     public static java.sql.Date converte(java.util.Date date) {
@@ -65,6 +78,7 @@ public class DateUtil {
             return null;
         }
     }
+
     public static java.sql.Date convertFormUtilToSql(java.util.Date date) {
         if (date != null) {
             return new java.sql.Date(date.getTime());

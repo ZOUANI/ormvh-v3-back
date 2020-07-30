@@ -33,30 +33,30 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
             return null;
         } else {
             User item = new User();
-            if (StringUtil.isNotEmpty(vo.getCredentialsNonExpired()))
-                item.setCredentialsNonExpired(NumberUtil.toBoolean(vo.getCredentialsNonExpired()));
-            if (StringUtil.isNotEmpty(vo.getEnabled()))
-                item.setEnabled(NumberUtil.toBoolean(vo.getEnabled()));
+
+                item.setCredentialsNonExpired(vo.getCredentialsNonExpired());
+
+                item.setEnabled(vo.getEnabled());
+                item.setPasswordChanged(vo.getPasswordChanged());
+
             if (StringUtil.isNotEmpty(vo.getCreatedAt()))
                 item.setCreatedAt(DateUtil.parse(vo.getCreatedAt()));
             if (StringUtil.isNotEmpty(vo.getUpdatedAt()))
                 item.setUpdatedAt(DateUtil.parse(vo.getUpdatedAt()));
             if (StringUtil.isNotEmpty(vo.getEmail()))
                 item.setEmail(vo.getEmail());
-            if (StringUtil.isNotEmpty(vo.getAccountNonExpired()))
-                item.setAccountNonExpired(NumberUtil.toBoolean(vo.getAccountNonExpired()));
-            if (StringUtil.isNotEmpty(vo.getAccountNonLocked()))
-                item.setAccountNonLocked(NumberUtil.toBoolean(vo.getAccountNonLocked()));
+
+                item.setAccountNonExpired(vo.getAccountNonExpired());
+
+                item.setAccountNonLocked(vo.getAccountNonLocked());
+
             if (StringUtil.isNotEmpty(vo.getId()))
                 item.setId(NumberUtil.toLong(vo.getId()));
             if (StringUtil.isNotEmpty(vo.getUsername()))
                 item.setUsername(vo.getUsername());
             if (StringUtil.isNotEmpty(vo.getPassword()))
                 item.setPassword(vo.getPassword());
-//             if(vo.getCreatedByVo()!=null && this.createdBy)
-//			     item.setCreatedBy(toItem(vo.getCreatedByVo())) ;
-//             if(vo.getUpdatedByVo()!=null && this.updatedBy)
-//			     item.setUpdatedBy(toItem(vo.getUpdatedByVo())) ;
+
 
             if (ListUtil.isNotEmpty(vo.getRolesVo()) && this.roles)
                 item.setRoles(roleConverter.toItem((List<RoleVo>) vo.getRolesVo()));
@@ -72,11 +72,14 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
             return null;
         } else {
             UserVo vo = new UserVo();
+            if (item.isPasswordChanged() != null)
+                vo.setPasswordChanged(item.isPasswordChanged());
 
             if (item.isCredentialsNonExpired() != null)
-                vo.setCredentialsNonExpired(NumberUtil.toString(item.isCredentialsNonExpired()));
+                vo.setCredentialsNonExpired(item.isCredentialsNonExpired());
             if (item.isEnabled() != null)
-                vo.setEnabled(NumberUtil.toString(item.isEnabled()));
+                vo.setEnabled(item.isEnabled());
+
             if (item.getCreatedAt() != null)
                 vo.setCreatedAt(DateUtil.formateDate(item.getCreatedAt()));
             if (item.getUpdatedAt() != null)
@@ -85,9 +88,9 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
                 vo.setEmail(item.getEmail());
 
             if (item.isAccountNonExpired() != null)
-                vo.setAccountNonExpired(NumberUtil.toString(item.isAccountNonExpired()));
+                vo.setAccountNonExpired(item.isAccountNonExpired());
             if (item.isAccountNonLocked() != null)
-                vo.setAccountNonLocked(NumberUtil.toString(item.isAccountNonLocked()));
+                vo.setAccountNonLocked(item.isAccountNonLocked());
             if (item.getId() != null)
                 vo.setId(NumberUtil.toString(item.getId()));
             if (StringUtil.isNotEmpty(item.getUsername()))

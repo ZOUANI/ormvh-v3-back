@@ -248,15 +248,15 @@ public class CourrierConverter extends AbstractConverter<Courrier,CourrierVo>{
 			   } 
 	         if(ListUtil.isNotEmpty(item.getTasks()) && this.tasks){
 				
-				 taskConverter.init(false);
+				 taskConverter.setCourrier(false);
                 vo.setTasksVo(taskConverter.toVo(item.getTasks()));
-              	 taskConverter.init(true);
+              	 taskConverter.setCourrier(true);
 			 }
 	         if(ListUtil.isNotEmpty(item.getCourrierServiceItems()) && this.courrierServiceItems){
 				
-				 courrierServiceItemConverter.init(false);
+				 courrierServiceItemConverter.setCourrier(false);
                 vo.setCourrierServiceItemsVo(courrierServiceItemConverter.toVo(item.getCourrierServiceItems()));
-              	 courrierServiceItemConverter.init(true);
+              	 courrierServiceItemConverter.setCourrier(true);
 			 }
 
  			return vo;

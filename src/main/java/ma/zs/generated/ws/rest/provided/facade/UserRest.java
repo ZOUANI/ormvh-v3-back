@@ -141,6 +141,8 @@ public class UserRest {
         return userConverter.toVo(userService.findByCriteria(userVo));
     }
 
+
+
     public UserConverter getUserConverter() {
         return userConverter;
     }

@@ -15,9 +15,11 @@ public class StatusVo {
      private String id ;
    
      private String libelle ;
-   
 
-	private UserVo createdByVo ;
+    private String color;
+
+
+    private UserVo createdByVo ;
 	private UserVo updatedByVo ;
 
 
@@ -46,8 +48,15 @@ public class StatusVo {
           this.updatedAt = updatedAt;
      }
 
+    public String getColor() {
+        return color;
+    }
 
-     public String getLibelleArab(){
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getLibelleArab(){
           return this.libelleArab;
      }
       public void setLibelleArab(String libelleArab){

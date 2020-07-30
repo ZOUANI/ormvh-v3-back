@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 
+import ma.zs.generated.service.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,53 +83,137 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
     @Autowired
     private EntityManager entityManager;
-    //@Autowired 
-    //private MailService mailService;
+    @Autowired
+    private MailService mailService;
 
-    public List<Long> getStat(Date dateMin, Date dateMax, String typeCourrierCode, Boolean accuse, Boolean reponse){
-        List<Long> res= new ArrayList<>();
-        res.add(getStatTypeCourrierCode(dateMin,dateMax,"arrive"));
-        res.add(getStatTypeCourrierCode(dateMin,dateMax,"sortie"));
+    @Override
+    public List<Long> getStat(Date dateMin, Date dateMax, String titleCoordinator) {
+        List<Long> res = new ArrayList<>();
+        System.out.println(titleCoordinator);
+        Date newDateMin = DateUtil.adaptDate(dateMin);
+        Date newDateMax = DateUtil.adaptDate(dateMax);
+        System.out.println(newDateMin);
+        System.out.println(newDateMax);
+        res.add(getStatTypeCourrierCode(newDateMin, newDateMax, "arrive", titleCoordinator));
+        res.add(getStatTypeCourrierCode(newDateMin, newDateMax, "sortie", titleCoordinator));
+        res.add(getStatStatusCode(newDateMin, newDateMax, "ouvert", titleCoordinator));
+        res.add(getStatStatusCode(newDateMin, newDateMax, "encours", titleCoordinator));
+        res.add(getStatStatusCode(newDateMin, newDateMax, "traite", titleCoordinator));
+        res.add(getStatAccuse(newDateMin, newDateMax, Boolean.TRUE, titleCoordinator));
+        res.add(getStatReponse(newDateMin, newDateMax, Boolean.TRUE, titleCoordinator));
+        res.add(getStatTypeCourrierCode(newDateMin, newDateMax, null, titleCoordinator));
+        return res;
+    }
 
-        res.add(getStatStatusCode(dateMin,dateMax,"ouvert"));
-        res.add(getStatStatusCode(dateMin,dateMax,"encours"));
-        res.add(getStatStatusCode(dateMin,dateMax,"traite"));
+    private Long getStatTypeCourrierCode(Date dateMin, Date dateMax, String typeCourrierCode, String titleCoordinator) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "typeCourrier.code", "=", typeCourrierCode);
+        query += addConstraint("c", "coordinator.title", "=", titleCoordinator);
+        System.out.println(query);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
 
-        res.add(getStatAccuse(dateMin,dateMax,Boolean.TRUE));
-        res.add(getStatReponse(dateMin,dateMax,Boolean.TRUE));
+    private Long getStatStatusCode(Date dateMin, Date dateMax, String statusCourrierCode, String titleCoordinator) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "status.code", "=", statusCourrierCode);
+        query += addConstraint("c", "coordinator.title", "=", titleCoordinator);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
 
-        Long sum = res.stream().mapToLong(Long::valueOf).sum();
-        res.add(sum);
+    private Long getStatAccuse(Date dateMin, Date dateMax, Boolean accuse, String titleCoordinator) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "accuse", "=", accuse);
+        query += addConstraint("c", "coordinator.title", "=", titleCoordinator);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
+
+    private Long getStatReponse(Date dateMin, Date dateMax, Boolean reponse, String titleCoordinator) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "reponse", "=", reponse);
+        query += addConstraint("c", "coordinator.title", "=", titleCoordinator);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------------
+    /*@Override
+    public List<Long> getStatsLeServiceCoordinator(Date dateMin, Date dateMax, String leServiceCoordinatorTitle) {
+        List<Long> res = new ArrayList<>();
+        Date newDateMin = null;
+        Date newDateMax = null;
+        if (dateMin != null) {
+            Calendar c = Calendar.getInstance();
+            c.setTime(dateMin);
+            c.add(Calendar.DATE, 1); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+            newDateMin = c.getTime();
+        }
+        if (dateMax != null) {
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(dateMax);
+            c1.add(Calendar.DATE, 1); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+            newDateMax = c1.getTime();
+        }
+        System.out.println("date min : " + newDateMin);
+        System.out.println("date max : " + newDateMax);
+        res.add(getStatTypeCourrierCodeAndLeServiceCoordinator(newDateMin, newDateMax, "arrive", leServiceCoordinatorTitle));
+        res.add(getStatTypeCourrierCodeAndLeServiceCoordinator(newDateMin, newDateMax, "sortie", leServiceCoordinatorTitle));
+
+        res.add(getStatStatusCodeAndLeServiceCoordinator(newDateMin, newDateMax, "ouvert", leServiceCoordinatorTitle));
+        res.add(getStatStatusCodeAndLeServiceCoordinator(newDateMin, newDateMax, "encours", leServiceCoordinatorTitle));
+        res.add(getStatStatusCodeAndLeServiceCoordinator(newDateMin, newDateMax, "traite", leServiceCoordinatorTitle));
+
+        res.add(getStatAccuseAndLeServiceCoordinator(newDateMin, newDateMax, Boolean.TRUE, leServiceCoordinatorTitle));
+        res.add(getStatReponseAndLeServiceCoordinator(newDateMin, newDateMax, Boolean.TRUE, leServiceCoordinatorTitle));
+
+        //Long sum = res.stream().mapToLong(Long::valueOf).sum();
+        res.add(getStatLeServiceCoordinator(newDateMin, newDateMax, leServiceCoordinatorTitle));
 
         return res;
 
     }
-    private Long getStatTypeCourrierCode(Date dateMin, Date dateMax, String typeCourrierCode){
-        String query = "SELECT COUNT(c.id) FROM Courrier c";
-        query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
-        query+=addConstraint("c","typeCourrier.code","=",typeCourrierCode);
+
+    private Long getStatLeServiceCoordinator(Date dateMin, Date dateMax, String leServiceCoordinatorTitle) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "coordinator.title", "=", leServiceCoordinatorTitle);
         return (Long) entityManager.createQuery(query).getSingleResult();
     }
 
-    private Long getStatStatusCode(Date dateMin, Date dateMax, String statusCourrierCode){
-        String query = "SELECT COUNT(c.id) FROM Courrier c";
-        query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
-        query+=addConstraint("c","status.code","=",statusCourrierCode);
-        return (Long) entityManager.createQuery(query).getSingleResult();
-    }
-    private Long getStatAccuse(Date dateMin, Date dateMax, Boolean accuse){
-        String query = "SELECT COUNT(c.id) FROM Courrier c";
-        query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
-        query+=addConstraint("c","accuse","=",accuse);
+    private Long getStatTypeCourrierCodeAndLeServiceCoordinator(Date dateMin, Date dateMax, String typeCourrierCode, String leServiceCoordinatorTitle) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "typeCourrier.code", "=", typeCourrierCode);
+        query += addConstraint("c", "coordinator.title", "=", leServiceCoordinatorTitle);
         return (Long) entityManager.createQuery(query).getSingleResult();
     }
 
-    private Long getStatReponse(Date dateMin, Date dateMax, Boolean reponse){
-        String query = "SELECT COUNT(c.id) FROM Courrier c";
-        query+=addConstraintMinMaxDate("c","sentAt",dateMin,dateMax);
-        query+=addConstraint("c","reponse","=",reponse);
+    private Long getStatStatusCodeAndLeServiceCoordinator(Date dateMin, Date dateMax, String statusCourrierCode, String leServiceCoordinatorTitle) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "status.code", "=", statusCourrierCode);
+        query += addConstraint("c", "coordinator.title", "=", leServiceCoordinatorTitle);
         return (Long) entityManager.createQuery(query).getSingleResult();
     }
+
+    private Long getStatAccuseAndLeServiceCoordinator(Date dateMin, Date dateMax, Boolean accuse, String leServiceCoordinatorTitle) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "accuse", "=", accuse);
+        query += addConstraint("c", "coordinator.title", "=", leServiceCoordinatorTitle);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }
+
+    private Long getStatReponseAndLeServiceCoordinator(Date dateMin, Date dateMax, Boolean reponse, String leServiceCoordinatorTitle) {
+        String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
+        query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
+        query += addConstraint("c", "reponse", "=", reponse);
+        query += addConstraint("c", "coordinator.title", "=", leServiceCoordinatorTitle);
+        return (Long) entityManager.createQuery(query).getSingleResult();
+    }*/
+
     @Override
     public Long countByAccuse(Boolean accuse) {
         return courrierDao.countByAccuse(accuse);
@@ -718,6 +803,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
     private List<Task> prepareTasks(Courrier courrier, List<Task> tasks) {
         for (Task task : tasks) {
+            task.setId(null);
             task.setCourrier(courrier);
         }
         return tasks;
@@ -725,6 +811,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
     private List<CourrierServiceItem> prepareCourrierServiceItems(Courrier courrier, List<CourrierServiceItem> courrierServiceItems) {
         for (CourrierServiceItem courrierServiceItem : courrierServiceItems) {
+            courrierServiceItem.setId(null);
             courrierServiceItem.setCourrier(courrier);
         }
         return courrierServiceItems;
@@ -735,7 +822,14 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
         Courrier foundedCourrier = findById(courrier.getId());
         if (foundedCourrier == null)
             return null;
-        prepareUpdate(courrier);
+        taskService.deleteByCourrierId(courrier.getId());
+        courrierServiceItemService.deleteByCourrierId(courrier.getId());
+        if (ListUtil.isNotEmpty(courrier.getTasks())) {
+            taskService.create(prepareTasks(courrier, courrier.getTasks()));
+        }
+        if (ListUtil.isNotEmpty(courrier.getCourrierServiceItems())) {
+            courrierServiceItemService.create(prepareCourrierServiceItems(courrier, courrier.getCourrierServiceItems()));
+        }
         return courrierDao.save(courrier);
 
     }
@@ -754,52 +848,52 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
         return 1;
     }
 
-    
-    @Override
-   	public Set<Courrier> findAllLinked(Long id) {
-   		Set<Courrier> linkedList = new HashSet();
-   		Set<Courrier> linkedToList = findAllLinkedToCourrier(id);
-   		Set<Courrier> linkedByList = findAllLinkedByCourrier(id);
 
-   		if(linkedToList!=null)
-           	linkedList.addAll(linkedToList);
-           if(linkedByList!=null)
-           	linkedList.addAll(linkedByList);
+    @Override
+    public Set<Courrier> findAllLinked(Long id) {
+        Set<Courrier> linkedList = new HashSet();
+        Set<Courrier> linkedToList = findAllLinkedToCourrier(id);
+        Set<Courrier> linkedByList = findAllLinkedByCourrier(id);
+
+        if (linkedToList != null)
+            linkedList.addAll(linkedToList);
+        if (linkedByList != null)
+            linkedList.addAll(linkedByList);
 //   	   linkedList = linkedList.stream().sorted((c1,c2)->c2.getCreatedAt().compareTo(c1.getCreatedAt()))
 //   			    .collect(Collectors.toSet());
-   		return linkedList;
-   	}
-   	
-   	@Override
-   	public Set<Courrier> findAllLinkedToCourrier(Long id) {
+        return linkedList;
+    }
 
-   		Courrier courrier = findById(id);
-   		if (courrier==null)
-   			return null;
+    @Override
+    public Set<Courrier> findAllLinkedToCourrier(Long id) {
 
-   		Set<Courrier> linkedList = new HashSet();
-   		linkedList.add(courrier);
-   		if (courrier.getLinkedTo() != null) {
-   			
-   			Courrier changedCourier = courrier.getLinkedTo();
-   			while (linkedList.add(changedCourier) == true && changedCourier.getLinkedTo() != null) {
-   					changedCourier = changedCourier.getLinkedTo();
-   			}
-   			
-   		}
+        Courrier courrier = findById(id);
+        if (courrier == null)
+            return null;
 
-   		return linkedList;
-   	}
+        Set<Courrier> linkedList = new HashSet();
+        linkedList.add(courrier);
+        if (courrier.getLinkedTo() != null) {
 
-   	public Set<Courrier> findAllLinkedByCourrier(Long id) {
-   		Set<Courrier> linkedList = (Set<Courrier>) courrierDao.findByLinkedToId(id);
-   		for (Courrier courrier : linkedList) {
-   			Set<Courrier> chanegedList = findAllLinkedByCourrier(courrier.getId());
-   			if(chanegedList!=null)
-   			linkedList.addAll(chanegedList);
-   		}
-   		return linkedList;
-   	}
+            Courrier changedCourier = courrier.getLinkedTo();
+            while (linkedList.add(changedCourier) == true && changedCourier.getLinkedTo() != null) {
+                changedCourier = changedCourier.getLinkedTo();
+            }
+
+        }
+
+        return linkedList;
+    }
+
+    public Set<Courrier> findAllLinkedByCourrier(Long id) {
+        Set<Courrier> linkedList = (Set<Courrier>) courrierDao.findByLinkedToId(id);
+        for (Courrier courrier : linkedList) {
+            Set<Courrier> chanegedList = findAllLinkedByCourrier(courrier.getId());
+            if (chanegedList != null)
+                linkedList.addAll(chanegedList);
+        }
+        return linkedList;
+    }
 
     public List<Courrier> findByCriteria(CourrierVo courrierVo) {
         String query = "SELECT o FROM Courrier o where 1=1 ";
@@ -968,25 +1062,21 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
             return "idCourier Correct.";
         }
     }
-    
-    @Override 
-    public List<Courrier> findCourrierSusceptibleRelance(CourrierVo courrierVo){
-    	return findByCriteria(courrierVo);
+
+    @Override
+    public Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(CourrierVo courrierVo) {
+        return findByCriteria(courrierVo).stream().collect(Collectors.groupingBy(Courrier::getCoordinator));
     }
-	@Override
-	public int sendCourrier(List<Courrier> courriers, String subject) throws MessagingException {
-		String content = "";
-		for (Courrier courrier : courriers) {
-			content += "\n"+courrier.getIdCourrier();
-		}
-	//	mailService.sendSimpleMail("ouiamsui27@gmail.com", subject, content);
-		return 1;
-	}
-	
-    @Override 
-    public Map<LeService,List<Courrier>> findCourrierSusceptibleRelanceGrpByService(CourrierVo courrierVo)  {
-    	return	findByCriteria(courrierVo).stream().collect(Collectors.groupingBy(Courrier::getCoordinator));    	
+
+    @Override
+    public int sendCourrier(List<Courrier> courriers, String to, String subject) throws MessagingException {
+        String content = "";
+        for (Courrier courrier : courriers) {
+            content += "\n" + courrier.getIdCourrier();
+        }
+        mailService.sendSimpleMail(to, subject, content);
+        return 1;
     }
-    
+
 
 }

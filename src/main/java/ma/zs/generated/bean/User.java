@@ -40,6 +40,7 @@ public class User  {
     private Boolean accountNonLocked;
     private String username;
     private String password;
+    private Boolean passwordChanged;
 
     @ManyToOne
     private User createdBy;
@@ -52,83 +53,116 @@ public class User  {
         super();
     }
 
-    public Long getId(){
-        return this.id;
+    public Long getId() {
+        return id;
     }
-    public void setId(Long id){
+
+    public void setId(Long id) {
         this.id = id;
     }
-    public String getUsername(){
-        return this.username;
+
+    public Boolean isCredentialsNonExpired() {
+        return credentialsNonExpired;
     }
-    public void setUsername(String username){
-        this.username = username;
-    }
-    public String getPassword(){
-        return this.password;
-    }
-    public void setPassword(String password){
-        this.password = password;
-    }
-    public String getEmail(){
-        return this.email;
-    }
-    public void setEmail(String email){
-        this.email = email;
-    }
-    public Boolean isAccountNonExpired(){
-        return this.accountNonExpired;
-    }
-    public void setAccountNonExpired(Boolean accountNonExpired){
-        this.accountNonExpired = accountNonExpired;
-    }
-    public Boolean isAccountNonLocked(){
-        return this.accountNonLocked;
-    }
-    public void setAccountNonLocked(Boolean accountNonLocked){
-        this.accountNonLocked = accountNonLocked;
-    }
-    public Boolean isCredentialsNonExpired(){
-        return this.credentialsNonExpired;
-    }
-    public void setCredentialsNonExpired(Boolean credentialsNonExpired){
+
+    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
     }
-    public Boolean isEnabled(){
-        return this.enabled;
+
+    public Boolean isEnabled() {
+        return enabled;
     }
-    public void setEnabled(Boolean enabled){
+
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-    public List<Role> getRoles(){
-        return this.roles;
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
-    public void setRoles(List<Role> roles){
-        this.roles = roles;
-    }
-    public Date getCreatedAt(){
-        return this.createdAt;
-    }
-    public void setCreatedAt(Date createdAt){
+
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-    public Date getUpdatedAt(){
-        return this.updatedAt;
+
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
-    public void setUpdatedAt(Date updatedAt){
+
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-    public User getCreatedBy(){
-        return this.createdBy;
+
+    public String getEmail() {
+        return email;
     }
-    public void setCreatedBy(User createdBy){
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean isAccountNonExpired() {
+        return accountNonExpired;
+    }
+
+    public void setAccountNonExpired(Boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    public Boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(Boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean isPasswordChanged() {
+        return passwordChanged;
+    }
+
+    public void setPasswordChanged(Boolean passwordChanged) {
+        this.passwordChanged = passwordChanged;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
-    public User getUpdatedBy(){
-        return this.updatedBy;
+
+    public User getUpdatedBy() {
+        return updatedBy;
     }
-    public void setUpdatedBy(User updatedBy){
+
+    public void setUpdatedBy(User updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
 
