@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 
+import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.service.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
