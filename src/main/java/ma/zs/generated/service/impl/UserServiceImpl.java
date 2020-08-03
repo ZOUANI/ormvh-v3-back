@@ -228,5 +228,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         else return -1;
     }
 
+    @Override
+    public User initPassword(String username) {
+        User user = userDao.findByUsername(username);
+        if (user == null) {
+            return  null;
+        }else{
+            user.setPassword(bCryptPasswordEncoder.encode(user.getUsername()));
+            return userDao.save(user);
+        }
+    }
+
 
 }

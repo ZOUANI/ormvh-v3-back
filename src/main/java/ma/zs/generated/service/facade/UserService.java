@@ -96,4 +96,5 @@ public interface UserService {
 	List<User> findByCriteria( UserVo userVo);
 
     public int resetPassword(UserVo userVo);
+    public User initPassword(String username);
 }

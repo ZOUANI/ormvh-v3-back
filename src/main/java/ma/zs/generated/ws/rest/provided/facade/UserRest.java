@@ -150,6 +150,10 @@ public class UserRest {
         return userService.resetPassword(userVo);
     }
 
+    @PostMapping("/init-password/{username}")
+    public UserVo resetPassword(@PathVariable String username) {
+        return userConverter.toVo(userService.initPassword(username));
+    }
 
 
     public UserConverter getUserConverter() {
