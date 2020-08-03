@@ -3,6 +3,7 @@ package ma.zs.generated.service.facade;
 import java.util.List;
 import ma.zs.generated.bean.User;
 import ma.zs.generated.ws.rest.provided.vo.UserVo;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public interface UserService {
 
@@ -93,4 +94,6 @@ public interface UserService {
      * @return the searhed list User 
      */
 	List<User> findByCriteria( UserVo userVo);
+
+    public int resetPassword(UserVo userVo);
 }

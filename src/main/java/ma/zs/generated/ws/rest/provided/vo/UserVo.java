@@ -1,4 +1,4 @@
-package  ma.zs.generated.ws.rest.provided.vo;
+package ma.zs.generated.ws.rest.provided.vo;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,40 +6,42 @@ import java.util.Date;
 
 public class UserVo {
 
-     private boolean credentialsNonExpired ;
-   
-     private boolean enabled ;
-   
-     private String createdAt ;
-   
-     private String updatedAt ;
-   
-     private String email ;
-   
-     private boolean accountNonExpired ;
-   
-     private boolean accountNonLocked ;
-   
-     private String id ;
-   
-     private String username ;
-   
-     private String password ;
+    private boolean credentialsNonExpired;
+
+    private boolean enabled;
+
+    private String createdAt;
+
+    private String updatedAt;
+
+    private String email;
+
+    private boolean accountNonExpired;
+
+    private boolean accountNonLocked;
+
+    private String id;
+
+    private String username;
+
+    private String password;
+    private String newPassword;
+    private String confirmPassword;
 
     private boolean passwordChanged;
-	private UserVo createdByVo ;
-	private UserVo updatedByVo ;
+    private UserVo createdByVo;
+    private UserVo updatedByVo;
 
-     private Collection<RoleVo> rolesVo ;
+    private Collection<RoleVo> rolesVo;
 
-     private String createdAtMax ;
-     private String createdAtMin ;
-     private String updatedAtMax ;
-     private String updatedAtMin ;
+    private String createdAtMax;
+    private String createdAtMin;
+    private String updatedAtMax;
+    private String updatedAtMin;
 
- public UserVo(){
-       super();
-     }
+    public UserVo() {
+        super();
+    }
 
     public boolean getCredentialsNonExpired() {
         return credentialsNonExpired;
@@ -183,5 +185,21 @@ public class UserVo {
 
     public void setPasswordChanged(boolean passwordChanged) {
         this.passwordChanged = passwordChanged;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

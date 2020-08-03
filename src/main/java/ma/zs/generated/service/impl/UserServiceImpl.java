@@ -214,5 +214,19 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return entityManager.createQuery(query).getResultList();
     }
 
+    @Override
+    public int resetPassword(UserVo userVo) {
+        User userDB = findByUsername(userVo.getUsername());
+        String existingPassword = userVo.getPassword();
+        String dbPassword = userDB.getPassword();
+        if (userDB != null && bCryptPasswordEncoder.matches(existingPassword,dbPassword)){
+            userDB.setPassword(bCryptPasswordEncoder.encode(userVo.getNewPassword()));
+            userDB.setPasswordChanged(true);
+            userDao.save(userDB);
+            return 1;
+        }
+        else return -1;
+    }
+
 
 }

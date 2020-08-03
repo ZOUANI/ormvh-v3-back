@@ -5,6 +5,7 @@ import java.util.List;
 import ma.zs.generated.bean.Role;
 import ma.zs.generated.ws.rest.provided.vo.RoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,9 @@ public class UserRest {
 
     @Autowired
     private UserConverter userConverter;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @ApiOperation("creates the specified user")
     @PostMapping("/")
@@ -139,6 +143,11 @@ public class UserRest {
     @PostMapping("/search")
     public List<UserVo> findByCriteria(@RequestBody UserVo userVo) {
         return userConverter.toVo(userService.findByCriteria(userVo));
+    }
+
+    @PostMapping("/password-reset")
+    public int resetPassword(@RequestBody UserVo userVo) {
+        return userService.resetPassword(userVo);
     }
 
 
