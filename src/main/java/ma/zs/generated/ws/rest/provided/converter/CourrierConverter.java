@@ -1,12 +1,20 @@
 package  ma.zs.generated.ws.rest.provided.converter;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ma.zs.generated.service.util.*;
 
-  
-import ma.zs.generated.bean.Courrier; 
+import ma.zs.generated.bean.Courrier;
+import ma.zs.generated.bean.LeService;
+import ma.zs.generated.service.util.DateUtil;
+import ma.zs.generated.service.util.ListUtil;
+import ma.zs.generated.service.util.NumberUtil;
+import ma.zs.generated.service.util.StringUtil;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
+import ma.zs.generated.ws.rest.provided.vo.LeServiceVo;
 
 @Component 
 public class CourrierConverter extends AbstractConverter<Courrier,CourrierVo>{ 
@@ -468,4 +476,13 @@ public class CourrierConverter extends AbstractConverter<Courrier,CourrierVo>{
 		 public void  setCourrierServiceItems(Boolean courrierServiceItems ){
             this.courrierServiceItems  = courrierServiceItems ;
 		 }
+		 public Map<LeServiceVo,List<CourrierVo>> convertMapToVo(Map<LeService,List<Courrier>> map){
+				Map<LeServiceVo,List<CourrierVo>> mapVo =new HashMap();
+				for (Map.Entry<LeService, List<Courrier>> entry : map.entrySet()) {
+					mapVo.put(leServiceConverter.toVo(entry.getKey()), toVo(entry.getValue()));
+				}
+				
+				return mapVo;
+				
+			}
 }
