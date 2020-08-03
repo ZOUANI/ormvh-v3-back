@@ -285,14 +285,22 @@ public interface CourrierService {
      */
     Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(CourrierVo courrierVo);
 
-    /**
-     * @param courriers
-     * @param to
-     * @param subject
-     * @return
-     * @throws MessagingException
-     */
-    int sendCourrier(List<Courrier> courriers, String to, String subject) throws MessagingException;
+
+	/**
+	 * @param to
+	 * @param subject
+	 * @param content
+	 * @return
+	 * @throws MessagingException
+	 */
+	int sendCourrierRedirection(String to, String subject, String content) throws MessagingException;
+
+	/**
+	 * @param courriers
+	 * @return
+	 * @throws MessagingException
+	 */
+	int sendCourrierRelance(List<Courrier> courriers) throws MessagingException;
 
 
 }

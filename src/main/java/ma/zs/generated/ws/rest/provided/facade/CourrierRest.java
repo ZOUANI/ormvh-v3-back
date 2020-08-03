@@ -1,13 +1,14 @@
 package ma.zs.generated.ws.rest.provided.facade;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 
-import ma.zs.generated.service.util.GeneratePdf;
-import ma.zs.generated.service.util.NumberUtil;
-import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import ma.zs.generated.bean.Courrier;
-import ma.zs.generated.bean.LeService;
 import ma.zs.generated.service.facade.CourrierService;
 import ma.zs.generated.service.util.DateUtil;
+import ma.zs.generated.service.util.GeneratePdf;
 import ma.zs.generated.ws.rest.provided.converter.CourrierConverter;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
+import ma.zs.generated.ws.rest.provided.vo.LeServiceVo;
+import net.sf.jasperreports.engine.JRException;
 
 @Api("Manages courrier services")
 @RestController
@@ -616,14 +619,18 @@ public class CourrierRest {
     }
 
     @PostMapping("/couriersusceptiblerelance")
-    public Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
-        return courrierService.findCourrierSusceptibleRelance(courrierVo);
+    public Map<LeServiceVo,List<CourrierVo>> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
+    	return courrierConverter.convertMapToVo(courrierService.findCourrierSusceptibleRelance(courrierVo));
     }
 
-    @PostMapping("/sendcouriers/to/{to}/subject/{subject}")
-    public int sendCourriers(@RequestBody List<Courrier> courriers, @PathVariable String to, @PathVariable String subject) throws MessagingException {
-        return courrierService.sendCourrier(courriers, to, subject);
-    }
+    @PostMapping("/sendcourierredirection/to/{to}/subject/{subject}/content/{content}")
+    public int sendCourrierRedirection(@PathVariable String to, @PathVariable String subject, @PathVariable String content) throws MessagingException {
+ 		return courrierService.sendCourrierRedirection(to, subject, content);
+ 	}
+    @PostMapping("/sendcourierrelance")
+    public int sendCourrierRelance(@RequestBody List<Courrier> courriers) throws MessagingException {
+		return courrierService.sendCourrierRelance(courriers);
+	}
 
     @PostMapping("/pdf")
     public ResponseEntity<Object> CommandePrint(@RequestBody List<CourrierVo> courriers) throws IOException, JRException {

@@ -1063,21 +1063,39 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
             return "idCourier Correct.";
         }
     }
-
     @Override
     public Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(CourrierVo courrierVo) {
         return findByCriteria(courrierVo).stream().collect(Collectors.groupingBy(Courrier::getCoordinator));
     }
-
     @Override
-    public int sendCourrier(List<Courrier> courriers, String to, String subject) throws MessagingException {
-        String content = "";
-        for (Courrier courrier : courriers) {
-            content += "\n" + courrier.getIdCourrier();
-        }
-        mailService.sendSimpleMail(to, subject, content);
-        return 1;
-    }
+	public int sendCourrierRedirection(String to, String subject, String content) throws MessagingException {
+		mailService.sendSimpleMail(to, subject, content);
+		return 1;
+	}
+
+	public String composeEmailContent(List<Courrier> courriers) {
+		String content = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<body>\r\n" + "<h2>Courriers</h2>\r\n" + "<table>\r\n"
+				+ "  <tr>\r\n" + "    <th>Id</th>\r\n" + "    <th>Description</th>\r\n" + "  </tr>\r\n";
+		for (Courrier courrier : courriers) {
+			content += "  <tr>\r\n" + "    <td>" + courrier.getIdCourrier() + "</td>\r\n" + "    <td>"
+					+ courrier.getDescription() + "</td>\r\n" + "  </tr>\r\n";
+		}
+		content += "</table>\r\n" + "</body>\r\n" + "</html>";
+		return content;
+	}
+
+	@Override
+	public int sendCourrierRelance(List<Courrier> courriers) throws MessagingException {
+		String content = "content";
+		Map<LeService, List<Courrier>> map = courriers.stream()
+				.collect(Collectors.groupingBy(Courrier::getCoordinator));
+		for (Map.Entry<LeService, List<Courrier>> entry : map.entrySet()) {
+			//TODO change email to entry.getKey().getEmail 
+			mailService.sendSimpleMail("email", "Courriers susceptible relance", composeEmailContent(entry.getValue()));
+		}
+
+		return 1;
+	}
 
 
 }
