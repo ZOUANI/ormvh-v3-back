@@ -235,6 +235,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             return  null;
         }else{
             user.setPassword(bCryptPasswordEncoder.encode(user.getUsername()));
+            user.setPasswordChanged(false);
             return userDao.save(user);
         }
     }
