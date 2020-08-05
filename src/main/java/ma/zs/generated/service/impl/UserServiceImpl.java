@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -185,23 +186,32 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
 
     public List<User> findByCriteria(UserVo userVo) {
+        System.out.println(userVo.getCredentialsNonExpired());
         String query = "SELECT o FROM User o where 1=1 ";
-        query += addConstraint("o", "credentialsNonExpired", "=", userVo.getCredentialsNonExpired());
-        query += addConstraint("o", "enabled", "=", userVo.getEnabled());
-        query += addConstraintDate("o", "createdAt", "=", userVo.getCreatedAt());
-        query += addConstraintDate("o", "updatedAt", "=", userVo.getUpdatedAt());
-        query += addConstraint("o", "email", "LIKE", userVo.getEmail());
-
-        query += addConstraint("o", "accountNonExpired", "=", userVo.getAccountNonExpired());
-        query += addConstraint("o", "accountNonLocked", "=", userVo.getAccountNonLocked());
-        query += addConstraint("o", "id", "=", userVo.getId());
+        if (userVo.getCredentialsNonExpired() != null) {
+            query += addConstraint("o", "credentialsNonExpired", "=", (userVo.getCredentialsNonExpired() ? 1 : 0));
+        }
+        if (userVo.getEnabled() != null) {
+            query += addConstraint("o", "enabled", "=", (userVo.getEnabled() ? 1 : 0));
+        }
+        if (userVo.getAccountNonExpired() != null) {
+            query += addConstraint("o", "accountNonExpired", "=", userVo.getAccountNonExpired()? 1 : 0);
+        }
+        if (userVo.getAccountNonLocked() != null) {
+            query += addConstraint("o", "accountNonLocked", "=", userVo.getAccountNonLocked()? 1 : 0);
+        }
         query += addConstraint("o", "username", "LIKE", userVo.getUsername());
+        query += addConstraint("o", "email", "LIKE", userVo.getEmail());
+//        query += addConstraintDate("o", "createdAt", "=", userVo.getCreatedAt());
+//        query += addConstraintDate("o", "updatedAt", "=", userVo.getUpdatedAt());
 
-        query += addConstraint("o", "password", "LIKE", userVo.getPassword());
+//        query += addConstraint("o", "id", "=", userVo.getId());
 
-        query += addConstraintMinMaxDate("o", "createdAt", userVo.getCreatedAtMin(), userVo.getCreatedAtMax());
-        query += addConstraintMinMaxDate("o", "updatedAt", userVo.getUpdatedAtMin(), userVo.getUpdatedAtMax());
-        if (userVo.getCreatedByVo() != null) {
+//        query += addConstraint("o", "password", "LIKE", userVo.getPassword());
+
+//        query += addConstraintMinMaxDate("o", "createdAt", userVo.getCreatedAtMin(), userVo.getCreatedAtMax());
+//        query += addConstraintMinMaxDate("o", "updatedAt", userVo.getUpdatedAtMin(), userVo.getUpdatedAtMax());
+        /*if (userVo.getCreatedByVo() != null) {
             query += addConstraint("o", "createdBy.id", "=", userVo.getCreatedByVo().getId());
             query += addConstraint("o", "createdBy.username", "LIKE", userVo.getCreatedByVo().getUsername());
         }
@@ -209,7 +219,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         if (userVo.getUpdatedByVo() != null) {
             query += addConstraint("o", "updatedBy.id", "=", userVo.getUpdatedByVo().getId());
             query += addConstraint("o", "updatedBy.username", "LIKE", userVo.getUpdatedByVo().getUsername());
-        }
+        }*/
 
         return entityManager.createQuery(query).getResultList();
     }
@@ -219,21 +229,20 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         User userDB = findByUsername(userVo.getUsername());
         String existingPassword = userVo.getPassword();
         String dbPassword = userDB.getPassword();
-        if (userDB != null && bCryptPasswordEncoder.matches(existingPassword,dbPassword)){
+        if (userDB != null && bCryptPasswordEncoder.matches(existingPassword, dbPassword)) {
             userDB.setPassword(bCryptPasswordEncoder.encode(userVo.getNewPassword()));
             userDB.setPasswordChanged(true);
             userDao.save(userDB);
             return 1;
-        }
-        else return -1;
+        } else return -1;
     }
 
     @Override
     public User initPassword(String username) {
         User user = userDao.findByUsername(username);
         if (user == null) {
-            return  null;
-        }else{
+            return null;
+        } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getUsername()));
             user.setPasswordChanged(false);
             return userDao.save(user);

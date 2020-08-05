@@ -6,9 +6,9 @@ import java.util.Date;
 
 public class UserVo {
 
-    private boolean credentialsNonExpired;
+    private Boolean credentialsNonExpired;
 
-    private boolean enabled;
+    private Boolean enabled;
 
     private String createdAt;
 
@@ -16,9 +16,9 @@ public class UserVo {
 
     private String email;
 
-    private boolean accountNonExpired;
+    private Boolean accountNonExpired;
 
-    private boolean accountNonLocked;
+    private Boolean accountNonLocked;
 
     private String id;
 
@@ -28,7 +28,7 @@ public class UserVo {
     private String newPassword;
     private String confirmPassword;
 
-    private boolean passwordChanged;
+    private Boolean passwordChanged;
     private UserVo createdByVo;
     private UserVo updatedByVo;
 
@@ -43,19 +43,19 @@ public class UserVo {
         super();
     }
 
-    public boolean getCredentialsNonExpired() {
+    public Boolean getCredentialsNonExpired() {
         return credentialsNonExpired;
     }
 
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public boolean getEnabled() {
+    public Boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -83,19 +83,19 @@ public class UserVo {
         this.email = email;
     }
 
-    public boolean getAccountNonExpired() {
+    public Boolean getAccountNonExpired() {
         return accountNonExpired;
     }
 
-    public void setAccountNonExpired(boolean accountNonExpired) {
+    public void setAccountNonExpired(Boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
     }
 
-    public boolean getAccountNonLocked() {
+    public Boolean getAccountNonLocked() {
         return accountNonLocked;
     }
 
-    public void setAccountNonLocked(boolean accountNonLocked) {
+    public void setAccountNonLocked(Boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
     }
 
@@ -179,11 +179,11 @@ public class UserVo {
         this.updatedAtMin = updatedAtMin;
     }
 
-    public boolean getPasswordChanged() {
+    public Boolean getPasswordChanged() {
         return passwordChanged;
     }
 
-    public void setPasswordChanged(boolean passwordChanged) {
+    public void setPasswordChanged(Boolean passwordChanged) {
         this.passwordChanged = passwordChanged;
     }
 
