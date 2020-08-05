@@ -628,8 +628,8 @@ public class CourrierRest {
  		return courrierService.sendCourrierRedirection(to, subject, content);
  	}
     @PostMapping("/sendcourierrelance")
-    public int sendCourrierRelance(@RequestBody List<Courrier> courriers) throws MessagingException {
-		return courrierService.sendCourrierRelance(courriers);
+    public int sendCourrierRelance(@RequestBody List<CourrierVo> courrierVos) throws MessagingException {
+		return courrierService.sendCourrierRelance(courrierConverter.toItem(courrierVos));
 	}
 
     @PostMapping("/pdf")
