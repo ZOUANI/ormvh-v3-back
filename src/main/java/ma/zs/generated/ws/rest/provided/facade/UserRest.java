@@ -3,6 +3,7 @@ package ma.zs.generated.ws.rest.provided.facade;
 import java.util.List;
 
 import ma.zs.generated.bean.Role;
+import ma.zs.generated.security.SecurityUtil;
 import ma.zs.generated.ws.rest.provided.vo.RoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -153,6 +154,12 @@ public class UserRest {
     @PostMapping("/init-password/{username}")
     public UserVo resetPassword(@PathVariable String username) {
         return userConverter.toVo(userService.initPassword(username));
+    }
+
+    @GetMapping("/currentUser")
+    public UserVo getCurrentUser(){
+        User user = SecurityUtil.getCurrentUser();
+        return  this.userConverter.toVo(user);
     }
 
 
