@@ -189,10 +189,10 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         System.out.println(userVo.getCredentialsNonExpired());
         String query = "SELECT o FROM User o where 1=1 ";
         if (userVo.getCredentialsNonExpired() != null) {
-            query += addConstraint("o", "credentialsNonExpired", "=", (userVo.getCredentialsNonExpired() ? 1 : 0));
+            query += addConstraint("o", "credentialsNonExpired", "=", userVo.getCredentialsNonExpired() ? 1 : 0);
         }
         if (userVo.getEnabled() != null) {
-            query += addConstraint("o", "enabled", "=", (userVo.getEnabled() ? 1 : 0));
+            query += addConstraint("o", "enabled", "=", userVo.getEnabled() ? 1 : 0);
         }
         if (userVo.getAccountNonExpired() != null) {
             query += addConstraint("o", "accountNonExpired", "=", userVo.getAccountNonExpired()? 1 : 0);
