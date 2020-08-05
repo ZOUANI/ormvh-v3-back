@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import ma.zs.generated.helper.mail.service.facade.MailService;
 
-/**
- * @author Ouiam
- *
- */
+
 @Service
 public class MailServiceImpl implements MailService {
 	@Autowired

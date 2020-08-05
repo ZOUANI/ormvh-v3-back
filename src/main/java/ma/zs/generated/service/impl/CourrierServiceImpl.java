@@ -1086,14 +1086,11 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Override
 	public int sendCourrierRelance(List<Courrier> courriers) throws MessagingException {
-		String content = "content";
 		Map<LeService, List<Courrier>> map = courriers.stream()
 				.collect(Collectors.groupingBy(Courrier::getCoordinator));
 		for (Map.Entry<LeService, List<Courrier>> entry : map.entrySet()) {
-			//TODO change email to entry.getKey().getEmail 
-			mailService.sendSimpleMail("email", "Courriers susceptible relance", composeEmailContent(entry.getValue()));
+			mailService.sendSimpleMail(entry.getKey().getChef().getEmail(), "Courriers susceptible relance", composeEmailContent(entry.getValue()));
 		}
-
 		return 1;
 	}
 

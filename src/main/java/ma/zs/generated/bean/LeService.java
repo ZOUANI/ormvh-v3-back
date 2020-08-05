@@ -28,8 +28,11 @@ public class LeService {
      private String libelleArab ;
      private String code ;
      private String title ;
-
      @ManyToOne
+ 	private User chef;
+
+
+	@ManyToOne
 	private User createdBy ;
      @ManyToOne
 	private User updatedBy ;
@@ -92,6 +95,13 @@ public class LeService {
      public void setUpdatedBy(User updatedBy){
           this.updatedBy = updatedBy;
      }
+     public User getChef() {
+		return chef;
+	}
+
+	public void setChef(User chef) {
+		this.chef = chef;
+	}
 
      
      @Override
