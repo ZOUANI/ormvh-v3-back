@@ -1,11 +1,9 @@
 package ma.zs.generated.service.facade;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import ma.zs.generated.bean.LettreModel;
 import ma.zs.generated.bean.ModelLettreReponse;
 import ma.zs.generated.ws.rest.provided.vo.ModelLettreReponseVo;
 
@@ -31,7 +29,7 @@ public interface ModelLettreReponseService {
      * find ModelLettreReponse from database by id (id)
      * @param id - id of ModelLettreReponse 
      * @return the founded  ModelLettreReponse , If no ModelLettreReponse were
-     *         found in database return  null.
+     *         found in database return  null.O
      */
 	ModelLettreReponse findById(Long id);
      
@@ -60,6 +58,8 @@ public interface ModelLettreReponseService {
     List<ModelLettreReponse> findByUpdatedById(Long id);
     int deleteByUpdatedById(Long id);
 	public int storeFile(MultipartFile file);
+    ModelLettreReponse findByChemin(String chemin);
+
 			 
     /**
      * create ModelLettreReponse in database
@@ -67,7 +67,6 @@ public interface ModelLettreReponseService {
      * @return the created ModelLettreReponse, If the ModelLettreReponse can't be created return null.
      */
 	ModelLettreReponse create(ModelLettreReponse modelLettreReponse);
-	 public LettreModel getFile(String fileId) throws FileNotFoundException;
 	/**
      * create list ModelLettreReponse in database
      * @param modelLettreReponses - list of ModelLettreReponse to be created 

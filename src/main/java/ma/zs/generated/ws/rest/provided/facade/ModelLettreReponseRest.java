@@ -1,9 +1,7 @@
 package  ma.zs.generated.ws.rest.provided.facade;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import ma.zs.generated.bean.LettreModel;
 import ma.zs.generated.bean.ModelLettreReponse;
 import ma.zs.generated.service.facade.ModelLettreReponseService;
 import ma.zs.generated.ws.rest.provided.converter.ModelLettreReponseConverter;
@@ -194,22 +190,15 @@ public class ModelLettreReponseRest {
 	       return modelLettreReponseService.storeFile(file);
 	    }
 	   @GetMapping("/downloadFile/{fileName}")
-	    public LettreModel downloadFile(@PathVariable String fileName,HttpServletResponse response) throws IOException {
+	    public ModelLettreReponse downloadFile(@PathVariable String fileName,HttpServletResponse response) throws IOException {
 	        // Load file as Resource
-	        LettreModel databaseFile = modelLettreReponseService.getFile(fileName);
+	        ModelLettreReponse databaseFile = modelLettreReponseService.findByChemin(fileName);
 	        if(databaseFile != null) {
-	        	if(databaseFile.getFileType().equals("application/pdf")) {
-	        		response.setContentType("application/pdf");
-	        		fileName += ".pdf";
-	        	} else {
-	        		response.setContentType("application/msword");
-	        		fileName += ".docx";
-	        	}
-	        		String fileLocation = "C:/Users/hp/Desktop/PROJET ZOUANI/ormvh-v3-back/";
-	                File convFile = new File(databaseFile.getFileName());
+	        		//String fileLocation = "C:/Users/hp/Desktop/PROJET ZOUANI/ormvh-v3-back/";
+	                File convFile = new File(databaseFile.getChemin());
 	                convFile.createNewFile();
 	                System.out.println("ana hna tani");
-	                FileOutputStream fos = new FileOutputStream(fileLocation+ convFile);
+	                FileOutputStream fos = new FileOutputStream(convFile);
 	                fos.write(databaseFile.getData());
 	                fos.close();
 	               /* fileName = convFile.getName();
@@ -274,12 +263,7 @@ public class ModelLettreReponseRest {
 	       /* LettreModel databaseFile1 = new LettreModel(databaseFile.getFileName(), databaseFile.getFileType(),
 	                decompressBytes(databaseFile.getData()));*/
 	  	
-	   @GetMapping("/getFile/{fileName}")
-	    public LettreModel compressFile(@PathVariable String fileName) throws IOException {
-	        // Load file as Resource
-	        LettreModel databaseFile = modelLettreReponseService.getFile(fileName);
-	     return  databaseFile; 
-	   }
+
 	   
 	   // uncompress the image bytes before returning it to the angular application
 	   public static byte[] decompressBytes(byte[] data) {

@@ -33,6 +33,7 @@ import ma.zs.generated.bean.Task;
 import ma.zs.generated.bean.TypeCourrier;
 import ma.zs.generated.bean.Voie;
 import ma.zs.generated.dao.CourrierDao;
+import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.service.facade.CourrierObjectService;
 import ma.zs.generated.service.facade.CourrierService;
 import ma.zs.generated.service.facade.CourrierServiceItemService;

@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import ma.zs.generated.bean.CategorieModelLettreReponse;
-import ma.zs.generated.bean.LettreModel;
 import ma.zs.generated.bean.ModelLettreReponse;
 import ma.zs.generated.dao.ModelLettreDao;
 import ma.zs.generated.dao.ModelLettreReponseDao;
@@ -39,7 +38,8 @@ public class ModelLettreReponseServiceImpl extends AbstractService<ModelLettreRe
 	private EntityManager entityManager;
 	@Autowired
 	private ModelLettreDao modelLettreDao;
-
+	private byte[] data;
+private String type;
 	@Override
 	public List<ModelLettreReponse> findAll() {
 		return modelLettreReponseDao.findAll();
@@ -151,10 +151,10 @@ public class ModelLettreReponseServiceImpl extends AbstractService<ModelLettreRe
 			if (fileName.contains("..")) {
 				throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
 			}
-
-			LettreModel dbFile = new LettreModel(fileName, file.getContentType(), file.getBytes());
-
-			modelLettreDao.save(dbFile);
+			this.data = file.getBytes();
+			this.type = file.getContentType();
+//			LettreModel dbFile = new LettreModel(fileName, file.getContentType(), file.getBytes());
+	//		modelLettreDao.save(dbFile);
 			return 1;
 		} catch (IOException ex) {
 			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
@@ -172,10 +172,10 @@ public class ModelLettreReponseServiceImpl extends AbstractService<ModelLettreRe
 					.findByLibelle(modelLettreReponse.getCategorieModelLettreReponse().getLibelle());
 			modelLettreReponse.setCategorieModelLettreReponse(categorieModelLettreReponse);
 		}
-		LettreModel lettreModel = modelLettreDao.findByFileName(modelLettreReponse.getChemin());
-		modelLettreReponse.setLettreModel(lettreModel);
-System.out.println(modelLettreReponse.getCategorieModelLettreReponse());
-System.out.println(modelLettreReponse.getLettreModel());
+//		LettreModel lettreModel = modelLettreDao.findByFileName(modelLettreReponse.getChemin());
+		//modelLettreReponse.setLettreModel(lettreModel);
+		modelLettreReponse.setType(this.type);
+		modelLettreReponse.setData(this.data);
 		ModelLettreReponse savedModelLettreReponse = modelLettreReponseDao.save(modelLettreReponse);
 		return savedModelLettreReponse;
 	}
@@ -194,10 +194,12 @@ System.out.println(modelLettreReponse.getLettreModel());
 					.findByLibelle(modelLettreReponse.getCategorieModelLettreReponse().getLibelle());
 			modelLettreReponse.setCategorieModelLettreReponse(categorieModelLettreReponse);
 		}
-		LettreModel lettreModel = modelLettreDao.findByFileName(modelLettreReponse.getChemin());
-		modelLettreReponse.setLettreModel(lettreModel);
-System.out.println(modelLettreReponse.getCategorieModelLettreReponse());
-System.out.println(modelLettreReponse.getLettreModel());
+		//LettreModel lettreModel = modelLettreDao.findByFileName(modelLettreReponse.getChemin());
+//		modelLettreReponse.setLettreModel(lettreModel);
+		if(this.data != null) {
+			modelLettreReponse.setData(this.data);
+			modelLettreReponse.setType(this.type);
+		}
 		ModelLettreReponse savedModelLettreReponse = modelLettreReponseDao.save(modelLettreReponse);
 		prepareUpdate(foundedModelLettreReponse);
 		return savedModelLettreReponse;
@@ -256,7 +258,10 @@ System.out.println(modelLettreReponse.getLettreModel());
 
 		return entityManager.createQuery(query).getResultList();
 	}
-	 public LettreModel getFile(String fileId) throws FileNotFoundException {
-	        return modelLettreDao.findByFileName(fileId);
-	    }
+	
+
+	@Override
+	public ModelLettreReponse findByChemin(String chemin) {
+		return modelLettreReponseDao.findByChemin(chemin);
+	}
 }

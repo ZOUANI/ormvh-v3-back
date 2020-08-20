@@ -25,5 +25,5 @@ public interface ModelLettreReponseDao extends JpaRepository<ModelLettreReponse,
        int deleteByUpdatedByUsername(String username);       
        List<ModelLettreReponse> findByUpdatedById(Long id);
        int deleteByUpdatedById(Long id);
-
+       ModelLettreReponse findByChemin(String chemin);
 }

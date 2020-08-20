@@ -27,10 +27,12 @@ public class ModelLettreReponse {
 	private Date updatedAt;
 	private String libelleArab;
 	private String code;
+	private String type;
 	private String chemin;
 	private String libelle;
-	@ManyToOne
-	private LettreModel lettreModel;
+	private byte[] data;
+	//@ManyToOne
+	//private LettreModel lettreModel;
 	@ManyToOne
 	private CategorieModelLettreReponse categorieModelLettreReponse;
 	@ManyToOne
@@ -75,12 +77,13 @@ public class ModelLettreReponse {
 	}
 
 
-	public LettreModel getLettreModel() {
-		return lettreModel;
+
+	public byte[] getData() {
+		return data;
 	}
 
-	public void setLettreModel(LettreModel lettreModel) {
-		this.lettreModel = lettreModel;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 	public void setChemin(String chemin) {
@@ -131,23 +134,33 @@ public class ModelLettreReponse {
 	public void setUpdatedBy(User updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+	
+	
 
-	public ModelLettreReponse(Date createdAt, Date updatedAt, String libelleArab, String code, String chemin,
-			String libelle, LettreModel lettreModel, CategorieModelLettreReponse categorieModelLettreReponse,
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public ModelLettreReponse(Long id, Date createdAt, Date updatedAt, String libelleArab, String code, String type,
+			String chemin, String libelle, byte[] data, CategorieModelLettreReponse categorieModelLettreReponse,
 			User createdBy, User updatedBy) {
 		super();
+		this.id = id;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.libelleArab = libelleArab;
 		this.code = code;
+		this.type = type;
 		this.chemin = chemin;
 		this.libelle = libelle;
-		this.lettreModel = lettreModel;
+		this.data = data;
 		this.categorieModelLettreReponse = categorieModelLettreReponse;
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
 	}
-
-
 
 }
