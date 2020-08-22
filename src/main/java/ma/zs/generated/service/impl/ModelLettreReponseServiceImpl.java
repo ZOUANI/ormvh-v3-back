@@ -1,6 +1,5 @@
 package ma.zs.generated.service.impl;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -12,10 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import ma.zs.generated.bean.CategorieModelLettreReponse;
 import ma.zs.generated.bean.ModelLettreReponse;
-import ma.zs.generated.dao.ModelLettreDao;
 import ma.zs.generated.dao.ModelLettreReponseDao;
 import ma.zs.generated.exception.FileStorageException;
 import ma.zs.generated.service.facade.CategorieModelLettreReponseService;
@@ -36,8 +33,6 @@ public class ModelLettreReponseServiceImpl extends AbstractService<ModelLettreRe
 
 	@Autowired
 	private EntityManager entityManager;
-	@Autowired
-	private ModelLettreDao modelLettreDao;
 	private byte[] data;
 private String type;
 	@Override
