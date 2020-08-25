@@ -2,6 +2,7 @@ package ma.zs.generated.bean;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -58,6 +59,8 @@ public class Courrier {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
     private Double delai;
+    @OneToMany
+    private List<CourrierPieceJoint> courriersPieceJoint = new ArrayList<CourrierPieceJoint>();
 
     @ManyToOne
     private CourrierObject courrierObject;
@@ -392,7 +395,13 @@ public class Courrier {
     public List<CourrierServiceItem> getCourrierServiceItems() {
         return this.courrierServiceItems;
     }
+    public List<CourrierPieceJoint> getCourriersPieceJoint() {
+		return courriersPieceJoint;
+	}
 
+	public void setCourriersPieceJoint(List<CourrierPieceJoint> courriersPieceJoint) {
+		this.courriersPieceJoint = courriersPieceJoint;
+	}
     public void setCourrierServiceItems(List<CourrierServiceItem> courrierServiceItems) {
         this.courrierServiceItems = courrierServiceItems;
     }

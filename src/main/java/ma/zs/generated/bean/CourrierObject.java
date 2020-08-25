@@ -1,7 +1,11 @@
 package ma.zs.generated.bean;
 
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,7 +31,6 @@ public class CourrierObject {
      private String titleArab ;
      private String code ;
      private String title ;
-
      @ManyToOne
 	private User createdBy ;
      @ManyToOne
@@ -85,6 +88,27 @@ public class CourrierObject {
      public void setUpdatedBy(User updatedBy){
           this.updatedBy = updatedBy;
      }
+
+	
+
+	public CourrierObject(Long id, Date createdAt, Date updatedAt, String titleArab, String code, String title, User createdBy, User updatedBy) {
+		super();
+		this.id = id;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.titleArab = titleArab;
+		this.code = code;
+		this.title = title;
+		this.createdBy = createdBy;
+		this.updatedBy = updatedBy;
+	}
+
+	@Override
+	public String toString() {
+		return "CourrierObject [id=" + id + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", titleArab="
+				+ titleArab + ", code=" + code + ", title=" + title 
+				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
+	}
 
 
 

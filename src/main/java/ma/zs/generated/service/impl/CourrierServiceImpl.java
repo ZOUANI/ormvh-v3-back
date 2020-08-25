@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ma.zs.generated.bean.Courrier;
 import ma.zs.generated.bean.CourrierObject;
+import ma.zs.generated.bean.CourrierPieceJoint;
 import ma.zs.generated.bean.CourrierServiceItem;
 import ma.zs.generated.bean.Evaluation;
 import ma.zs.generated.bean.Expeditor;
@@ -33,6 +34,7 @@ import ma.zs.generated.bean.Task;
 import ma.zs.generated.bean.TypeCourrier;
 import ma.zs.generated.bean.Voie;
 import ma.zs.generated.dao.CourrierDao;
+import ma.zs.generated.dao.CourrierPieceJointDao;
 import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.service.facade.CourrierObjectService;
 import ma.zs.generated.service.facade.CourrierService;
@@ -55,6 +57,8 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Autowired
 	private CourrierDao courrierDao;
+	@Autowired
+	private CourrierPieceJointDao courrierPieceJointDao;
 
 	@Autowired
 	private ExpeditorTypeService expeditorTypeService;
@@ -789,8 +793,19 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			TypeCourrier typeCourrier = typeCourrierService.findByLibelle(courrier.getTypeCourrier().getLibelle());
 			courrier.setTypeCourrier(typeCourrier);
 		}
-
+		System.out.println(courrier.getCourriersPieceJoint());
+		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
+			System.out.println("ha ana ldakhel");
+		for (CourrierPieceJoint courrierPieceJoint : courrier.getCourriersPieceJoint()) {
+			courrierPieceJointDao.save(courrierPieceJoint);
+		}
+		}
 		Courrier savedCourrier = courrierDao.save(courrier);
+		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
+		for (CourrierPieceJoint courrierPieceJoint : courrier.getCourriersPieceJoint()) {
+			courrierPieceJoint.setCourier(savedCourrier);
+			courrierPieceJointDao.save(courrierPieceJoint);
+		}
 		if (ListUtil.isNotEmpty(courrier.getTasks())) {
 			savedCourrier.setTasks(taskService.create(prepareTasks(savedCourrier, courrier.getTasks())));
 		}
@@ -798,6 +813,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			savedCourrier.setCourrierServiceItems(courrierServiceItemService
 					.create(prepareCourrierServiceItems(savedCourrier, courrier.getCourrierServiceItems())));
 		}
+		}		
 		return savedCourrier;
 	}
 
