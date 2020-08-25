@@ -61,5 +61,16 @@ public class TypeCourrier {
      public void setColor(String color) {
           this.color = color;
      }
+
+    @Override
+    public String toString() {
+        return "TypeCourrier{" +
+                "id=" + id +
+                ", libelleArab='" + libelleArab + '\'' +
+                ", code='" + code + '\'' +
+                ", libelle='" + libelle + '\'' +
+                ", color='" + color + '\'' +
+                '}';
+    }
 }
 

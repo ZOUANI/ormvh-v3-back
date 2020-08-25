@@ -11,6 +11,7 @@ import ma.zs.generated.bean.Status;
 public interface StatusDao extends JpaRepository<Status,Long> {
 
 	Status findByLibelle(String libelle);
+	Status findByCode(String code);
        int deleteByLibelle(String libelle);
 
        List<Status> findByCreatedByUsername(String username);

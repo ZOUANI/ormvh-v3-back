@@ -93,4 +93,5 @@ public interface StatusService {
      * @return the searhed list Status 
      */
 	List<Status> findByCriteria( StatusVo statusVo);
+    Status findByCode(String code);
 }
