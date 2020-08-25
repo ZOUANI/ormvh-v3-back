@@ -18,11 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import ma.zs.generated.bean.Courrier;
+import ma.zs.generated.bean.CourrierPieceJoint;
 import ma.zs.generated.service.facade.CourrierService;
 import ma.zs.generated.service.util.DateUtil;
 import ma.zs.generated.service.util.GeneratePdf;
@@ -39,18 +42,43 @@ public class CourrierRest {
 
     @Autowired
     private CourrierService courrierService;
+    private ArrayList<CourrierPieceJoint> courrierPieceJoint = new ArrayList<CourrierPieceJoint>();
+    
 
+    public ArrayList<CourrierPieceJoint> getCourrierPieceJoint() {
+		return courrierPieceJoint;
+	}
 
-    @Autowired
+	public void setCourrierPieceJoint(ArrayList<CourrierPieceJoint> courrierPieceJoint) {
+		this.courrierPieceJoint = courrierPieceJoint;
+	}
+
+	@Autowired
     private CourrierConverter courrierConverter;
-
-
+	
+	@ApiOperation("creates the specified courrier")
+    @PostMapping("/create")
+    public int create(@RequestParam("file") MultipartFile file) {
+		try {
+			System.out.println(file.getOriginalFilename());
+			this.courrierPieceJoint.add(new CourrierPieceJoint(null, file.getOriginalFilename(), file.getBytes(), null));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return 1 ;
+    }
     @ApiOperation("creates the specified courrier")
     @PostMapping("/")
-    public CourrierVo create(@RequestBody CourrierVo courrierVo) {
-        Courrier courrier = courrierConverter.toItem(courrierVo);
-        courrier = courrierService.create(courrier);
-        return courrierConverter.toVo(courrier);
+    public int create(@RequestBody CourrierVo courrierVo) {
+    	Courrier courrier = courrierConverter.toItem(courrierVo);
+    	for (CourrierPieceJoint courrierPieceJoint2 : this.courrierPieceJoint) {
+			courrier.getCourriersPieceJoint().add(courrierPieceJoint2);
+		}
+    	this.courrierPieceJoint = null;
+        Courrier courrier1 =  courrierService.create(courrier);
+    	courrierConverter.toVo(courrier1);
+    	  return 1 ;
     }
 
     @ApiOperation("Delete the specified courrier")
