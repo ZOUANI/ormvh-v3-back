@@ -60,6 +60,7 @@ public interface CourrierService {
 
     public List<Long> getStat(Date dateMin, Date dateMax, String titleCoordinator);
 
+
     // public List<Long> getStatsLeServiceCoordinator(Date dateMin, Date dateMax, String leServiceCoordinatorTitle);
 
     /**
@@ -278,7 +279,7 @@ public interface CourrierService {
 
     String generateIdCourrier();
 
-    int reservation(Courrier courrier, String idCourier, int nbr);
+    int reservation(Courrier courrier, String idCourier, int nbr,String description);
 
     String verifyIdCourier(String IdCourier);
 

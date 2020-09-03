@@ -109,6 +109,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return res;
 	}
 
+
 	private Long getStatTypeCourrierCode(Date dateMin, Date dateMax, String typeCourrierCode, String titleCoordinator) {
 		String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 ";
 		query += addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax);
@@ -1050,19 +1051,20 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	}
 
 	@Override
-	public int reservation(Courrier courrier, String idCourier, int nbr) {
+	public int reservation(Courrier courrier, String idCourier, int nbr,String description) {
 
 		String onlyNumericText = idCourier.replaceAll("[^\\w\\s\\.]", "");
 		String firstSixChar = onlyNumericText.substring(0, 6);
 		String year = onlyNumericText.substring(6, 10);
 		int id = Integer.parseInt(firstSixChar) - 1;
-
+        Status status = statusService.findByCode("brouillant");
+        System.out.println("<<<<<<<<<<<<<<<<<<<<"+status);
 		for (int i = 0; i < nbr; i++) {
 			String idCourrierNew = String.format("%06d", ++id) + '-' + year;
 			courrier = new Courrier();
 			courrier.setIdCourrier(idCourrierNew);
-			TypeCourrier tc = typeCourrierService.findByCode("brouillant");
-			courrier.setTypeCourrier(tc);
+			courrier.setStatus(status);
+			courrier.setDescription(description);
 			save(courrier);
 		}
 

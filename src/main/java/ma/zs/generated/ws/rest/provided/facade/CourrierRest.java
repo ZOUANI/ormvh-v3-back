@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
@@ -579,9 +575,9 @@ private CourrierPieceJointService courrierPieceJointService;
         return courrierService.generateIdCourrier();
     }
 
-    @PostMapping("/courriers/reservation/idCourier/{idCourier}/nbr/{nbr}")
-    public int reservation(@RequestBody Courrier courrier, @PathVariable String idCourier, @PathVariable int nbr) {
-        return courrierService.reservation(courrier, idCourier, nbr);
+    @PostMapping("/courriers/reservation/idCourier/{idCourier}/nbr/{nbr}/description/{description}")
+    public int reservation(@RequestBody Courrier courrier, @PathVariable String idCourier, @PathVariable int nbr,@PathVariable String description) {
+        return courrierService.reservation(courrier, idCourier, nbr,description);
     }
 
     @ApiOperation("get all stats")
@@ -589,7 +585,6 @@ private CourrierPieceJointService courrierPieceJointService;
     public List<Long> getStat(@PathVariable String dateMin, @PathVariable String dateMax, @PathVariable String titleCoordinator) {
         return courrierService.getStat(DateUtil.parse(dateMin), DateUtil.parse(dateMax), titleCoordinator);
     }
-
 
     @ApiOperation("Count all courriers")
     @GetMapping("/countAll")
