@@ -28,6 +28,7 @@ public class ModelLettreReponseVo {
      private String createdAtMin ;
      private String updatedAtMax ;
      private String updatedAtMin ;
+     private String type;
 
  public ModelLettreReponseVo(){
        super();
@@ -151,6 +152,16 @@ public class ModelLettreReponseVo {
      public void setUpdatedByVo(UserVo updatedByVo){
           this.updatedByVo = updatedByVo;
      }
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
    
 
 

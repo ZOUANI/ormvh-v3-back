@@ -4,11 +4,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.mail.MessagingException;
 
 import ma.zs.generated.bean.Courrier;
+import ma.zs.generated.bean.CourrierPieceJoint;
 import ma.zs.generated.bean.LeService;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
 

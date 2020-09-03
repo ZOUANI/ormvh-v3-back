@@ -1,5 +1,6 @@
 package ma.zs.generated.ws.rest.provided.converter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ma.zs.generated.bean.Courrier;
+import ma.zs.generated.bean.CourrierPieceJoint;
 import ma.zs.generated.bean.LeService;
 import ma.zs.generated.service.util.DateUtil;
 import ma.zs.generated.service.util.ListUtil;
@@ -62,7 +64,7 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 	private Boolean updatedBy;
 	private Boolean tasks;
 	private Boolean courrierServiceItems;
-
+	private List<CourrierPieceJoint> courrierPieceJoints = new ArrayList<CourrierPieceJoint>();
 	public CourrierConverter() {
 		init(true);
 	}
@@ -158,7 +160,11 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 			return null;
 		} else {
 			CourrierVo vo = new CourrierVo();
+			
+			if (StringUtil.isNotEmpty(item.getType()))
+				vo.setType(item.getType());
 
+			
 			if (StringUtil.isNotEmpty(item.getInstruction()))
 				vo.setInstruction(item.getInstruction());
 

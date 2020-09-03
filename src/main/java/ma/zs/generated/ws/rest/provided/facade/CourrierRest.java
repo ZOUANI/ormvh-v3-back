@@ -1,5 +1,8 @@
 package ma.zs.generated.ws.rest.provided.facade;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +11,13 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +34,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import ma.zs.generated.bean.Courrier;
 import ma.zs.generated.bean.CourrierPieceJoint;
+import ma.zs.generated.bean.ModelLettreReponse;
+import ma.zs.generated.dao.CourrierPieceJointDao;
+import ma.zs.generated.service.facade.CourrierPieceJointService;
 import ma.zs.generated.service.facade.CourrierService;
+import ma.zs.generated.service.impl.MediaTypeUtils;
 import ma.zs.generated.service.util.DateUtil;
 import ma.zs.generated.service.util.GeneratePdf;
 import ma.zs.generated.ws.rest.provided.converter.CourrierConverter;
@@ -52,16 +64,58 @@ public class CourrierRest {
 	public void setCourrierPieceJoint(ArrayList<CourrierPieceJoint> courrierPieceJoint) {
 		this.courrierPieceJoint = courrierPieceJoint;
 	}
-
+@Autowired
+private CourrierPieceJointService courrierPieceJointService;
 	@Autowired
     private CourrierConverter courrierConverter;
-	
+	@Autowired
+    private ServletContext servletContext;
+	   @GetMapping("/downloadFile/{id}")
+	    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable Long id,HttpServletResponse response) throws IOException {
+	        // Load file as Resource
+	        CourrierPieceJoint databaseFile = courrierPieceJointService.findByCourierId(id);
+	        File convFile = null;
+	        convFile = new File(databaseFile.getChemin());
+            convFile.createNewFile();
+	               /* fileName = convFile.getName();
+	                System.out.println(fileName);
+	                 response.setHeader("Content-Disposition", "attachment; filename=" +fileName);
+	   	  	     response.setHeader("Content-Transfer-Encoding", "binary");
+	   	  	      try {
+	   	  	    	  BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+	   	  	    	  FileInputStream fis = new FileInputStream(fileLocation + fileName);
+	   	  	    	  int len;
+	   	  	    	  byte[] buf = new byte[1024];
+	   	  	    	  while((len = fis.read(buf)) > 0) {
+	   	  	    		  bos.write(buf,0,len);
+	   	  	    	  }
+	   	  	    	  bos.close();
+	   	  	    	  response.flushBuffer();
+	   	  	    System.out.println("ana hna");
+	   	  	      }
+	   	  	      catch(IOException e) {
+	   	  	    	  e.printStackTrace();
+	   	  	    	  
+	   	  	      }*/
+	        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, databaseFile.getChemin());
+           InputStreamResource resource = new InputStreamResource(new FileInputStream(convFile));
+           
+	        return ResponseEntity.ok()
+                   // Content-Disposition
+                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + convFile.getName())
+                   // Content-Type
+                   .contentType(mediaType)
+                   // Contet-Length
+                   .contentLength(convFile.length()) //
+                   .body(resource);
+	 	   }
+
 	@ApiOperation("creates the specified courrier")
     @PostMapping("/create")
     public int create(@RequestParam("file") MultipartFile file) {
 		try {
-			System.out.println(file.getOriginalFilename());
-			this.courrierPieceJoint.add(new CourrierPieceJoint(null, file.getOriginalFilename(), file.getBytes(), null));
+			System.out.println(file.getOriginalFilename().split(".")[0]);
+			this.courrierPieceJoint.add(new CourrierPieceJoint(null, file.getOriginalFilename().split(".")[0], file.getBytes(),file.getContentType(), null));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,6 +154,10 @@ public class CourrierRest {
     @GetMapping("/")
     public List<CourrierVo> findAll() {
         return courrierConverter.toVo(courrierService.findAll());
+    }
+    @GetMapping("/findAllcourrierPieceJoint/{id}")
+    public CourrierPieceJoint findAllcourrierPieceJoint(@PathVariable Long id) {
+        return courrierPieceJointService.findByCourierId(id);
     }
 
     @ApiOperation("Finds a courrier by accuse")

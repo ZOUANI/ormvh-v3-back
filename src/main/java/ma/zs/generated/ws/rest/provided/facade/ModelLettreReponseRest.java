@@ -2,15 +2,22 @@ package  ma.zs.generated.ws.rest.provided.facade;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +34,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import ma.zs.generated.bean.ModelLettreReponse;
 import ma.zs.generated.service.facade.ModelLettreReponseService;
+import ma.zs.generated.service.impl.MediaTypeUtils;
 import ma.zs.generated.ws.rest.provided.converter.ModelLettreReponseConverter;
 import ma.zs.generated.ws.rest.provided.vo.ModelLettreReponseVo;
 
@@ -59,7 +68,6 @@ public class ModelLettreReponseRest {
 	@ApiOperation("Updates the specified modelLettreReponse")
 	@PostMapping("/edit")
 	public ModelLettreReponseVo update(@RequestBody ModelLettreReponseVo modelLettreReponseVo){
-		System.out.println("hello");
 		ModelLettreReponse modelLettreReponse= modelLettreReponseConverter.toItem(modelLettreReponseVo);
 	  modelLettreReponse=	modelLettreReponseService.update(modelLettreReponse);
 		return modelLettreReponseConverter.toVo(modelLettreReponse);
@@ -69,6 +77,12 @@ public class ModelLettreReponseRest {
 	@GetMapping("/")
 	public List<ModelLettreReponseVo> findAll(){
 		return modelLettreReponseConverter.toVo(modelLettreReponseService.findAll());
+	}
+	@GetMapping("/getType/{chemin}")
+	public ModelLettreReponseVo getType(@PathVariable String chemin){
+		System.out.println(modelLettreReponseService.findByChemin(chemin).getType());
+		ModelLettreReponse modelLettreReponse = modelLettreReponseService.findByChemin(chemin);
+		return	modelLettreReponseConverter.toVo(modelLettreReponse);
 	}
     
 	@ApiOperation("Finds a modelLettreReponse by id")
@@ -190,14 +204,14 @@ public class ModelLettreReponseRest {
 	       return modelLettreReponseService.storeFile(file);
 	    }
 	   @GetMapping("/downloadFile/{fileName}")
-	    public ModelLettreReponse downloadFile(@PathVariable String fileName,HttpServletResponse response) throws IOException {
+	    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String fileName,HttpServletResponse response) throws IOException {
 	        // Load file as Resource
 	        ModelLettreReponse databaseFile = modelLettreReponseService.findByChemin(fileName);
+	        File convFile = null;
 	        if(databaseFile != null) {
 	        		//String fileLocation = "C:/Users/hp/Desktop/PROJET ZOUANI/ormvh-v3-back/";
-	                File convFile = new File(databaseFile.getChemin());
+	                 convFile = new File(databaseFile.getChemin());
 	                convFile.createNewFile();
-	                System.out.println("ana hna tani");
 	                FileOutputStream fos = new FileOutputStream(convFile);
 	                fos.write(databaseFile.getData());
 	                fos.close();
@@ -222,7 +236,17 @@ public class ModelLettreReponseRest {
 	   	  	    	  
 	   	  	      }*/
 	        }
-	                return databaseFile;    
+	        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, fileName);
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(convFile));
+            
+	        return ResponseEntity.ok()
+                    // Content-Disposition
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + convFile.getName())
+                    // Content-Type
+                    .contentType(mediaType)
+                    // Contet-Length
+                    .contentLength(convFile.length()) //
+                    .body(resource);
 	 	   }
 /*	        	if (fileName.indexOf(".doc")>-1) response.setContentType("application/msword");
 	  	      if (fileName.indexOf(".docx")>-1) response.setContentType("application/msword");
@@ -282,4 +306,16 @@ public class ModelLettreReponseRest {
 	       }
 	       return outputStream.toByteArray();
 	   }
+	   
+	   @GetMapping("/files/{filename:.+}")
+	   public ResponseEntity<org.springframework.core.io.Resource> getFile(@PathVariable String filename) {
+	     org.springframework.core.io.Resource file = modelLettreReponseService.load(filename);
+	     return ResponseEntity.ok()
+	         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	   }
+
+	   
+	    @Autowired
+	    private ServletContext servletContext;
+	  
 }

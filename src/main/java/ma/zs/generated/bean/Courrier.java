@@ -59,6 +59,7 @@ public class Courrier {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
     private Double delai;
+    private String type;
     @OneToMany
     private List<CourrierPieceJoint> courriersPieceJoint = new ArrayList<CourrierPieceJoint>();
 
@@ -405,6 +406,14 @@ public class Courrier {
     public void setCourrierServiceItems(List<CourrierServiceItem> courrierServiceItems) {
         this.courrierServiceItems = courrierServiceItems;
     }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 
 }

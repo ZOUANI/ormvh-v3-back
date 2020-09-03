@@ -28,6 +28,7 @@ public class CourrierPieceJoint {
     private Long id;
     private String chemin;
     private byte[] contenu;
+    private String type;
     @ManyToOne
     private Courrier courier;
     
@@ -60,17 +61,19 @@ public class CourrierPieceJoint {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CourrierPieceJoint(Long id, String chemin, byte[] contenu, Courrier courier) {
+
+	public CourrierPieceJoint(Long id, String chemin, byte[] contenu, String type, Courrier courier) {
 		super();
 		this.id = id;
 		this.chemin = chemin;
 		this.contenu = contenu;
+		this.type = type;
 		this.courier = courier;
 	}
 	@Override
 	public String toString() {
 		return "CourrierPieceJoint [id=" + id + ", chemin=" + chemin + ", contenu=" + Arrays.toString(contenu)
-				+ ", courier=" + courier + "]";
+				+ ", type=" + type + ", courier=" + courier + "]";
 	}
 	@Override
 	public int hashCode() {

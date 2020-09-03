@@ -1,13 +1,21 @@
 package ma.zs.generated.service.impl;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,8 +29,8 @@ import ma.zs.generated.service.facade.UserService;
 import ma.zs.generated.ws.rest.provided.vo.ModelLettreReponseVo;
 
 @Service
-public class ModelLettreReponseServiceImpl extends AbstractService<ModelLettreReponse>
-		implements ModelLettreReponseService {
+public class ModelLettreReponseServiceImpl extends AbstractService<ModelLettreReponse>implements ModelLettreReponseService {
+	  private final Path root = Paths.get("uploads");
 
 	@Autowired
 	private ModelLettreReponseDao modelLettreReponseDao;
@@ -34,7 +42,43 @@ public class ModelLettreReponseServiceImpl extends AbstractService<ModelLettreRe
 	@Autowired
 	private EntityManager entityManager;
 	private byte[] data;
+	private String url;
 private String type;
+
+public void init() {
+  try {
+    Files.createDirectory(root);
+  } catch (IOException e) {
+    throw new RuntimeException("Could not initialize folder for upload!");
+  }
+}
+
+
+public Resource load(String filename) {
+    try {
+      Path file = root.resolve(filename);
+      Resource resource = new UrlResource(file.toUri());
+
+      if (resource.exists() || resource.isReadable()) {
+        return resource;
+      } else {
+        throw new RuntimeException("Could not read the file!");
+      }
+    } catch (MalformedURLException e) {
+      throw new RuntimeException("Error: " + e.getMessage());
+    }
+  }
+
+public void deleteAll() {
+    FileSystemUtils.deleteRecursively(root.toFile());
+  }
+public Stream<Path> loadAll() {
+    try {
+      return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load the files!");
+    }
+  }
 	@Override
 	public List<ModelLettreReponse> findAll() {
 		return modelLettreReponseDao.findAll();
@@ -148,6 +192,11 @@ private String type;
 			}
 			this.data = file.getBytes();
 			this.type = file.getContentType();
+						//  try {
+			  //    Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+			    //} catch (Exception e) {
+			      //throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+			    //}
 //			LettreModel dbFile = new LettreModel(fileName, file.getContentType(), file.getBytes());
 	//		modelLettreDao.save(dbFile);
 			return 1;
@@ -195,6 +244,8 @@ private String type;
 			modelLettreReponse.setData(this.data);
 			modelLettreReponse.setType(this.type);
 		}
+//		String url = MvcUriComponentsBuilder.fromMethodName(ModelLettreReponseRest.class, "getFile",""+ modelLettreReponse.getChemin() ;
+	//	modelLettreReponse.setUrl(url);
 		ModelLettreReponse savedModelLettreReponse = modelLettreReponseDao.save(modelLettreReponse);
 		prepareUpdate(foundedModelLettreReponse);
 		return savedModelLettreReponse;

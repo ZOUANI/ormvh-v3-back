@@ -1,6 +1,9 @@
 package ma.zs.generated.ws.rest.provided.vo;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import ma.zs.generated.bean.CourrierPieceJoint;
 
 public class CourrierVo {
 
@@ -41,7 +44,7 @@ public class CourrierVo {
     private String updatedAt;
 
     private String delai;
-
+    private String type;
 
     private CourrierObjectVo courrierObjectVo;
     private VoieVo voieVo;
@@ -555,4 +558,18 @@ public class CourrierVo {
     public void setLength(String length) {
         this.length = length;
     }
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+	
+    
 }

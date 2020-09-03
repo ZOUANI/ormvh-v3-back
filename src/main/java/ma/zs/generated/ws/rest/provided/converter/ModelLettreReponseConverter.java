@@ -74,6 +74,8 @@ public class ModelLettreReponseConverter extends AbstractConverter<ModelLettreRe
 			
 			if(StringUtil.isNotEmpty(item.getChemin()))
 				vo.setChemin(item.getChemin());
+			if(StringUtil.isNotEmpty(item.getType()))
+				vo.setType(item.getType());
 			
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
@@ -88,7 +90,7 @@ public class ModelLettreReponseConverter extends AbstractConverter<ModelLettreRe
 			   } 
             if(item.getUpdatedBy()!=null && this.updatedBy) {
 				   vo.setUpdatedByVo(userConverter.toVo(item.getUpdatedBy())) ;
-			   } 
+			   }  
 
  			return vo;
  

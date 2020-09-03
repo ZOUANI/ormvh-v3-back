@@ -14,5 +14,6 @@ import ma.zs.generated.bean.CourrierPieceJoint;
 
 @Repository
 public interface CourrierPieceJointDao extends JpaRepository<CourrierPieceJoint, Long> {
-   
+   Optional<CourrierPieceJoint> findById(Long id);
+   CourrierPieceJoint findByCourierId(Long id);
 }

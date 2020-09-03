@@ -1,6 +1,8 @@
 package ma.zs.generated.bean;
 
 import javax.persistence.ManyToOne;
+
+import java.util.Arrays;
 import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,6 +33,7 @@ public class ModelLettreReponse {
 	private String chemin;
 	private String libelle;
 	private byte[] data;
+	private String url;
 	//@ManyToOne
 	//private LettreModel lettreModel;
 	@ManyToOne
@@ -145,9 +148,17 @@ public class ModelLettreReponse {
 		this.type = type;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public ModelLettreReponse(Long id, Date createdAt, Date updatedAt, String libelleArab, String code, String type,
-			String chemin, String libelle, byte[] data, CategorieModelLettreReponse categorieModelLettreReponse,
-			User createdBy, User updatedBy) {
+			String chemin, String libelle, byte[] data, String url,
+			CategorieModelLettreReponse categorieModelLettreReponse, User createdBy, User updatedBy) {
 		super();
 		this.id = id;
 		this.createdAt = createdAt;
@@ -158,9 +169,19 @@ public class ModelLettreReponse {
 		this.chemin = chemin;
 		this.libelle = libelle;
 		this.data = data;
+		this.url = url;
 		this.categorieModelLettreReponse = categorieModelLettreReponse;
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
+	}
+
+	@Override
+	public String toString() {
+		return "ModelLettreReponse [id=" + id + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", libelleArab=" + libelleArab + ", code=" + code + ", type=" + type + ", chemin=" + chemin
+				+ ", libelle=" + libelle + ", data=" + Arrays.toString(data) + ", url=" + url
+				+ ", categorieModelLettreReponse=" + categorieModelLettreReponse + ", createdBy=" + createdBy
+				+ ", updatedBy=" + updatedBy + "]";
 	}
 
 }

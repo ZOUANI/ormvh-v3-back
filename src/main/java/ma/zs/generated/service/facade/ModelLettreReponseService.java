@@ -2,6 +2,7 @@ package ma.zs.generated.service.facade;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import ma.zs.generated.bean.ModelLettreReponse;
@@ -32,7 +33,7 @@ public interface ModelLettreReponseService {
      *         found in database return  null.O
      */
 	ModelLettreReponse findById(Long id);
-     
+	public Resource load(String filename);
      /**
      * delete ModelLettreReponse from database
      * @param id - id of ModelLettreReponse to be deleted
