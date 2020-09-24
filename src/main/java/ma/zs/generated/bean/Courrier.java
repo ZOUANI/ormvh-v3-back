@@ -52,6 +52,8 @@ public class Courrier {
     private String idCourrier;
     private String subject;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private EtatCourrier etatCourrier;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createdAt;
@@ -97,6 +99,24 @@ public class Courrier {
     private List<Task> tasks;
     @OneToMany(mappedBy = "courrier")
     private List<CourrierServiceItem> courrierServiceItems;
+
+    public EtatCourrier getEtatCourrier() {
+        return etatCourrier;
+    }
+
+    public void setEtatCourrier(EtatCourrier etatCourrier) {
+        this.etatCourrier = etatCourrier;
+    }
+
+    public Boolean getAccuse() {
+        return accuse;
+    }
+
+    public Boolean getReponse() {
+        return reponse;
+    }
+
+
 
     public Courrier() {
         super();

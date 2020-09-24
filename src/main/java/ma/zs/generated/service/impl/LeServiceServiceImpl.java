@@ -115,8 +115,6 @@ public class LeServiceServiceImpl extends AbstractService<LeService> implements 
         LeService foundedLeService = findByTitle(leService.getTitle());
         if (foundedLeService != null)
             return null;
-
-
         LeService savedLeService = leServiceDao.save(leService);
         return savedLeService;
     }

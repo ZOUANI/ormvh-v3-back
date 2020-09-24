@@ -191,6 +191,7 @@ public Stream<Path> loadAll() {
 				throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
 			}
 			this.data = file.getBytes();
+			System.out.println("ha data "+ this.data);
 			this.type = file.getContentType();
 						//  try {
 			  //    Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));

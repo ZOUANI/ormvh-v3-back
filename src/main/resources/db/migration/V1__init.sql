@@ -605,7 +605,8 @@ CREATE TABLE IF NOT EXISTS `status` (
 INSERT INTO `status` (`id`, `code`, `color`, `created_at`, `libelle`, `libelle_arab`, `updated_at`, `created_by`, `updated_by`) VALUES
 (1, 'ouvert', '#8ad076', NULL, 'Ouvert', NULL, '2020-07-27 23:33:40', NULL, 12),
 (2, 'encours', '#984c9a', NULL, 'Encours', NULL, '2020-07-27 23:33:52', NULL, 12),
-(3, 'traite', '#a31919', NULL, 'Traite', NULL, '2020-07-27 23:34:07', NULL, 12);
+(3, 'brouillant', '#984c9a', NULL, 'Brouillant', NULL, '2020-07-27 23:33:52', NULL, 12),
+(4, 'traite', '#a31919', NULL, 'Traite', NULL, '2020-07-27 23:34:07', NULL, 12);
 
 -- --------------------------------------------------------
 

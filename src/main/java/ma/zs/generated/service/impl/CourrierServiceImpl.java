@@ -1,38 +1,20 @@
 package ma.zs.generated.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 
+import ma.zs.generated.bean.*;
 import ma.zs.generated.helper.mail.service.facade.MailService;
+import ma.zs.generated.security.SecurityUtil;
 import ma.zs.generated.service.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ma.zs.generated.bean.Courrier;
-import ma.zs.generated.bean.CourrierObject;
-import ma.zs.generated.bean.CourrierPieceJoint;
-import ma.zs.generated.bean.CourrierServiceItem;
-import ma.zs.generated.bean.Evaluation;
-import ma.zs.generated.bean.Expeditor;
-import ma.zs.generated.bean.ExpeditorType;
-import ma.zs.generated.bean.LeService;
-import ma.zs.generated.bean.NatureCourrier;
-import ma.zs.generated.bean.Status;
-import ma.zs.generated.bean.Subdivision;
-import ma.zs.generated.bean.Task;
-import ma.zs.generated.bean.TypeCourrier;
-import ma.zs.generated.bean.Voie;
 import ma.zs.generated.dao.CourrierDao;
 import ma.zs.generated.dao.CourrierPieceJointDao;
 import ma.zs.generated.helper.mail.service.facade.MailService;
@@ -247,7 +229,9 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Override
 	public List<Courrier> findAll() {
-		return courrierDao.findAll();
+		String query = initQuery("o","courrierItem","taskItemm");
+		System.out.println(query);
+		return entityManager.createQuery(query).getResultList();
 	}
 
 	@Override
@@ -912,8 +896,68 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return linkedList;
 	}
 
+
+
+	private String addRolesConstraint(List<Role> roles,String courrierItem,String courrierServiceItem,String taskItem,String username) {
+		String query ="";
+		if(ListUtil.isNotEmpty(roles)){
+			if(isChefService(roles)) {
+				query = " AND ("
+						+ courrierItem + ".coordinator.chef.username='" + username + "'" +
+						" OR (" + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "')"
+						+ ")";
+			}else if(isAgentBureau(roles)){
+				query = " AND (" + courrierItem + ".id= " + taskItem + ".courrier.id AND " + taskItem + ".assigne.username='" + username + "')";
+			}
+
+		}
+		return query;
+
+
+	}
+
+
+	private boolean isAgentBureau(List<Role> roles) {
+		List<String> agentBureauRoles= Arrays.asList("CHARGE_DE_TRAITEMENT_COURRIER","CHARGE_DE_REQUETE");
+		return isInRole(roles,agentBureauRoles);
+	}
+
+	private boolean isChefService(List<Role> roles) {
+		List<String> agentBureauRoles= Arrays.asList("CHEF_DE_SERVICE");
+		return isInRole(roles,agentBureauRoles);
+	}
+
+	private boolean isInRole(List<Role> roles,List<String> seekedRoles) {
+		if(ListUtil.isNotEmpty(roles)){
+			for (int i = 0; i <roles.size() ; i++) {
+				Role r= roles.get(i);
+				if(seekedRoles.contains(r.getAuthority())){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	private String initQuery(String courrierItem,String courrierServiceItem,String taskItem ){
+        String query = "SELECT "+courrierItem+" FROM Courrier "+courrierItem;
+		User user= SecurityUtil.getCurrentUser();
+		List<Role> roles = user.getRoles();
+
+        if(ListUtil.isNotEmpty(roles)){
+			if(isChefService(roles)) {
+				query += " , CourrierServiceItem "+ courrierServiceItem  ;
+			}else if(isAgentBureau(roles)){
+				query += " , Task "  + taskItem ;
+			}
+		}
+			query+=" where 1=1" ;
+
+		query+=addRolesConstraint(roles,courrierItem,courrierServiceItem,taskItem,user.getUsername());
+		return query;
+    }
 	public List<Courrier> findByCriteria(CourrierVo courrierVo) {
-		String query = "SELECT o FROM Courrier o where 1=1 ";
+
+		String query = initQuery("o","courrierItem","taskItemm");
 		query += addConstraint("o", "instruction", "LIKE", courrierVo.getInstruction());
 
 		query += addConstraint("o", "expediteurDesc", "LIKE", courrierVo.getExpediteurDesc());
@@ -1058,6 +1102,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		String year = onlyNumericText.substring(6, 10);
 		int id = Integer.parseInt(firstSixChar) - 1;
         Status status = statusService.findByCode("brouillant");
+        TypeCourrier typeCourrier= typeCourrierService.findByCode("sortie");
         System.out.println("<<<<<<<<<<<<<<<<<<<<"+status);
 		for (int i = 0; i < nbr; i++) {
 			String idCourrierNew = String.format("%06d", ++id) + '-' + year;
@@ -1065,6 +1110,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			courrier.setIdCourrier(idCourrierNew);
 			courrier.setStatus(status);
 			courrier.setDescription(description);
+			courrier.setTypeCourrier(typeCourrier);
 			save(courrier);
 		}
 

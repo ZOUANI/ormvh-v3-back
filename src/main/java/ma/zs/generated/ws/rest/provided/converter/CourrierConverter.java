@@ -113,6 +113,7 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 				item.setUpdatedAt(DateUtil.parse(vo.getUpdatedAt()));
 			if (StringUtil.isNotEmpty(vo.getDelai()))
 				item.setDelai(NumberUtil.toDouble(vo.getDelai()));
+
 			if (vo.getCourrierObjectVo() != null && this.courrierObject)
 				item.setCourrierObject(courrierObjectConverter.toItem(vo.getCourrierObjectVo()));
 			if (vo.getVoieVo() != null && this.voie)

@@ -61,6 +61,7 @@ public class CourrierVo {
     private TypeCourrierVo typeCourrierVo;
     private UserVo createdByVo;
     private UserVo updatedByVo;
+    private UserVo chef;
     private String length;
 
     private List<TaskVo> tasksVo;
@@ -534,6 +535,11 @@ public class CourrierVo {
         this.updatedByVo = updatedByVo;
     }
 
+    public UserVo getChef() { return chef;  }
+
+    public void setChef(UserVo chef) {
+        this.chef = chef;
+    }
 
     public List<TaskVo> getTasksVo() {
         return this.tasksVo;
