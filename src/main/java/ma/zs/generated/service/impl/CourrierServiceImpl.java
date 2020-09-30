@@ -230,7 +230,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	@Override
 	public List<Courrier> findAll() {
 		String query = initQuery("o","courrierItem","taskItemm");
-		System.out.println(query);
+		System.out.println("+++++++++++++ haaa query ::::: "+query);
 		return entityManager.createQuery(query).getResultList();
 	}
 
@@ -777,19 +777,19 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			TypeCourrier typeCourrier = typeCourrierService.findByLibelle(courrier.getTypeCourrier().getLibelle());
 			courrier.setTypeCourrier(typeCourrier);
 		}
-		System.out.println(courrier.getCourriersPieceJoint());
-		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
-			System.out.println("ha ana ldakhel");
-		for (CourrierPieceJoint courrierPieceJoint : courrier.getCourriersPieceJoint()) {
-			courrierPieceJointDao.save(courrierPieceJoint);
-		}
-		}
+//		System.out.println(courrier.getCourriersPieceJoint());
+//		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
+//			System.out.println("ha ana ldakhel");
+//		for (CourrierPieceJoint courrierPieceJoint : courrier.getCourriersPieceJoint()) {
+//			courrierPieceJointDao.save(courrierPieceJoint);
+//		}
+//		}
 		Courrier savedCourrier = courrierDao.save(courrier);
-		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
-		for (CourrierPieceJoint courrierPieceJoint : courrier.getCourriersPieceJoint()) {
-			courrierPieceJoint.setCourier(savedCourrier);
-			courrierPieceJointDao.save(courrierPieceJoint);
-		}
+//		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
+//		for (CourrierPieceJoint courrierPieceJoint : courrier.getCourriersPieceJoint()) {
+//			courrierPieceJoint.setCourier(savedCourrier);
+//			courrierPieceJointDao.save(courrierPieceJoint);
+//		}
 		if (ListUtil.isNotEmpty(courrier.getTasks())) {
 			savedCourrier.setTasks(taskService.create(prepareTasks(savedCourrier, courrier.getTasks())));
 		}
@@ -797,7 +797,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			savedCourrier.setCourrierServiceItems(courrierServiceItemService
 					.create(prepareCourrierServiceItems(savedCourrier, courrier.getCourrierServiceItems())));
 		}
-		}		
+
 		return savedCourrier;
 	}
 
@@ -902,13 +902,14 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		String query ="";
 		if(ListUtil.isNotEmpty(roles)){
 			if(isChefService(roles)) {
-				query = " AND ("
-						+ courrierItem + ".coordinator.chef.username='" + username + "'" +
-						" OR (" + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "')"
-						+ ")";
+				query =   " AND "+ courrierItem + ".coordinator.chef.username='" + username + "'"
+						+ " AND " + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "'"
+						;
+				query+=" AND "+ courrierItem + ".etatCourrier.id in (3,4,5)";
 			}else if(isAgentBureau(roles)){
 				query = " AND (" + courrierItem + ".id= " + taskItem + ".courrier.id AND " + taskItem + ".assigne.username='" + username + "')";
-			}
+                query+=" AND "+ courrierItem + ".etatCourrier.id in (4,5)";
+            }
 
 		}
 		return query;
@@ -939,7 +940,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return false;
 	}
 	private String initQuery(String courrierItem,String courrierServiceItem,String taskItem ){
-        String query = "SELECT "+courrierItem+" FROM Courrier "+courrierItem;
+        String query = "SELECT DISTINCT  "+courrierItem+" FROM Courrier "+courrierItem;
 		User user= SecurityUtil.getCurrentUser();
 		List<Role> roles = user.getRoles();
 

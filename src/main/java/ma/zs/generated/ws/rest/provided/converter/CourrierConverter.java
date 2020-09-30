@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ma.zs.generated.bean.EtatCourrier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,8 @@ import ma.zs.generated.ws.rest.provided.vo.LeServiceVo;
 @Component
 public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 
+	@Autowired
+	private EtatCourrierConverter etatCourrierConverter;
 	@Autowired
 	private UserConverter userConverter;
 	@Autowired
@@ -62,6 +65,7 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 	private Boolean typeCourrier;
 	private Boolean createdBy;
 	private Boolean updatedBy;
+	private Boolean etatCourrier;
 	private Boolean tasks;
 	private Boolean courrierServiceItems;
 	private List<CourrierPieceJoint> courrierPieceJoints = new ArrayList<CourrierPieceJoint>();
@@ -145,6 +149,9 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 			if (vo.getUpdatedByVo() != null && this.updatedBy)
 				item.setUpdatedBy(userConverter.toItem(vo.getUpdatedByVo()));
 
+			if (vo.getEtatCourrierVo() != null && this.etatCourrier)
+				item.setEtatCourrier(etatCourrierConverter.toItem(vo.getEtatCourrierVo()));
+
 			if (ListUtil.isNotEmpty(vo.getTasksVo()) && this.tasks)
 				item.setTasks(taskConverter.toItem(vo.getTasksVo()));
 
@@ -213,6 +220,9 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 				vo.setDelai(NumberUtil.toString(item.getDelai()));
 			if (item.getCourrierObject() != null && this.courrierObject) {
 				vo.setCourrierObjectVo(courrierObjectConverter.toVo(item.getCourrierObject()));
+			}
+			if (item.getEtatCourrier() != null && this.etatCourrier) {
+				vo.setEtatCourrierVo(etatCourrierConverter.toVo(item.getEtatCourrier()));
 			}
 			if (item.getVoie() != null && this.voie) {
 				vo.setVoieVo(voieConverter.toVo(item.getVoie()));
@@ -294,6 +304,7 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 		updatedBy = value;
 		tasks = value;
 		courrierServiceItems = value;
+		etatCourrier=value;
 	}
 
 	public UserConverter getUserConverter() {

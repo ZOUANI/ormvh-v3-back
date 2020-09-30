@@ -52,7 +52,7 @@ public class Courrier {
     private String idCourrier;
     private String subject;
     private String description;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     private EtatCourrier etatCourrier;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)

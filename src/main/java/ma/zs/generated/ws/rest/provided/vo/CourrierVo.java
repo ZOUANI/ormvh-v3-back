@@ -61,6 +61,8 @@ public class CourrierVo {
     private TypeCourrierVo typeCourrierVo;
     private UserVo createdByVo;
     private UserVo updatedByVo;
+    private EtatCourrierVo etatCourrierVo;
+
     private UserVo chef;
     private String length;
 
@@ -85,6 +87,7 @@ public class CourrierVo {
     private String updatedAtMin;
     private String delaiMax;
     private String delaiMin;
+
 
     public CourrierVo() {
         super();
@@ -575,7 +578,11 @@ public class CourrierVo {
 		this.type = type;
 	}
 
+    public EtatCourrierVo getEtatCourrierVo() {
+        return etatCourrierVo;
+    }
 
-	
-    
+    public void setEtatCourrierVo(EtatCourrierVo etatCourrierVo) {
+        this.etatCourrierVo = etatCourrierVo;
+    }
 }
