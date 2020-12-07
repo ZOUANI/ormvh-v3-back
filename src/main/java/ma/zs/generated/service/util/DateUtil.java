@@ -10,6 +10,7 @@ import java.util.Date;
 public class DateUtil {
 
     private static String datePatter = "yyyy-MM-dd HH:mm:ss";
+    private static String datePatternParse="yyyy-MM-dd'T'HH:mm:ss";
 
     public static String formateDate(Date date) {
         return formateDate(datePatter, date);
@@ -29,7 +30,7 @@ public class DateUtil {
             return null;
         } else {
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePatter);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePatternParse);
                 return simpleDateFormat.parse(date);
             } catch (Exception ex) {
                 return null;
