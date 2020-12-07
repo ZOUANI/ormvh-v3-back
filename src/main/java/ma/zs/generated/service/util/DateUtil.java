@@ -37,6 +37,19 @@ public class DateUtil {
         }
     }
 
+    public static Date parse(String datePattern,String date) {
+        if (date == null || date.isEmpty()) {
+            return null;
+        } else {
+            try {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
+                return simpleDateFormat.parse(date);
+            } catch (Exception ex) {
+                return null;
+            }
+        }
+    }
+
     public static Date parseTimestamp(String date) {
 
         try {

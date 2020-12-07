@@ -121,13 +121,14 @@ private CourrierPieceJointService courrierPieceJointService;
     @ApiOperation("creates the specified courrier")
     @PostMapping("/")
     public int create(@RequestBody CourrierVo courrierVo) {
+        System.out.println("haaa courrierVo.getSentAt() = " + courrierVo.getSentAt());
     	Courrier courrier = courrierConverter.toItem(courrierVo);
 //    	for (CourrierPieceJoint courrierPieceJoint2 : this.courrierPieceJoint) {
 //			courrier.getCourriersPieceJoint().add(courrierPieceJoint2);
 //		}
 //    	this.courrierPieceJoint = null;
-        Courrier courrier1 =  courrierService.create(courrier);
-    	courrierConverter.toVo(courrier1);
+         courrierService.create(courrier);
+        System.out.println("DateUtil.formateDate(courrier.getSentAt()) = " + DateUtil.formateDate(courrier.getSentAt()));
     	  return 1 ;
     }
 

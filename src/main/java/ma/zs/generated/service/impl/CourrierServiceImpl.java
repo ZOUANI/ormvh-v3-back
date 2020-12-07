@@ -937,6 +937,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 		}
 			query+=" where 1=1" ;
+		query+=" ORDER BY "+courrierItem+".sendAt,  "+courrierItem+".idCourrier";
 
 		query+=addRolesConstraint(roles,courrierItem,courrierServiceItem,taskItem,user.getUsername());
 		return query;

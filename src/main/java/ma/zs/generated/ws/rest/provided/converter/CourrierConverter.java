@@ -80,6 +80,8 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 
 	private Boolean courrierServiceItems;
 	private List<CourrierPieceJoint> courrierPieceJoints = new ArrayList<CourrierPieceJoint>();
+
+	private String format="dd/MM/YYYY HH:mm";
 	public CourrierConverter() {
 		init(true);
 	}
@@ -99,7 +101,7 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
             if (StringUtil.isNotEmpty(vo.getDateTraitement()))
                 item.setDateTraitement(DateUtil.parse(vo.getDateTraitement()));
 			if (StringUtil.isNotEmpty(vo.getSentAt()))
-				item.setSentAt(DateUtil.parse(vo.getSentAt()));
+				item.setSentAt(DateUtil.parse(format,vo.getSentAt()));
 			if (StringUtil.isNotEmpty(vo.getDestinataireDesc()))
 				item.setDestinataireDesc(vo.getDestinataireDesc());
 			if (StringUtil.isNotEmpty(vo.getDestinataireVille()))
@@ -213,7 +215,7 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 				vo.setExpediteurDesc(item.getExpediteurDesc());
 
 			if (item.getSentAt() != null)
-				vo.setSentAt(DateUtil.formateDate(item.getSentAt()));
+				vo.setSentAt(DateUtil.formateDate(format,item.getSentAt()));
 			if (StringUtil.isNotEmpty(item.getDestinataireDesc()))
 				vo.setDestinataireDesc(item.getDestinataireDesc());
 
