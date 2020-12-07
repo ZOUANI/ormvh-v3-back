@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 30 sep. 2020 à 14:25
+-- Généré le :  lun. 07 déc. 2020 à 11:51
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `categorie_model_lettre_reponse` (
 --
 
 INSERT INTO `categorie_model_lettre_reponse` (`id`, `created_at`, `libelle`, `updated_at`, `created_by`, `updated_by`) VALUES
-(135, '2020-08-26 14:23:36', 'cat1', NULL, 12, NULL);
+(135, '2020-08-26 14:23:36', 'cat1', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -105,7 +105,6 @@ CREATE TABLE IF NOT EXISTS `courrier` (
                                           `emetteur` bigint(20) DEFAULT NULL,
                                           `evaluation` bigint(20) DEFAULT NULL,
                                           `expeditor` bigint(20) DEFAULT NULL,
-                                          `expeditor_type` bigint(20) DEFAULT NULL,
                                           `linked_to` bigint(20) DEFAULT NULL,
                                           `nature_courrier` bigint(20) DEFAULT NULL,
                                           `status` bigint(20) DEFAULT NULL,
@@ -115,6 +114,12 @@ CREATE TABLE IF NOT EXISTS `courrier` (
                                           `voie` bigint(20) DEFAULT NULL,
                                           `etat_courrier` bigint(22) DEFAULT NULL,
                                           `type` varchar(255) DEFAULT NULL,
+                                          `nature_client` bigint(20) DEFAULT NULL,
+                                          `phase_admin` bigint(20) DEFAULT NULL,
+                                          `sujet` varchar(255) DEFAULT NULL,
+                                          `date_traitement` datetime DEFAULT NULL,
+                                          `cre_coated_by` bigint(20) DEFAULT NULL,
+                                          `type_requette` bigint(20) DEFAULT NULL,
                                           PRIMARY KEY (`id`),
                                           KEY `FKfewtkf0c9rqftanl1m153ccs7` (`coordinator`),
                                           KEY `FKp0wri89e8lweagigu4ueumsbs` (`courrier_object`),
@@ -123,7 +128,6 @@ CREATE TABLE IF NOT EXISTS `courrier` (
                                           KEY `FK4xc6pt5n014iwdqd8f6i0o34f` (`emetteur`),
                                           KEY `FKf8h14jiti81ktoe6b7wcctg2c` (`evaluation`),
                                           KEY `FKi70a9drw6pkixh2rb60ej4vt3` (`expeditor`),
-                                          KEY `FKi3xquj74yqg81ig2fxx7qw99` (`expeditor_type`),
                                           KEY `FK500qa7hg23jbdtix57gh0so61` (`linked_to`),
                                           KEY `FK9m79qbghu1wrrhs01a2ejo3hj` (`nature_courrier`),
                                           KEY `FKgu5g9y1loj73wttvyq3l28um7` (`status`),
@@ -131,18 +135,23 @@ CREATE TABLE IF NOT EXISTS `courrier` (
                                           KEY `FKfuht770sx8omvlmu018bmev92` (`type_courrier`),
                                           KEY `FK2de3vr9jplymuqc1raucdthtt` (`updated_by`),
                                           KEY `FKhhl4cif4ydpmevjf34dlil9wx` (`voie`),
-                                          KEY `FKbemj4qmhvn22b115evbrtxapd` (`etat_courrier`)
+                                          KEY `FKf6rnop3i8qflexd4xk3ofom5i` (`cre_coated_by`),
+                                          KEY `FKbemj4qmhvn22b115evbrtxapd` (`etat_courrier`),
+                                          KEY `FK190pbhlxon6qtc7ttajv4k7c9` (`nature_client`),
+                                          KEY `FK3sg0mmw6b9kek7l9h46n931mr` (`phase_admin`),
+                                          KEY `FKopkgf5y00xhw8nibamcm8ycn0` (`type_requette`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `courrier`
 --
 
-INSERT INTO `courrier` (`id`, `accuse`, `created_at`, `date_accuse`, `date_relance`, `date_reponse`, `delai`, `description`, `destinataire_desc`, `destinataire_ville`, `expediteur_desc`, `id_courrier`, `instruction`, `received_at`, `relance`, `reponse`, `sent_at`, `subject`, `updated_at`, `coordinator`, `courrier_object`, `created_by`, `destinator`, `emetteur`, `evaluation`, `expeditor`, `expeditor_type`, `linked_to`, `nature_courrier`, `status`, `subdivision`, `type_courrier`, `updated_by`, `voie`, `etat_courrier`, `type`) VALUES
-(195, NULL, '2020-09-23', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '000001-2020', NULL, NULL, NULL, NULL, NULL, 'creer par admin a RH et SAF et INFO(coord)', NULL, 4, NULL, 12, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 2, NULL, 1, 4, NULL),
-(198, NULL, '2020-09-24', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '000002-2020', NULL, NULL, NULL, NULL, NULL, 'info solo', NULL, NULL, NULL, 12, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 2, NULL, 1, 3, NULL),
-(200, NULL, '2020-09-23', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '000003-2020', NULL, NULL, NULL, NULL, NULL, 'rh solo', NULL, NULL, NULL, 12, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 2, NULL, 1, 4, NULL),
-(231, NULL, '2020-09-21', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '000004-2020', 'mon instruct', NULL, NULL, NULL, '2020-09-21 23:00:00', 'courri bo 1', NULL, 4, NULL, 230, NULL, NULL, NULL, 232, NULL, NULL, 1, 2, NULL, 1, NULL, 1, 4, NULL);
+INSERT INTO `courrier` (`id`, `accuse`, `created_at`, `date_accuse`, `date_relance`, `date_reponse`, `delai`, `description`, `destinataire_desc`, `destinataire_ville`, `expediteur_desc`, `id_courrier`, `instruction`, `received_at`, `relance`, `reponse`, `sent_at`, `subject`, `updated_at`, `coordinator`, `courrier_object`, `created_by`, `destinator`, `emetteur`, `evaluation`, `expeditor`, `linked_to`, `nature_courrier`, `status`, `subdivision`, `type_courrier`, `updated_by`, `voie`, `etat_courrier`, `type`, `nature_client`, `phase_admin`, `sujet`, `date_traitement`, `cre_coated_by`, `type_requette`) VALUES
+(577, NULL, '2020-11-16', NULL, NULL, NULL, 2, 'atika', NULL, NULL, NULL, '000009-2020', 'atika instruction', NULL, 4, NULL, NULL, 'atika (cai+info ;;; coor: finnance)', NULL, 229, NULL, 12, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 1, NULL, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(559, NULL, '2020-11-16', NULL, NULL, NULL, 3, NULL, NULL, NULL, NULL, '000008-2020', 'ins 8', NULL, 7, NULL, NULL, 'suj (CAI + RH: Ser ;;; Coord: INFO)', NULL, 4, NULL, 12, NULL, NULL, NULL, 232, 516, 3, NULL, NULL, 1, NULL, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(516, NULL, '2020-11-09', NULL, NULL, NULL, 3, 'suje 6 desc', NULL, NULL, NULL, '000006-2020', 'ins 6', NULL, 7, NULL, NULL, 'suje 6 (RH coord)', NULL, 3, NULL, 12, NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL, 1, NULL, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(519, NULL, '2020-11-09', NULL, NULL, NULL, 4, 'suj 77 desc', NULL, NULL, NULL, '000007-2020', 'ins 7', NULL, 6, NULL, NULL, 'suj 77 (Coord CAI + S: RH et INFO)', NULL, 2, NULL, 12, NULL, NULL, NULL, 232, NULL, 1, 1, NULL, 2, NULL, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(602, NULL, '2020-11-16', NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, '000010-2020', 'ins 10', NULL, 4, NULL, NULL, 'suj 10 (SAF+RH ;; COR:INFO)', NULL, 4, NULL, 12, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 1, NULL, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -251,6 +260,7 @@ CREATE TABLE IF NOT EXISTS `courrier_service_item` (
                                                        `id` bigint(20) NOT NULL,
                                                        `courrier` bigint(20) DEFAULT NULL,
                                                        `service` bigint(20) DEFAULT NULL,
+                                                       `coordinateur` bit(1) NOT NULL,
                                                        PRIMARY KEY (`id`),
                                                        KEY `FK4f92rw2klc644bo3lqls3i5gw` (`courrier`),
                                                        KEY `FKd60c9ff3ubxrlttvbixbfr6xc` (`service`)
@@ -260,15 +270,34 @@ CREATE TABLE IF NOT EXISTS `courrier_service_item` (
 -- Déchargement des données de la table `courrier_service_item`
 --
 
-INSERT INTO `courrier_service_item` (`id`, `courrier`, `service`) VALUES
-(220, 195, 1),
-(219, 195, 3),
-(204, 198, 4),
-(222, 200, 3),
-(218, 195, 4),
-(262, 231, 3),
-(261, 231, 229),
-(260, 231, 4);
+INSERT INTO `courrier_service_item` (`id`, `courrier`, `service`, `coordinateur`) VALUES
+(624, 577, 229, b'1'),
+(623, 577, 229, b'1'),
+(566, 559, 4, b'1'),
+(565, 559, 3, b'0'),
+(564, 559, 2, b'0'),
+(575, 519, 2, b'1'),
+(574, 519, 2, b'0'),
+(573, 519, 2, b'1'),
+(545, 516, 3, b'1'),
+(544, 516, 3, b'0'),
+(572, 519, 2, b'1'),
+(571, 519, 4, b'0'),
+(570, 519, 3, b'0'),
+(569, 519, 2, b'1'),
+(563, 559, 4, b'1'),
+(546, 516, 3, b'1'),
+(576, 519, 2, b'1'),
+(622, 577, 4, b'0'),
+(621, 577, 2, b'0'),
+(620, 577, 229, b'1'),
+(619, 577, 229, b'1'),
+(615, 602, 4, b'1'),
+(614, 602, 1, b'0'),
+(613, 602, 3, b'0'),
+(612, 602, 4, b'1'),
+(616, 602, 4, b'1'),
+(625, 577, 229, b'1');
 
 -- --------------------------------------------------------
 
@@ -296,7 +325,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
 --
 
 INSERT INTO `employee` (`id`, `created_at`, `title`, `updated_at`, `created_by`, `updated_by`, `user`) VALUES
-(103, '2020-07-25 21:00:16', 'ana', NULL, 12, NULL, NULL);
+(103, '2020-07-25 21:00:16', 'ana', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -309,6 +338,7 @@ CREATE TABLE IF NOT EXISTS `etat_courrier` (
                                                `id` bigint(20) NOT NULL,
                                                `libelle` varchar(255) DEFAULT NULL,
                                                `libelle_arab` varchar(255) DEFAULT NULL,
+                                               `code` varchar(30) NOT NULL,
                                                PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -316,12 +346,12 @@ CREATE TABLE IF NOT EXISTS `etat_courrier` (
 -- Déchargement des données de la table `etat_courrier`
 --
 
-INSERT INTO `etat_courrier` (`id`, `libelle`, `libelle_arab`) VALUES
-(1, 'Initialisation', 'Initialisation'),
-(2, 'Directeur', 'Directeur'),
-(3, 'Chef', 'Chef'),
-(4, 'Bureau', 'Bureau'),
-(5, 'Cloturé', 'Cloturé');
+INSERT INTO `etat_courrier` (`id`, `libelle`, `libelle_arab`, `code`) VALUES
+(1, 'Initialisation', 'Initialisation', 'init'),
+(2, 'Directeur', 'Directeur', 'directeur'),
+(3, 'Chef', 'Chef', 'chef'),
+(4, 'Bureau', 'Bureau', 'bureau'),
+(5, 'Cloturé', 'Cloturé', 'cloture');
 
 -- --------------------------------------------------------
 
@@ -378,19 +408,24 @@ CREATE TABLE IF NOT EXISTS `expeditor` (
                                            `nationality` bigint(20) DEFAULT NULL,
                                            `sexe` bigint(20) DEFAULT NULL,
                                            `updated_by` bigint(20) DEFAULT NULL,
+                                           `expeditor_type` bigint(20) DEFAULT NULL,
                                            PRIMARY KEY (`id`),
                                            KEY `FKgbum88m2dbutcw99y3eafqacs` (`created_by`),
                                            KEY `FK6kiiph3fylfat5074mu2unn71` (`nationality`),
                                            KEY `FK3v83k82rjrcv7ja5yo4gt7ha8` (`sexe`),
-                                           KEY `FKfl5pti1md0or189byi2448xqj` (`updated_by`)
+                                           KEY `FKfl5pti1md0or189byi2448xqj` (`updated_by`),
+                                           KEY `FKbwwl1jw7ej4fqbolmashi69cu` (`expeditor_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `expeditor`
 --
 
-INSERT INTO `expeditor` (`id`, `adress`, `age`, `code`, `created_at`, `description`, `nature`, `title`, `title_arab`, `updated_at`, `created_by`, `nationality`, `sexe`, `updated_by`) VALUES
-(232, 'ad1', 22, '111', '2020-09-25 11:30:49', 'xxx', 'PM', 'CAP ENG', 'CAP ENG', NULL, 230, NULL, NULL, NULL);
+INSERT INTO `expeditor` (`id`, `adress`, `age`, `code`, `created_at`, `description`, `nature`, `title`, `title_arab`, `updated_at`, `created_by`, `nationality`, `sexe`, `updated_by`, `expeditor_type`) VALUES
+(232, 'ad1', 22, '111', '2020-09-25 11:30:49', 'xxx', 'PM', 'CAP ENG', 'CAP ENG', NULL, NULL, NULL, NULL, NULL, NULL),
+(289, NULL, NULL, NULL, '2020-10-20 11:48:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(290, NULL, NULL, NULL, '2020-10-20 11:49:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(326, 'walo', 12, 'walo', '2020-10-26 18:53:19', 'walo', 'walo', 'walo', NULL, NULL, NULL, 2, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -458,7 +493,7 @@ CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(263);
+(626);
 
 -- --------------------------------------------------------
 
@@ -489,11 +524,11 @@ CREATE TABLE IF NOT EXISTS `le_service` (
 --
 
 INSERT INTO `le_service` (`id`, `code`, `created_at`, `description`, `libelle_arab`, `title`, `updated_at`, `chef`, `created_by`, `updated_by`) VALUES
-(1, NULL, NULL, NULL, NULL, 'SAF', NULL, NULL, NULL, NULL),
-(2, NULL, NULL, NULL, NULL, 'CAI', NULL, NULL, NULL, NULL),
-(3, NULL, NULL, NULL, NULL, 'RH', NULL, 155, NULL, NULL),
-(4, NULL, NULL, NULL, NULL, 'INFO', NULL, 156, NULL, NULL),
-(229, 'Finnance', '2020-09-25 09:34:55', 'Finnance', 'Finnance', 'Finnance', NULL, 154, NULL, NULL);
+(1, 'saf', NULL, NULL, NULL, 'SAF', NULL, 480, NULL, NULL),
+(2, 'cai', NULL, NULL, NULL, 'CAI', NULL, 479, NULL, NULL),
+(3, 'rh', NULL, NULL, NULL, 'RH', NULL, 482, NULL, NULL),
+(4, 'info', NULL, NULL, NULL, 'INFO', NULL, 481, NULL, NULL),
+(229, 'finnance', '2020-09-25 09:34:55', 'Finnance', 'Finnance', 'Finnance', NULL, 483, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -571,6 +606,39 @@ INSERT INTO `nationality` (`id`, `created_at`, `libelle`, `updated_at`, `created
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `nature_client`
+--
+
+DROP TABLE IF EXISTS `nature_client`;
+CREATE TABLE IF NOT EXISTS `nature_client` (
+                                               `id` bigint(20) NOT NULL,
+                                               `code` varchar(255) DEFAULT NULL,
+                                               `created_at` datetime DEFAULT NULL,
+                                               `libelle` varchar(255) DEFAULT NULL,
+                                               `libelle_arab` varchar(255) DEFAULT NULL,
+                                               `updated_at` datetime DEFAULT NULL,
+                                               `created_by` bigint(20) DEFAULT NULL,
+                                               `updated_by` bigint(20) DEFAULT NULL,
+                                               PRIMARY KEY (`id`),
+                                               KEY `FKpl91jy38wyn5x1hru7bh8y349` (`created_by`),
+                                               KEY `FKribsm8k5edm76dlr0vcrahxwt` (`updated_by`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `nature_client`
+--
+
+INSERT INTO `nature_client` (`id`, `code`, `created_at`, `libelle`, `libelle_arab`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'personne physique', NULL, 'Personne Physique', NULL, NULL, NULL, NULL),
+(2, 'entreprise', NULL, 'Entreprise', NULL, NULL, NULL, NULL),
+(3, 'association', NULL, 'Association', NULL, NULL, NULL, NULL),
+(4, 'cooperative', NULL, 'Cooperative', NULL, NULL, NULL, NULL),
+(5, 'interprofession', NULL, 'Interprofession', NULL, NULL, NULL, NULL),
+(6, 'autres', NULL, 'Autres', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nature_courrier`
 --
 
@@ -600,6 +668,35 @@ INSERT INTO `nature_courrier` (`id`, `code`, `created_at`, `delai`, `libelle`, `
 (2, 'requete', NULL, 2, 'Requete', NULL, 4, NULL, NULL, NULL),
 (3, 'reclamation', NULL, 3, 'Reclamation', NULL, 7, NULL, NULL, NULL),
 (4, 'autre', NULL, 8, 'Autre', NULL, 10, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `phase_admin`
+--
+
+DROP TABLE IF EXISTS `phase_admin`;
+CREATE TABLE IF NOT EXISTS `phase_admin` (
+                                             `id` bigint(20) NOT NULL,
+                                             `code` varchar(255) DEFAULT NULL,
+                                             `created_at` datetime DEFAULT NULL,
+                                             `libelle` varchar(255) DEFAULT NULL,
+                                             `libelle_arab` varchar(255) DEFAULT NULL,
+                                             `updated_at` datetime DEFAULT NULL,
+                                             `created_by` bigint(20) DEFAULT NULL,
+                                             `updated_by` bigint(20) DEFAULT NULL,
+                                             PRIMARY KEY (`id`),
+                                             KEY `FK74hexa4jae3lrt02mjjnl88hd` (`created_by`),
+                                             KEY `FKtffkxmnjv1vwb8ljakdwrwo8j` (`updated_by`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `phase_admin`
+--
+
+INSERT INTO `phase_admin` (`id`, `code`, `created_at`, `libelle`, `libelle_arab`, `updated_at`, `created_by`, `updated_by`) VALUES
+(2, 'requette rouverte', NULL, 'Requette Rouverte', NULL, NULL, NULL, NULL),
+(1, 'requette cloturee', NULL, 'Requette Cloturee', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -762,11 +859,11 @@ CREATE TABLE IF NOT EXISTS `task` (
 --
 
 INSERT INTO `task` (`id`, `accuse`, `assigned_at`, `created_at`, `date_accuse`, `date_reponse`, `delai`, `description`, `observation`, `processed_at`, `relance`, `reponse`, `title`, `updated_at`, `assigne`, `courrier`, `created_by`, `status`, `updated_by`) VALUES
-(217, NULL, NULL, '2020-09-24 23:00:00', NULL, NULL, NULL, 't 1 howa', NULL, NULL, NULL, NULL, 't2', NULL, 178, 195, 155, 1, NULL),
-(216, NULL, NULL, '2020-09-24 23:00:00', NULL, NULL, NULL, 't 1 ana', NULL, NULL, NULL, NULL, 't1', NULL, 177, 195, 155, 1, NULL),
-(221, NULL, NULL, '2020-09-24 23:00:00', NULL, NULL, NULL, 't11 howaaa', NULL, NULL, NULL, NULL, 't11', NULL, 178, 200, 155, 1, NULL),
-(259, b'1', NULL, '2020-09-24 23:00:00', '2020-09-14 23:00:00', '2020-09-08 23:00:00', NULL, 'anaaa desc t1', 'anaaa obs t1', NULL, NULL, b'1', 't1', NULL, 177, 231, 177, 1, NULL),
-(258, NULL, NULL, '2020-09-24 23:00:00', NULL, NULL, NULL, 'howaa desc t2', 'howaa obs t2', NULL, NULL, NULL, 't2', NULL, 178, 231, 177, 1, NULL);
+(618, b'1', NULL, '2020-11-16 21:58:11', NULL, NULL, NULL, 'desssss', NULL, NULL, NULL, NULL, 't1 tika', NULL, 487, 577, 12, 2, NULL),
+(617, b'1', NULL, '2020-11-16 21:58:11', NULL, NULL, NULL, 'desxc tika 1', 'obs tika', NULL, NULL, b'1', 't2', NULL, 486, 577, 12, 3, NULL),
+(567, NULL, NULL, '2020-11-16 21:03:24', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'T1', NULL, 486, 519, 479, NULL, NULL),
+(568, b'1', NULL, '2020-11-16 21:03:24', NULL, NULL, NULL, 'desc T2', 'obsT2', NULL, NULL, b'1', 'T2', NULL, 487, 519, 479, 3, NULL),
+(611, b'1', NULL, '2020-11-16 23:01:49', NULL, NULL, NULL, 'bbbbbbbbbbbb', 'rrrrrrrrrrrrrr', NULL, NULL, b'1', 't1', NULL, 486, 602, 486, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -795,6 +892,36 @@ INSERT INTO `type_courrier` (`id`, `code`, `color`, `libelle`, `libelle_arab`) V
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `type_requette`
+--
+
+DROP TABLE IF EXISTS `type_requette`;
+CREATE TABLE IF NOT EXISTS `type_requette` (
+                                               `id` bigint(20) NOT NULL,
+                                               `code` varchar(255) DEFAULT NULL,
+                                               `created_at` datetime DEFAULT NULL,
+                                               `libelle` varchar(255) DEFAULT NULL,
+                                               `libelle_arab` varchar(255) DEFAULT NULL,
+                                               `updated_at` datetime DEFAULT NULL,
+                                               `created_by` bigint(20) DEFAULT NULL,
+                                               `updated_by` bigint(20) DEFAULT NULL,
+                                               PRIMARY KEY (`id`),
+                                               KEY `FKp7vi7efft3mqt5nx934g3lsl1` (`created_by`),
+                                               KEY `FKkr0i7dofoc1d4k9aa6lqik95r` (`updated_by`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `type_requette`
+--
+
+INSERT INTO `type_requette` (`id`, `code`, `created_at`, `libelle`, `libelle_arab`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'oservations', NULL, 'Oservations', NULL, NULL, NULL, NULL),
+(2, 'propositions', NULL, 'Propositions', NULL, NULL, NULL, NULL),
+(3, 'reclamations', NULL, 'Reclamations', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `user`
 --
 
@@ -813,24 +940,37 @@ CREATE TABLE IF NOT EXISTS `user` (
                                       `username` varchar(255) DEFAULT NULL,
                                       `created_by` bigint(20) DEFAULT NULL,
                                       `updated_by` bigint(20) DEFAULT NULL,
+                                      `le_service` bigint(20) DEFAULT NULL,
                                       PRIMARY KEY (`id`),
                                       KEY `FKdltbr5t0nljpuuo4isxgslt82` (`created_by`),
-                                      KEY `FK2a54xhceitopkkw1hlo3tkv3i` (`updated_by`)
+                                      KEY `FK2a54xhceitopkkw1hlo3tkv3i` (`updated_by`),
+                                      KEY `FK8r7r3b1q7omscl6db6x2qastk` (`le_service`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id`, `account_non_expired`, `account_non_locked`, `created_at`, `credentials_non_expired`, `email`, `enabled`, `password`, `password_changed`, `updated_at`, `username`, `created_by`, `updated_by`) VALUES
-(12, b'1', b'1', '2020-07-22 14:06:35', b'1', 'admin@gmail.com', b'1', '$2a$10$yesMI6MKbWs8H7wothzNR.TcTVz6zqTRjBQUbuUT83ZwqCVj1NAhG', b'1', NULL, 'admin', NULL, NULL),
-(29, b'1', b'1', '2020-07-22 14:54:54', b'1', 'ismail@gmail.com', b'1', '$2a$10$LTrcvoKU7/3eRvyl8/WN8.YZWAWaI61KwiH/nimw.VVsKJ2W7s.jK', b'1', NULL, 'ismail', NULL, NULL),
-(154, b'1', b'1', '2020-09-24 09:56:04', b'1', 'zouani-directeur@gmail.com', b'1', '$2a$10$Vz9eF5fCv014EoUZZqzIL.daYFTE7JcC3BofOYKuHF4SQVPIQYiwy', b'1', NULL, 'zouani-directeur@gmail.com', 12, NULL),
-(155, b'1', b'1', '2020-09-24 09:56:36', b'1', 'zouani-chef@gmail.com', b'1', '$2a$10$Dc4Wwwho3VbeZEH/tYYZ1.HvKEjfLAU/ONzPIYtxVSkkEJ7kYXYo6', b'1', NULL, 'zouani-chef@gmail.com', 12, NULL),
-(156, b'1', b'1', '2020-09-24 10:00:23', b'1', 'younes-chef@gmail.com', b'1', '$2a$10$NEQctS9Rz5LG5qJ2mzQ5B./lXiay7w51cRmGkAMgY/LgTb/gfJwUq', b'1', NULL, 'younes-chef@gmail.com', 155, NULL),
-(177, b'1', b'1', '2020-09-24 21:41:36', b'1', 'ana', b'1', '$2a$10$KO3C.4oUm3RZyKPQ23p/8e0vtuRKtwU7y0q2J7c/GO0kKxz5mD4Va', b'1', NULL, 'ana', 156, NULL),
-(178, b'1', b'1', '2020-09-24 21:41:47', b'1', 'howa', b'1', '$2a$10$u0NWxYxo8JVvVZNIyOy8/.mHqQ/ImK/QMxvJGrnsxE808fNB4M7va', b'1', NULL, 'howa', 156, NULL),
-(230, b'1', b'1', '2020-09-25 10:58:47', b'1', 'bo', b'1', '$2a$10$S2FP.azFL0EdNICpgEvXhe0/625G9Mgrd9xQJOaBG7FHzwiNDdxXS', b'1', NULL, 'bo', 12, NULL);
+INSERT INTO `user` (`id`, `account_non_expired`, `account_non_locked`, `created_at`, `credentials_non_expired`, `email`, `enabled`, `password`, `password_changed`, `updated_at`, `username`, `created_by`, `updated_by`, `le_service`) VALUES
+(12, b'1', b'1', '2020-07-22 14:06:35', b'1', 'admin@gmail.com', b'1', '$2a$10$u4mxkJbzRjIKPMt/EQRz9OW39KyEwRqN0627QJOqpwXSgxeY.nonG', b'1', '2020-11-08 20:57:36', 'admin@gmail.com', NULL, 12, NULL),
+(480, b'1', b'1', '2020-11-08 17:40:56', b'1', 'chef-saf@gmail.com', b'1', '$2a$10$YEi2koDj44qghJJS6.mnk.BEW23IVPN.sAiOxcFaBfjHs5.0ofY1.', b'1', NULL, 'chef-saf@gmail.com', 12, NULL, 1),
+(479, b'1', b'1', '2020-11-08 16:09:13', b'1', 'chef-cai@gmail.com', b'1', '$2a$10$0zbioKZKwPxt7lwmrlJKpebA3gN9OznHLKCwWk2vg6/f7pO6s0w1.', b'1', NULL, 'chef-cai@gmail.com', 12, NULL, 2),
+(481, b'1', b'1', '2020-11-08 20:08:35', b'1', 'chef-info@gmail.com', b'1', '$2a$10$b02sT1mvfHjRaPtaLcTVUORKELIL0BOp03ZeEm85CW5DJv2zf2xbO', b'1', NULL, 'chef-info@gmail.com', 12, NULL, 4),
+(482, b'1', b'1', '2020-11-08 20:18:02', b'1', 'chef-rh@gmail.com', b'1', '$2a$10$gBSNzSaqXJBCAwzTLaKoluKOsM21IbG1zHdOzeX8gH89ehsnMjeDa', b'1', NULL, 'chef-rh@gmail.com', 12, NULL, 3),
+(483, b'1', b'1', '2020-11-08 20:37:14', b'1', 'chef-finnance@gmail.com', b'1', '$2a$10$NsKt9Mgb4/ua.T.VylX62eDRrNVAfPsH7udCyF3B0/Po6j7IRZ5B.', b'0', NULL, 'chef-finnance@gmail.com', 12, NULL, 229),
+(484, b'1', b'1', '2020-11-08 20:47:55', b'1', 'agent-saf1@gmail.com', b'1', '$2a$10$Hf9ALCO0yPQ/slH1wPGqYOWbSGniG23N67P1QPTmIaMfyFBxApAIm', b'1', NULL, 'agent-saf1@gmail.com', 12, NULL, 1),
+(485, b'1', b'1', '2020-11-08 20:48:30', b'1', 'agent-saf2@gmail.com', b'1', '$2a$10$N7jY6HQuAaByWoeZy5wTDevp4A.Qvs7JSbq1vaYeGGcru6/2i/noK', b'0', NULL, 'agent-saf2@gmail.com', 12, NULL, 1),
+(486, b'1', b'1', '2020-11-08 20:49:43', b'1', 'agent-cai1@gmail.com', b'1', '$2a$10$xImaq4lqin5PZl2zruuTWuEFJeNHGMz9SSl7E1tCn8Laf01eda2hq', b'1', NULL, 'agent-cai1@gmail.com', 12, NULL, 2),
+(487, b'1', b'1', '2020-11-08 20:50:30', b'1', 'agent-cai2@gmail.com', b'1', '$2a$10$NFyBXc/WSEudxF2GubK4JOfGj5QVaboQBJ8aCZRflDbMUrlSIAg8i', b'1', NULL, 'agent-cai2@gmail.com', 12, NULL, 2),
+(488, b'1', b'1', '2020-11-08 20:52:40', b'1', 'agent-rh1@gmail.com', b'1', '$2a$10$6ezKehKtGr.CLI6CFQ47s.DINiSQRzPHn9xyIP910E4PIRpqRxi7e', b'0', NULL, 'agent-rh1@gmail.com', 12, NULL, 3),
+(489, b'1', b'1', '2020-11-08 20:52:54', b'1', 'agent-rh2@gmail.com', b'1', '$2a$10$e9Efwq9ZNL9fn97cPJ0v6OB7bed4wZLRAoEpT8/6/yfVb5UwFRHhm', b'0', NULL, 'agent-rh2@gmail.com', 12, NULL, 3),
+(490, b'1', b'1', '2020-11-08 20:53:12', b'1', 'agent-info1@gmail.com', b'1', '$2a$10$b1lMOPlkG1t4FBT.Em/hwO4fnv0t1PIzhfauOFabI2ycinkXZ0NN.', b'0', NULL, 'agent-info1@gmail.com', 12, NULL, 4),
+(491, b'1', b'1', '2020-11-08 20:53:39', b'1', 'agent-info2@gmail.com', b'1', '$2a$10$XXCcyWh7Nbd/ZKPCYGPHYOgPkcJvDboZsfrdYAii0KOB0WNtZ0PgK', b'0', NULL, 'agent-info2@gmail.com', 12, NULL, 4),
+(492, b'1', b'1', '2020-11-08 20:54:04', b'1', 'agent-finnance1@gmail.com', b'1', '$2a$10$EO0hwQUeqnpwwrYHOSVZaeNGoMVTbK4QOyvu6/atHSnfuMgiLxtF.', b'0', NULL, 'agent-finnance1@gmail.com', 12, NULL, 229),
+(493, b'1', b'1', '2020-11-08 20:54:20', b'1', 'agent-finnance2@gmail.com', b'1', '$2a$10$ILUS2BFR4i1.wQv6y94J9eNxNBlB5nB47dw3pAlkpAj5573dRIFFq', b'0', NULL, 'agent-finnance2@gmail.com', 12, NULL, 229),
+(494, b'1', b'1', '2020-11-08 20:56:04', b'1', 'directeur@gmail.com', b'1', '$2a$10$vTSRZdM3VaKqHZP/.u0uCeXHAnEL/ZXK8oVBPt.Zjo.OJNp6AMkV2', b'1', NULL, 'directeur@gmail.com', 12, NULL, NULL),
+(495, b'1', b'1', '2020-11-08 20:56:40', b'1', 'bo@gmail.com', b'1', '$2a$10$IgdJys3iTWtlkzdA5pEJrev6qJrC/15HVTd1eJRGKt9uixhQ4Wvnq', b'1', NULL, 'bo@gmail.com', 12, NULL, NULL),
+(496, b'1', b'1', '2020-11-08 20:57:07', b'1', 'charge-requette@gmail.com', b'1', '$2a$10$JAxH0TAVzdIT4Pl6ZRG3PuxQ7RmNjQFcPxM6QmRD9lp33G11bRfF6', b'0', NULL, 'charge-requette@gmail.com', 12, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -852,16 +992,24 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
 
 INSERT INTO `user_roles` (`user_id`, `roles`) VALUES
 (12, 10),
-(29, 13),
-(29, 15),
-(154, 16),
-(154, 18),
-(155, 17),
-(156, 17),
-(177, 19),
-(177, 20),
-(178, 20),
-(230, 15);
+(479, 17),
+(480, 17),
+(481, 17),
+(482, 17),
+(483, 17),
+(484, 20),
+(485, 20),
+(486, 20),
+(487, 20),
+(488, 20),
+(489, 20),
+(490, 20),
+(491, 20),
+(492, 20),
+(493, 20),
+(494, 16),
+(495, 15),
+(496, 19);
 
 -- --------------------------------------------------------
 

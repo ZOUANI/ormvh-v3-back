@@ -7,6 +7,9 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import ma.zs.generated.bean.CourrierObject;
 import ma.zs.generated.bean.Voie;
 import ma.zs.generated.bean.NatureCourrier;
@@ -26,7 +29,7 @@ public class Courrier {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    private String sujet;
     private String instruction;
     private String expediteurDesc;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
@@ -38,6 +41,9 @@ public class Courrier {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRelance;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateTraitement;
     private Boolean accuse;
     private Boolean reponse;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
@@ -57,6 +63,8 @@ public class Courrier {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createdAt;
+    @ManyToOne
+    private User createdBy;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
@@ -84,21 +92,54 @@ public class Courrier {
     @ManyToOne
     private Evaluation evaluation;
     @ManyToOne
-    private ExpeditorType expeditorType;
-    @ManyToOne
     private Subdivision subdivision;
     @ManyToOne
     private Status status;
     @ManyToOne
     private TypeCourrier typeCourrier;
-    @ManyToOne
-    private User createdBy;
+
     @ManyToOne
     private User updatedBy;
+
+    @ManyToOne
+    private TypeRequette typeRequette;
+    @ManyToOne
+    private NatureClient natureClient;
+    @ManyToOne
+    private PhaseAdmin phaseAdmin;
     @OneToMany(mappedBy = "courrier",cascade = CascadeType.REMOVE)
     private List<Task> tasks;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "courrier")
     private List<CourrierServiceItem> courrierServiceItems;
+    private List<CourrierPieceJoint> getCourriersPieceJoint() {
+        return courriersPieceJoint;
+    }
+
+
+    public TypeRequette getTypeRequette() {
+        return typeRequette;
+    }
+
+    public void setTypeRequette(TypeRequette typeRequette) {
+        this.typeRequette = typeRequette;
+    }
+
+    public Date getDateTraitement() {
+        return dateTraitement;
+    }
+
+    public void setDateTraitement(Date dateTraitement) {
+        this.dateTraitement = dateTraitement;
+    }
+
+    public String getSujet() {
+        return sujet;
+    }
+
+    public void setSujet(String sujet) {
+        this.sujet = sujet;
+    }
 
     public EtatCourrier getEtatCourrier() {
         return etatCourrier;
@@ -117,6 +158,21 @@ public class Courrier {
     }
 
 
+    public NatureClient getNatureClient() {
+        return natureClient;
+    }
+
+    public void setNatureClient(NatureClient natureClient) {
+        this.natureClient = natureClient;
+    }
+
+    public PhaseAdmin getPhaseAdmin() {
+        return phaseAdmin;
+    }
+
+    public void setPhaseAdmin(PhaseAdmin phaseAdmin) {
+        this.phaseAdmin = phaseAdmin;
+    }
 
     public Courrier() {
         super();
@@ -389,14 +445,6 @@ public class Courrier {
         this.evaluation = evaluation;
     }
 
-    public ExpeditorType getExpeditorType() {
-        return this.expeditorType;
-    }
-
-    public void setExpeditorType(ExpeditorType expeditorType) {
-        this.expeditorType = expeditorType;
-    }
-
     public Subdivision getSubdivision() {
         return this.subdivision;
     }
@@ -412,13 +460,9 @@ public class Courrier {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
-
     public List<CourrierServiceItem> getCourrierServiceItems() {
         return this.courrierServiceItems;
     }
-    public List<CourrierPieceJoint> getCourriersPieceJoint() {
-		return courriersPieceJoint;
-	}
 
 	public void setCourriersPieceJoint(List<CourrierPieceJoint> courriersPieceJoint) {
 		this.courriersPieceJoint = courriersPieceJoint;

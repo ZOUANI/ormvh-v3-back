@@ -8,6 +8,7 @@ public class CourrierServiceItemVo {
 
 	private CourrierVo courrierVo ;
 	private LeServiceVo serviceVo ;
+    private boolean coordinateur;
 
 
 
@@ -15,8 +16,15 @@ public class CourrierServiceItemVo {
        super();
      }
 
+    public boolean isCoordinateur() {
+        return coordinateur;
+    }
 
-     public String getId(){
+    public void setCoordinateur(boolean coordinateur) {
+        this.coordinateur = coordinateur;
+    }
+
+    public String getId(){
           return this.id;
      }
       public void setId(String id){

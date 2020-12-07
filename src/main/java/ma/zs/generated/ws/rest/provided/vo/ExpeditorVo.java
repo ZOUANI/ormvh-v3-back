@@ -14,7 +14,7 @@ public class ExpeditorVo {
    
      private String description ;
    
-     private String nature ;
+     private ExpeditorTypeVo expeditorTypeVo ;
    
      private String age ;
    
@@ -83,15 +83,15 @@ public class ExpeditorVo {
      }
 
 
-     public String getNature(){
-          return this.nature;
-     }
-      public void setNature(String nature){
-          this.nature = nature;
-     }
+    public ExpeditorTypeVo getExpeditorTypeVo() {
+        return expeditorTypeVo;
+    }
 
+    public void setExpeditorTypeVo(ExpeditorTypeVo expeditorTypeVo) {
+        this.expeditorTypeVo = expeditorTypeVo;
+    }
 
-     public String getAge(){
+    public String getAge(){
           return this.age;
      }
       public void setAge(String age){

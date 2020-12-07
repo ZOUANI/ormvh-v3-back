@@ -225,7 +225,6 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
         query += addConstraint("o", "description", "LIKE", expeditorVo.getDescription());
 
-        query += addConstraint("o", "nature", "LIKE", expeditorVo.getNature());
 
         query += addConstraint("o", "age", "=", expeditorVo.getAge());
         query += addConstraint("o", "id", "=", expeditorVo.getId());

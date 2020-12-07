@@ -1,23 +1,19 @@
 package ma.zs.generated.ws.rest.provided.vo;
 
 
-public class EtatCourrierVo {
+public class PhaseAdminVo {
 
      private String libelle ;
-    private String code ;
+
      private String libelleArab ;
 
      private String id ;
 
-    public String getCode() {
-        return code;
-    }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
 
-    public EtatCourrierVo(){
+
+
+ public PhaseAdminVo(){
        super();
      }
 

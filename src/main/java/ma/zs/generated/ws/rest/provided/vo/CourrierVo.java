@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ma.zs.generated.bean.CourrierPieceJoint;
+import ma.zs.generated.bean.PhaseAdmin;
 
 public class CourrierVo {
+
+    private String sujet;
 
     private String instruction;
 
@@ -29,6 +32,8 @@ public class CourrierVo {
 
     private String dateReponse;
 
+    private String dateTraitement;
+
     private String receivedAt;
 
     private String id;
@@ -46,6 +51,9 @@ public class CourrierVo {
     private String delai;
     private String type;
 
+    private PhaseAdminVo phaseAdminVo;
+    private NatureClientVo natureClientVo;
+
     private CourrierObjectVo courrierObjectVo;
     private VoieVo voieVo;
     private NatureCourrierVo natureCourrierVo;
@@ -55,13 +63,13 @@ public class CourrierVo {
     private LeServiceVo coordinatorVo;
     private LeServiceVo emetteurVo;
     private EvaluationVo evaluationVo;
-    private ExpeditorTypeVo expeditorTypeVo;
     private SubdivisionVo subdivisionVo;
     private StatusVo statusVo;
     private TypeCourrierVo typeCourrierVo;
     private UserVo createdByVo;
     private UserVo updatedByVo;
     private EtatCourrierVo etatCourrierVo;
+    private TypeRequetteVo typeRequetteVo;
 
     private UserVo chef;
     private String length;
@@ -88,6 +96,13 @@ public class CourrierVo {
     private String delaiMax;
     private String delaiMin;
 
+    public String getDateTraitement() {
+        return dateTraitement;
+    }
+
+    public void setDateTraitement(String dateTraitement) {
+        this.dateTraitement = dateTraitement;
+    }
 
     public CourrierVo() {
         super();
@@ -490,13 +505,6 @@ public class CourrierVo {
         this.evaluationVo = evaluationVo;
     }
 
-    public ExpeditorTypeVo getExpeditorTypeVo() {
-        return this.expeditorTypeVo;
-    }
-
-    public void setExpeditorTypeVo(ExpeditorTypeVo expeditorTypeVo) {
-        this.expeditorTypeVo = expeditorTypeVo;
-    }
 
     public SubdivisionVo getSubdivisionVo() {
         return this.subdivisionVo;
@@ -577,6 +585,38 @@ public class CourrierVo {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+    public PhaseAdminVo getPhaseAdminVo() {
+        return phaseAdminVo;
+    }
+
+    public void setPhaseAdminVo(PhaseAdminVo phaseAdminVo) {
+        this.phaseAdminVo = phaseAdminVo;
+    }
+
+    public String getSujet() {
+        return sujet;
+    }
+
+    public void setSujet(String sujet) {
+        this.sujet = sujet;
+    }
+
+    public NatureClientVo getNatureClientVo() {
+        return natureClientVo;
+    }
+
+    public void setNatureClientVo(NatureClientVo natureClientVo) {
+        this.natureClientVo = natureClientVo;
+    }
+
+    public TypeRequetteVo getTypeRequetteVo() {
+        return typeRequetteVo;
+    }
+
+    public void setTypeRequetteVo(TypeRequetteVo typeRequetteVo) {
+        this.typeRequetteVo = typeRequetteVo;
+    }
 
     public EtatCourrierVo getEtatCourrierVo() {
         return etatCourrierVo;

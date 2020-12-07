@@ -1,9 +1,13 @@
 package ma.zs.generated.service.impl;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+import ma.zs.generated.bean.LeService;
+import ma.zs.generated.security.SecurityUtil;
+import ma.zs.generated.service.facade.LeServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +29,9 @@ import ma.zs.generated.service.util.*;
 public class UserServiceImpl extends AbstractService<User> implements UserService {
 
     @Autowired
+    private LeServiceService leServiceService;
+
+    @Autowired
     private UserDao userDao;
 
     @Autowired
@@ -35,6 +42,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Override
+    public List<User> findAllInService() {
+        String query = "SELECT o FROM User o where 1=1 ";
+        if(SecurityUtil.isChefService()){
+            query += addConstraint("o", "leService.chef.username", "=", SecurityUtil.getCurrentUser().getUsername());
+        }
+        return entityManager.createQuery(query).getResultList();
+
+    }
 
     @Override
     public List<User> findAll() {
@@ -138,9 +155,18 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             for (String authority : authorities) {
                 user.getRoles().add(roleService.findByAuthority(authority));
             }
-            prepareSave(user);
-            User savedUser = userDao.save(user);
-            return savedUser;
+
+          //  prepareSave(user);
+            User mySaved= userDao.save(user);
+
+            if(SecurityUtil.isChefService(user.getRoles())){
+                if(mySaved.getLeService()!=null){
+                   mySaved.getLeService().setChef(mySaved);
+                   leServiceService.update(mySaved.getLeService());
+
+                }
+            }
+            return mySaved;
         }
     }
 
@@ -247,6 +273,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             return userDao.save(user);
         }
     }
+
 
 
 }

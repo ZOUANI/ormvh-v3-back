@@ -23,6 +23,7 @@ public class UserVo {
     private String id;
 
     private String username;
+    private LeServiceVo leServiceVo;
 
     private String password;
     private String newPassword;
@@ -41,6 +42,14 @@ public class UserVo {
 
     public UserVo() {
         super();
+    }
+
+    public LeServiceVo getLeServiceVo() {
+        return leServiceVo;
+    }
+
+    public void setLeServiceVo(LeServiceVo leServiceVo) {
+        this.leServiceVo = leServiceVo;
     }
 
     public Boolean getCredentialsNonExpired() {

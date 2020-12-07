@@ -41,6 +41,8 @@ public class User  {
     private String username;
     private String password;
     private Boolean passwordChanged;
+    @ManyToOne
+    private LeService leService;
 
     @ManyToOne
     private User createdBy;
@@ -51,6 +53,34 @@ public class User  {
 
     public User() {
         super();
+    }
+
+    public Boolean getCredentialsNonExpired() {
+        return credentialsNonExpired;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public Boolean getAccountNonExpired() {
+        return accountNonExpired;
+    }
+
+    public Boolean getAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public Boolean getPasswordChanged() {
+        return passwordChanged;
+    }
+
+    public LeService getLeService() {
+        return leService;
+    }
+
+    public void setLeService(LeService leService) {
+        this.leService = leService;
     }
 
     public Long getId() {

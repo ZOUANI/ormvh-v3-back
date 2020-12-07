@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class DateUtil {
 
-    private static String datePatter = "yyyy-MM-dd HH:mm:ss.SSS";
+    private static String datePatter = "yyyy-MM-dd HH:mm:ss";
 
     public static String formateDate(Date date) {
         return formateDate(datePatter, date);
@@ -29,7 +29,7 @@ public class DateUtil {
             return null;
         } else {
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePatter);
                 return simpleDateFormat.parse(date);
             } catch (Exception ex) {
                 return null;

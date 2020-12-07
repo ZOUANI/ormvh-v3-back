@@ -35,6 +35,7 @@ public class CourrierServiceItemConverter extends AbstractConverter<CourrierServ
              if(vo.getServiceVo()!=null && this.service)
 			     item.setService(leServiceConverter.toItem(vo.getServiceVo())) ;
 
+             item.setCoordinateur(vo.isCoordinateur());
 
 		return item;
  		}
@@ -54,9 +55,11 @@ public class CourrierServiceItemConverter extends AbstractConverter<CourrierServ
 			   } 
             if(item.getService()!=null && this.service) {
 				   vo.setServiceVo(leServiceConverter.toVo(item.getService())) ;
-			   } 
+			   }
+			vo.setCoordinateur(item.isCoordinateur());
 
- 			return vo;
+
+			return vo;
  
  		}
  	}

@@ -15,9 +15,12 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
          private UserConverter userConverter ;
 	   @Autowired
          private SexeConverter sexeConverter ;
+	@Autowired
+	private ExpeditorTypeConverter expeditorTypeConverter ;
 	   @Autowired
          private NationalityConverter nationalityConverter ;
     private Boolean sexe;
+	private Boolean expeditorType;
     private Boolean nationality;
     private Boolean createdBy;
     private Boolean updatedBy;
@@ -42,8 +45,7 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
                   item.setCode(vo.getCode());
 			 if(StringUtil.isNotEmpty(vo.getDescription()))
                   item.setDescription(vo.getDescription());
-			 if(StringUtil.isNotEmpty(vo.getNature()))
-                  item.setNature(vo.getNature());
+
 			 if(StringUtil.isNotEmpty(vo.getAge()))
                   item.setAge(NumberUtil.toInt(vo.getAge()));
 			 if(StringUtil.isNotEmpty(vo.getId()))
@@ -56,6 +58,10 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
 			     item.setSexe(sexeConverter.toItem(vo.getSexeVo())) ;
              if(vo.getNationalityVo()!=null && this.nationality)
 			     item.setNationality(nationalityConverter.toItem(vo.getNationalityVo())) ;
+
+             if(vo.getExpeditorTypeVo()!=null && this.expeditorType)
+			item.setExpeditorType(expeditorTypeConverter.toItem(vo.getExpeditorTypeVo())); ;
+
 //             if(vo.getCreatedByVo()!=null && this.createdBy)
 //			     item.setCreatedBy(userConverter.toItem(vo.getCreatedByVo())) ;
 //             if(vo.getUpdatedByVo()!=null && this.updatedBy)
@@ -86,9 +92,7 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
 			if(StringUtil.isNotEmpty(item.getDescription()))
 				vo.setDescription(item.getDescription());
 			
-			if(StringUtil.isNotEmpty(item.getNature()))
-				vo.setNature(item.getNature());
-			
+
 			 if(item.getAge()!=null)
 				vo.setAge(NumberUtil.toString(item.getAge()));
 			 if(item.getId()!=null)
@@ -110,9 +114,12 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
 			   } 
             if(item.getUpdatedBy()!=null && this.updatedBy) {
 				   vo.setUpdatedByVo(userConverter.toVo(item.getUpdatedBy())) ;
-			   } 
+			   }
+			if(item.getExpeditorType()!=null && this.expeditorType) {
+				vo.setExpeditorTypeVo(expeditorTypeConverter.toVo(item.getExpeditorType())); ;
+			}
 
- 			return vo;
+			return vo;
  
  		}
  	}
@@ -121,6 +128,7 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
        nationality = value;
        createdBy = value;
        updatedBy = value;
+		expeditorType=value;
 	}
 
 
@@ -170,4 +178,52 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
 	 public void  setUpdatedBy(boolean updatedBy){
 		   this.updatedBy = updatedBy;
 	 }
+
+	public ExpeditorTypeConverter getExpeditorTypeConverter() {
+		return expeditorTypeConverter;
+	}
+
+	public void setExpeditorTypeConverter(ExpeditorTypeConverter expeditorTypeConverter) {
+		this.expeditorTypeConverter = expeditorTypeConverter;
+	}
+
+	public Boolean getSexe() {
+		return sexe;
+	}
+
+	public void setSexe(Boolean sexe) {
+		this.sexe = sexe;
+	}
+
+	public Boolean getExpeditorType() {
+		return expeditorType;
+	}
+
+	public void setExpeditorType(Boolean expeditorType) {
+		this.expeditorType = expeditorType;
+	}
+
+	public Boolean getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(Boolean nationality) {
+		this.nationality = nationality;
+	}
+
+	public Boolean getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Boolean createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Boolean getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Boolean updatedBy) {
+		this.updatedBy = updatedBy;
+	}
 }

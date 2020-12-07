@@ -39,10 +39,13 @@ public class UserRest {
     @ApiOperation("creates the specified user")
     @PostMapping("/")
     public UserVo create(@RequestBody UserVo userVo) {
-
+        userConverter.getLeServiceConverter().setChef(false);
         User user = userConverter.toItem(userVo);
         user = userService.create(user);
-        return userConverter.toVo(user);
+        UserVo myUserVo = userConverter.toVo(user);
+        userConverter.getLeServiceConverter().setChef(true);
+
+        return myUserVo;
     }
 
     @ApiOperation("Delete the specified user")
@@ -64,6 +67,13 @@ public class UserRest {
     @GetMapping("/")
     public List<UserVo> findAll() {
         return userConverter.toVo(userService.findAll());
+    }
+
+
+    @ApiOperation("Finds a list of all users in a Service")
+    @GetMapping("/in-service")
+    public List<UserVo> findAllInService() {
+        return userConverter.toVo(userService.findAllInService());
     }
 
     @ApiOperation("Finds a user by id")

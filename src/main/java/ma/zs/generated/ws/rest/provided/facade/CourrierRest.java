@@ -417,30 +417,6 @@ private CourrierPieceJointService courrierPieceJointService;
         return courrierService.deleteByEvaluationId(id);
     }
 
-    @ApiOperation("Finds a courrier by title of expeditorType")
-    @GetMapping("/expeditorType/title/{title}")
-    public List<CourrierVo> findByExpeditorTypeTitle(@PathVariable String title) {
-        return courrierConverter.toVo(courrierService.findByExpeditorTypeTitle(title));
-    }
-
-    @ApiOperation("Deletes a courrier by title of expeditorType")
-    @DeleteMapping("/expeditorType/title/{title}")
-    public int deleteByExpeditorTypeTitle(@PathVariable String title) {
-        return courrierService.deleteByExpeditorTypeTitle(title);
-    }
-
-    @ApiOperation("Finds courrier by id of expeditorType")
-    @GetMapping("/expeditorType/id/{id}")
-    public List<CourrierVo> findByExpeditorTypeId(@PathVariable Long id) {
-        return courrierConverter.toVo(courrierService.findByExpeditorTypeId(id));
-    }
-
-    @ApiOperation("Deletes courrier by id of expeditorType")
-    @DeleteMapping("/expeditorType/id/{id}")
-    public int deleteByExpeditorTypeId(@PathVariable Long id) {
-        return courrierService.deleteByExpeditorTypeId(id);
-    }
-
     @ApiOperation("Finds a courrier by title of subdivision")
     @GetMapping("/subdivision/title/{title}")
     public List<CourrierVo> findBySubdivisionTitle(@PathVariable String title) {

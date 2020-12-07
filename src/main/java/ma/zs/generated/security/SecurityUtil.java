@@ -2,8 +2,10 @@ package ma.zs.generated.security;
 
 
 import ma.zs.generated.GeneratedApplication;
+import ma.zs.generated.bean.Role;
 import ma.zs.generated.bean.User;
 import ma.zs.generated.service.facade.UserService;
+import ma.zs.generated.service.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -80,4 +84,53 @@ public class SecurityUtil {
         return authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority);
     }
+    public static boolean isCai() {
+        User user= getCurrentUser();
+       return (user.getLeService()!=null && user.getLeService().getCode()!=null && user.getLeService().getCode().equals("cai"));
+    }
+    public static boolean isChargeRequette() {
+        User user= getCurrentUser();
+        List<Role> roles = user.getRoles();
+        List<String> agentBureauRoles= Arrays.asList("CHARGE_DE_REQUETE");
+        return isInRole(roles,agentBureauRoles);
+    }
+    public static boolean isAgentBureau() {
+        User user= getCurrentUser();
+        List<Role> roles = user.getRoles();
+        List<String> agentBureauRoles= Arrays.asList("CHARGE_DE_TRAITEMENT_COURRIER");
+        return isInRole(roles,agentBureauRoles);
+    }
+
+    public static  boolean isChefService( List<Role> roles) {
+        List<String> agentBureauRoles= Arrays.asList("CHEF_DE_SERVICE");
+        return isInRole(roles,agentBureauRoles);
+    }
+
+    public static  boolean isChefService() {
+        User user= getCurrentUser();
+        List<Role> roles = user.getRoles();
+        List<String> agentBureauRoles= Arrays.asList("CHEF_DE_SERVICE");
+        return isInRole(roles,agentBureauRoles);
+    }
+
+    public static  boolean isDirecteur() {
+        User user= getCurrentUser();
+        List<Role> roles = user.getRoles();
+
+        List<String> agentBureauRoles= Arrays.asList("DIRECTEUR");
+        return isInRole(roles,agentBureauRoles);
+    }
+
+    private static  boolean isInRole(List<Role> roles,List<String> seekedRoles) {
+        if(ListUtil.isNotEmpty(roles)){
+            for (int i = 0; i <roles.size() ; i++) {
+                Role r= roles.get(i);
+                if(seekedRoles.contains(r.getAuthority())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

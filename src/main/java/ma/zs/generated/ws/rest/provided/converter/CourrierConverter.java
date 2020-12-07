@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ma.zs.generated.bean.EtatCourrier;
+import ma.zs.generated.bean.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ma.zs.generated.bean.Courrier;
-import ma.zs.generated.bean.CourrierPieceJoint;
-import ma.zs.generated.bean.LeService;
 import ma.zs.generated.service.util.DateUtil;
 import ma.zs.generated.service.util.ListUtil;
 import ma.zs.generated.service.util.NumberUtil;
@@ -42,6 +39,14 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 	private CourrierObjectConverter courrierObjectConverter;
 	@Autowired
 	private SubdivisionConverter subdivisionConverter;
+
+	@Autowired
+	private NatureClientConverter natureClientConverter;
+	@Autowired
+	private PhaseAdminConverter phaseAdminConverter;
+	@Autowired
+	private TypeRequetteConverter typeRequetteConverter;
+
 	@Autowired
 	private ExpeditorConverter expeditorConverter;
 	@Autowired
@@ -63,10 +68,16 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 	private Boolean subdivision;
 	private Boolean status;
 	private Boolean typeCourrier;
+	private Boolean phaseAdmin;
+	private Boolean natureClient;
 	private Boolean createdBy;
 	private Boolean updatedBy;
 	private Boolean etatCourrier;
 	private Boolean tasks;
+	private Boolean sujet;
+	private Boolean typeRequette;
+
+
 	private Boolean courrierServiceItems;
 	private List<CourrierPieceJoint> courrierPieceJoints = new ArrayList<CourrierPieceJoint>();
 	public CourrierConverter() {
@@ -79,10 +90,14 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 			return null;
 		} else {
 			Courrier item = new Courrier();
+			if (StringUtil.isNotEmpty(vo.getSujet()))
+				item.setSujet(vo.getSujet());
 			if (StringUtil.isNotEmpty(vo.getInstruction()))
 				item.setInstruction(vo.getInstruction());
 			if (StringUtil.isNotEmpty(vo.getExpediteurDesc()))
 				item.setExpediteurDesc(vo.getExpediteurDesc());
+            if (StringUtil.isNotEmpty(vo.getDateTraitement()))
+                item.setDateTraitement(DateUtil.parse(vo.getDateTraitement()));
 			if (StringUtil.isNotEmpty(vo.getSentAt()))
 				item.setSentAt(DateUtil.parse(vo.getSentAt()));
 			if (StringUtil.isNotEmpty(vo.getDestinataireDesc()))
@@ -115,8 +130,23 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 				item.setCreatedAt(DateUtil.parse(vo.getCreatedAt()));
 			if (StringUtil.isNotEmpty(vo.getUpdatedAt()))
 				item.setUpdatedAt(DateUtil.parse(vo.getUpdatedAt()));
+			
+			if (StringUtil.isNotEmpty(vo.getSentAt()))
+				item.setSentAt(DateUtil.parse(vo.getSentAt()));
+
 			if (StringUtil.isNotEmpty(vo.getDelai()))
 				item.setDelai(NumberUtil.toDouble(vo.getDelai()));
+
+			if (vo.getNatureClientVo() != null && this.natureClient)
+				item.setNatureClient(natureClientConverter.toItem(vo.getNatureClientVo()));
+
+
+			if (vo.getTypeRequetteVo() != null && this.typeRequette)
+				item.setTypeRequette(typeRequetteConverter.toItem(vo.getTypeRequetteVo()));
+
+			if (vo.getPhaseAdminVo() != null && this.phaseAdmin)
+				item.setPhaseAdmin(phaseAdminConverter.toItem(vo.getPhaseAdminVo()));
+
 
 			if (vo.getCourrierObjectVo() != null && this.courrierObject)
 				item.setCourrierObject(courrierObjectConverter.toItem(vo.getCourrierObjectVo()));
@@ -136,8 +166,7 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 				item.setEmetteur(leServiceConverter.toItem(vo.getEmetteurVo()));
 			if (vo.getEvaluationVo() != null && this.evaluation)
 				item.setEvaluation(evaluationConverter.toItem(vo.getEvaluationVo()));
-			if (vo.getExpeditorTypeVo() != null && this.expeditorType)
-				item.setExpeditorType(expeditorTypeConverter.toItem(vo.getExpeditorTypeVo()));
+
 			if (vo.getSubdivisionVo() != null && this.subdivision)
 				item.setSubdivision(subdivisionConverter.toItem(vo.getSubdivisionVo()));
 			if (vo.getStatusVo() != null && this.status)
@@ -168,7 +197,11 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 			return null;
 		} else {
 			CourrierVo vo = new CourrierVo();
-			
+
+			if (StringUtil.isNotEmpty(item.getSujet()))
+				vo.setSujet(item.getSujet());
+
+
 			if (StringUtil.isNotEmpty(item.getType()))
 				vo.setType(item.getType());
 
@@ -212,12 +245,33 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 			if (StringUtil.isNotEmpty(item.getDescription()))
 				vo.setDescription(item.getDescription());
 
+            if (item.getDateTraitement() != null)
+                vo.setDateTraitement(DateUtil.formateDate(item.getDateTraitement()));
+
 			if (item.getCreatedAt() != null)
 				vo.setCreatedAt(DateUtil.formateDate(item.getCreatedAt()));
 			if (item.getUpdatedAt() != null)
 				vo.setUpdatedAt(DateUtil.formateDate(item.getUpdatedAt()));
+
+			if (item.getSentAt() != null)
+				vo.setSentAt(DateUtil.formateDate(item.getSentAt()));
+
+
 			if (item.getDelai() != null)
 				vo.setDelai(NumberUtil.toString(item.getDelai()));
+
+			if (item.getNatureClient() != null && this.natureClient) {
+				vo.setNatureClientVo(natureClientConverter.toVo(item.getNatureClient()));
+			}
+			if (item.getTypeRequette()!= null && this.typeRequette) {
+				vo.setTypeRequetteVo(typeRequetteConverter.toVo(item.getTypeRequette()));
+			}
+
+			if (item.getPhaseAdmin() != null && this.phaseAdmin) {
+				vo.setPhaseAdminVo(phaseAdminConverter.toVo(item.getPhaseAdmin()));
+			}
+
+
 			if (item.getCourrierObject() != null && this.courrierObject) {
 				vo.setCourrierObjectVo(courrierObjectConverter.toVo(item.getCourrierObject()));
 			}
@@ -250,9 +304,7 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 			if (item.getEvaluation() != null && this.evaluation) {
 				vo.setEvaluationVo(evaluationConverter.toVo(item.getEvaluation()));
 			}
-			if (item.getExpeditorType() != null && this.expeditorType) {
-				vo.setExpeditorTypeVo(expeditorTypeConverter.toVo(item.getExpeditorType()));
-			}
+
 			if (item.getSubdivision() != null && this.subdivision) {
 				vo.setSubdivisionVo(subdivisionConverter.toVo(item.getSubdivision()));
 			}
@@ -305,6 +357,10 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 		tasks = value;
 		courrierServiceItems = value;
 		etatCourrier=value;
+		natureClient=value;
+		phaseAdmin=value;
+		sujet=value;
+		typeRequette=value;
 	}
 
 	public UserConverter getUserConverter() {

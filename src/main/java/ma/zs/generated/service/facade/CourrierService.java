@@ -180,14 +180,6 @@ public interface CourrierService {
 
     int deleteByEvaluationId(Long id);
 
-    List<Courrier> findByExpeditorTypeTitle(String title);
-
-    int deleteByExpeditorTypeTitle(String title);
-
-    List<Courrier> findByExpeditorTypeId(Long id);
-
-    int deleteByExpeditorTypeId(Long id);
-
     List<Courrier> findBySubdivisionTitle(String title);
 
     int deleteBySubdivisionTitle(String title);

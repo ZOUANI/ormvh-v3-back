@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface UserService {
 
-        /**
+    List<User> findAllInService();
+
+    /**
 
      * find all User in database 
      * @return List<User> , If database is empty return  null.

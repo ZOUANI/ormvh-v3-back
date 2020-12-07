@@ -74,7 +74,10 @@ public class CourrierServiceItemRest {
     @ApiOperation("Finds a courrierServiceItem by idCourrier of courrier")
 	@GetMapping("/courrier/idCourrier/{idCourrier}")
 	public List<CourrierServiceItemVo> findByCourrierIdCourrier(@PathVariable String idCourrier){
-		return courrierServiceItemConverter.toVo(courrierServiceItemService.findByCourrierIdCourrier(idCourrier));
+		System.out.println("idCourrier = " + idCourrier);
+		List<CourrierServiceItem> byCourrierIdCourrier = courrierServiceItemService.findByCourrierIdCourrier(idCourrier);
+		System.out.println("byCourrierIdCourrier = " + byCourrierIdCourrier);
+		return courrierServiceItemConverter.toVo(byCourrierIdCourrier);
 	}
 	
 	@ApiOperation("Deletes a courrierServiceItem by idCourrier of courrier")
@@ -86,7 +89,10 @@ public class CourrierServiceItemRest {
 	@ApiOperation("Finds courrierServiceItem by id of courrier")
 	@GetMapping("/courrier/id/{id}")
 	public List<CourrierServiceItemVo> findByCourrierId(@PathVariable Long id){
-		return courrierServiceItemConverter.toVo(courrierServiceItemService.findByCourrierId(id));
+		System.out.println("id = " + id);
+		List<CourrierServiceItem> byCourrierId = courrierServiceItemService.findByCourrierId(id);
+		System.out.println("byCourrierId = " + byCourrierId);
+		return courrierServiceItemConverter.toVo(byCourrierId);
 	}
 	@ApiOperation("Deletes courrierServiceItem by id of courrier")
 	@DeleteMapping("/courrier/id/{id}")

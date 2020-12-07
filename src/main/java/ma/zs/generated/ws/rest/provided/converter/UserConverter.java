@@ -18,10 +18,12 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
 
     @Autowired
     private RoleConverter roleConverter;
-
+    @Autowired
+    private LeServiceConverter leServiceConverter;
     private Boolean createdBy;
     private Boolean updatedBy;
     private Boolean roles;
+    private Boolean leService;
 
     public UserConverter() {
         init(true);
@@ -58,8 +60,12 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
                 item.setPassword(vo.getPassword());
 
 
+
             if (ListUtil.isNotEmpty(vo.getRolesVo()) && this.roles)
                 item.setRoles(roleConverter.toItem((List<RoleVo>) vo.getRolesVo()));
+
+            if (vo.getLeServiceVo()!=null && this.leService)
+                item.setLeService(leServiceConverter.toItem(vo.getLeServiceVo()));
 
 
             return item;
@@ -99,6 +105,13 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
             if (StringUtil.isNotEmpty(item.getPassword()))
                 vo.setPassword(item.getPassword());
 
+            if (item.getLeService()!=null && this.leService) {
+                leServiceConverter.setChef(false);
+                vo.setLeServiceVo(leServiceConverter.toVo(item.getLeService()));
+                leServiceConverter.setChef(true);
+
+            }
+
             if (item.getCreatedBy() != null && this.createdBy) {
                 this.setCreatedBy(false);
                 this.setUpdatedBy(false);
@@ -130,8 +143,36 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
         createdBy = value;
         updatedBy = value;
         roles = value;
+        leService=value;
     }
 
+    public Boolean getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Boolean createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Boolean getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Boolean updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Boolean getRoles() {
+        return roles;
+    }
+
+    public Boolean getLeService() {
+        return leService;
+    }
+
+    public void setLeService(Boolean leService) {
+        this.leService = leService;
+    }
 
     public RoleConverter getRoleConverter() {
         return this.roleConverter;
@@ -163,5 +204,13 @@ public class UserConverter extends AbstractConverter<User, UserVo> {
 
     public void setRoles(Boolean roles) {
         this.roles = roles;
+    }
+
+    public LeServiceConverter getLeServiceConverter() {
+        return leServiceConverter;
+    }
+
+    public void setLeServiceConverter(LeServiceConverter leServiceConverter) {
+        this.leServiceConverter = leServiceConverter;
     }
 }

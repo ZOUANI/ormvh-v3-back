@@ -73,6 +73,7 @@ public class LeServiceConverter extends AbstractConverter<LeService, LeServiceVo
 
 			if (item.getId() != null)
 				vo.setId(NumberUtil.toString(item.getId()));
+
 			if (StringUtil.isNotEmpty(item.getTitle()))
 				vo.setTitle(item.getTitle());
 

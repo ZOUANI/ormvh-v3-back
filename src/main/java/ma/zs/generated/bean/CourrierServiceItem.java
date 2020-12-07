@@ -20,6 +20,16 @@ public class CourrierServiceItem {
 	private Courrier courrier ;
      @ManyToOne
 	private LeService service ;
+     private boolean coordinateur;
+
+
+     public boolean isCoordinateur() {
+          return coordinateur;
+     }
+
+     public void setCoordinateur(boolean coordinateur) {
+          this.coordinateur = coordinateur;
+     }
 
      public CourrierServiceItem(){
        super();
@@ -44,7 +54,15 @@ public class CourrierServiceItem {
           this.service = service;
      }
 
-
-
+     @Override
+     public String toString() {
+          return "CourrierServiceItem{" +
+                  "id=" + id +
+                  ", courrier-id-courrier=" + courrier.getIdCourrier() +
+                  ", courrier-id=" + courrier.getId() +
+                  ", service=" + service.getTitle() +
+                  ", coordinateur=" + coordinateur +
+                  '}';
+     }
 }
 

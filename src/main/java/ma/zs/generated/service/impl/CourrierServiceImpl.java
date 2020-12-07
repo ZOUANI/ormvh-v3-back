@@ -43,8 +43,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	private CourrierPieceJointDao courrierPieceJointDao;
 
 	@Autowired
-	private ExpeditorTypeService expeditorTypeService;
-	@Autowired
 	private StatusService statusService;
 	@Autowired
 	private TaskService taskService;
@@ -512,30 +510,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	}
 
 	@Override
-	public List<Courrier> findByExpeditorTypeTitle(String title) {
-		return courrierDao.findByExpeditorTypeTitle(title);
-	}
-
-	@Override
-	@Transactional
-	public int deleteByExpeditorTypeTitle(String title) {
-		return courrierDao.deleteByExpeditorTypeTitle(title);
-	}
-
-	@Override
-	public List<Courrier> findByExpeditorTypeId(Long id) {
-		return courrierDao.findByExpeditorTypeId(id);
-
-	}
-
-	@Override
-	@Transactional
-	public int deleteByExpeditorTypeId(Long id) {
-		return courrierDao.deleteByExpeditorTypeId(id);
-
-	}
-
-	@Override
 	public List<Courrier> findBySubdivisionTitle(String title) {
 		return courrierDao.findBySubdivisionTitle(title);
 	}
@@ -708,7 +682,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Override
 	public Courrier save(Courrier courrier) {
-
+        prepare(courrier,courrier.getCourrierServiceItems());
 		// prepareCourrierId(courrier);
 
 		if (courrier.getCourrierObject() != null) {
@@ -758,11 +732,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			courrier.setEvaluation(evaluation);
 		}
 
-		if (courrier.getExpeditorType() != null) {
-			ExpeditorType expeditorType = expeditorTypeService.findByTitle(courrier.getExpeditorType().getTitle());
-			courrier.setExpeditorType(expeditorType);
-		}
-
 		if (courrier.getSubdivision() != null) {
 			Subdivision subdivision = subdivisionService.findByTitle(courrier.getSubdivision().getTitle());
 			courrier.setSubdivision(subdivision);
@@ -801,7 +770,37 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return savedCourrier;
 	}
 
-	private List<Task> prepareTasks(Courrier courrier, List<Task> tasks) {
+    private void prepare(Courrier courrier,List<CourrierServiceItem> courrierServiceItems) {
+		courrier.setCourrierServiceItems(courrierServiceItems);
+
+		if(courrier.getCourrierServiceItems()==null){
+			courrier.setCourrierServiceItems(new ArrayList<>());
+		}
+		if((courrier.getCoordinator()==null ||courrier.getCoordinator().getId()==null) && courrier.getCourrierServiceItems().size()==1) {
+			courrier.setCoordinator(courrier.getCourrierServiceItems().get(0).getService());
+		}
+	    if(courrier!=null && courrier.getCoordinator()!=null){
+            CourrierServiceItem courrierServiceItem= new CourrierServiceItem();
+            courrierServiceItem.setService(courrier.getCoordinator());
+            courrierServiceItem.setCoordinateur(true);
+
+
+            courrier.getCourrierServiceItems().add(courrierServiceItem);
+            List<String> reauettes= Arrays.asList("reclamation","requete");
+			if(courrier.getTypeCourrier()!=null && reauettes.contains(courrier.getNatureCourrier().getCode())){
+				courrier.setTypeRequette(null);
+				courrier.setCourrierObject(null);
+				courrier.setEvaluation(null);
+				courrier.setSubdivision(null);
+				courrier.setNatureClient(null);
+				courrier.setPhaseAdmin(null);
+				courrier.setStatus(null);
+			}
+        }
+
+    }
+
+    private List<Task> prepareTasks(Courrier courrier, List<Task> tasks) {
 		for (Task task : tasks) {
 			task.setId(null);
 			task.setCourrier(courrier);
@@ -815,12 +814,15 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			courrierServiceItem.setId(null);
 			courrierServiceItem.setCourrier(courrier);
 		}
+
 		return courrierServiceItems;
 	}
 
 	@Override
 	public Courrier update(Courrier courrier) {
+		prepare(courrier,courrier.getCourrierServiceItems());
 		Courrier foundedCourrier = findById(courrier.getId());
+
 		if (foundedCourrier == null)
 			return null;
 		taskService.deleteByCourrierId(courrier.getId());
@@ -901,15 +903,18 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	private String addRolesConstraint(List<Role> roles,String courrierItem,String courrierServiceItem,String taskItem,String username) {
 		String query ="";
 		if(ListUtil.isNotEmpty(roles)){
-			if(isChefService(roles)) {
-				query =   " AND "+ courrierItem + ".coordinator.chef.username='" + username + "'"
-						+ " AND " + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "'"
-						;
+			if(SecurityUtil.isDirecteur()) {
+				query+=" AND "+ courrierItem + ".etatCourrier.id in (2,3,4,5)";
+			}
+			else if(SecurityUtil.isChefService()) {
+				query =  " AND " + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "'";
 				query+=" AND "+ courrierItem + ".etatCourrier.id in (3,4,5)";
-			}else if(isAgentBureau(roles)){
+			}else if(SecurityUtil.isAgentBureau()){
 				query = " AND (" + courrierItem + ".id= " + taskItem + ".courrier.id AND " + taskItem + ".assigne.username='" + username + "')";
                 query+=" AND "+ courrierItem + ".etatCourrier.id in (4,5)";
-            }
+            }else if(SecurityUtil.isCai() || SecurityUtil.isChargeRequette()) {
+				query +=  "AND" + courrierItem + ".natureCourrier.code in ('requete','reclamation')";
+			}
 
 		}
 		return query;
@@ -918,36 +923,16 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	}
 
 
-	private boolean isAgentBureau(List<Role> roles) {
-		List<String> agentBureauRoles= Arrays.asList("CHARGE_DE_TRAITEMENT_COURRIER","CHARGE_DE_REQUETE");
-		return isInRole(roles,agentBureauRoles);
-	}
 
-	private boolean isChefService(List<Role> roles) {
-		List<String> agentBureauRoles= Arrays.asList("CHEF_DE_SERVICE");
-		return isInRole(roles,agentBureauRoles);
-	}
-
-	private boolean isInRole(List<Role> roles,List<String> seekedRoles) {
-		if(ListUtil.isNotEmpty(roles)){
-			for (int i = 0; i <roles.size() ; i++) {
-				Role r= roles.get(i);
-				if(seekedRoles.contains(r.getAuthority())){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 	private String initQuery(String courrierItem,String courrierServiceItem,String taskItem ){
         String query = "SELECT DISTINCT  "+courrierItem+" FROM Courrier "+courrierItem;
 		User user= SecurityUtil.getCurrentUser();
 		List<Role> roles = user.getRoles();
 
         if(ListUtil.isNotEmpty(roles)){
-			if(isChefService(roles)) {
+			if(SecurityUtil.isChefService()) {
 				query += " , CourrierServiceItem "+ courrierServiceItem  ;
-			}else if(isAgentBureau(roles)){
+			}else if(SecurityUtil.isAgentBureau()){
 				query += " , Task "  + taskItem ;
 			}
 		}
@@ -1042,11 +1027,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		if (courrierVo.getEvaluationVo() != null) {
 			query += addConstraint("o", "evaluation.id", "=", courrierVo.getEvaluationVo().getId());
 			query += addConstraint("o", "evaluation.title", "LIKE", courrierVo.getEvaluationVo().getTitle());
-		}
-
-		if (courrierVo.getExpeditorTypeVo() != null) {
-			query += addConstraint("o", "expeditorType.id", "=", courrierVo.getExpeditorTypeVo().getId());
-			query += addConstraint("o", "expeditorType.title", "LIKE", courrierVo.getExpeditorTypeVo().getTitle());
 		}
 
 		if (courrierVo.getSubdivisionVo() != null) {

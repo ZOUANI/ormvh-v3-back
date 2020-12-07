@@ -29,7 +29,8 @@ public class Expeditor {
      private Date updatedAt ;
      private String code ;
      private String description ;
-     private String nature ;
+     @ManyToOne
+     private ExpeditorType expeditorType ; // typeExpidteiur
      private Integer age ;
      private String title ;
      private String titleArab ;
@@ -77,12 +78,15 @@ public class Expeditor {
      public void setDescription(String description){
           this.description = description;
      }
-     public String getNature(){
-          return this.nature;
+
+     public ExpeditorType getExpeditorType() {
+          return expeditorType;
      }
-     public void setNature(String nature){
-          this.nature = nature;
+
+     public void setExpeditorType(ExpeditorType expeditorType) {
+          this.expeditorType = expeditorType;
      }
+
      public Integer getAge(){
           return this.age;
      }
