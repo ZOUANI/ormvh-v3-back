@@ -228,6 +228,8 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	@Override
 	public List<Courrier> findAll() {
 		String query = initQuery("o","courrierItem","taskItemm");
+		query+=" ORDER BY o.sentAt DESC,  o.idCourrier DESC";
+
 		System.out.println("+++++++++++++ haaa query ::::: "+query);
 		return entityManager.createQuery(query).getResultList();
 	}
@@ -937,9 +939,9 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 		}
 			query+=" where 1=1" ;
-		query+=" ORDER BY "+courrierItem+".sentAt DESC,  "+courrierItem+".idCourrier DESC";
 
 		query+=addRolesConstraint(roles,courrierItem,courrierServiceItem,taskItem,user.getUsername());
+
 		return query;
     }
 	public List<Courrier> findByCriteria(CourrierVo courrierVo) {
@@ -1054,6 +1056,8 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			query += addConstraint("o", "updatedBy.id", "=", courrierVo.getUpdatedByVo().getId());
 			query += addConstraint("o", "updatedBy.username", "LIKE", courrierVo.getUpdatedByVo().getUsername());
 		}
+
+		query+=" ORDER BY o.sentAt DESC,  o.idCourrier DESC";
 
 		return entityManager.createQuery(query).getResultList();
 	}

@@ -75,6 +75,10 @@ public class NatureCourrierConverter extends AbstractConverter<NatureCourrier,Na
 			
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
+
+			if(item.getCategorie()!=null)
+				vo.setCategorie(NumberUtil.toString(item.getCategorie()));
+
 			if(StringUtil.isNotEmpty(item.getLibelle()))
 				vo.setLibelle(item.getLibelle());
 			

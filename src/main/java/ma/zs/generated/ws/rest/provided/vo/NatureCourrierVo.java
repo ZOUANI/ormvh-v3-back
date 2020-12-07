@@ -15,6 +15,8 @@ public class NatureCourrierVo {
      private String relance ;
    
      private String libelleArab ;
+    private String categorie ;
+
    
      private String id ;
    
@@ -192,9 +194,12 @@ public class NatureCourrierVo {
      public void setUpdatedByVo(UserVo updatedByVo){
           this.updatedByVo = updatedByVo;
      }
-   
 
+    public String getCategorie() {
+        return categorie;
+    }
 
-
-
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
 }
