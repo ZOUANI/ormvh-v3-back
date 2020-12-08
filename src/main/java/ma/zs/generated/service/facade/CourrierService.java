@@ -1,5 +1,6 @@
 package ma.zs.generated.service.facade;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +14,12 @@ import ma.zs.generated.bean.Courrier;
 import ma.zs.generated.bean.CourrierPieceJoint;
 import ma.zs.generated.bean.LeService;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CourrierService {
+
+
+    void uploadFiles(List<MultipartFile> files, Long courrier) throws IOException;
 
     /**
      * find all Courrier in database

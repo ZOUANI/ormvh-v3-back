@@ -6,6 +6,9 @@ import ma.zs.generated.bean.CourrierPieceJoint;
 
 public interface CourrierPieceJointService {
    CourrierPieceJoint findById(Long id);
-   CourrierPieceJoint findByCourierId(Long id);
+
+    CourrierPieceJoint save(CourrierPieceJoint courrierPieceJoint);
+
+    CourrierPieceJoint findByCourierId(Long id);
 
 }

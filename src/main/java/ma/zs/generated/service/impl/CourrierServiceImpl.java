@@ -1,5 +1,9 @@
 package ma.zs.generated.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -10,6 +14,7 @@ import javax.persistence.EntityManager;
 import ma.zs.generated.bean.*;
 import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.security.SecurityUtil;
+import ma.zs.generated.service.facade.*;
 import ma.zs.generated.service.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,21 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ma.zs.generated.dao.CourrierDao;
 import ma.zs.generated.dao.CourrierPieceJointDao;
 import ma.zs.generated.helper.mail.service.facade.MailService;
-import ma.zs.generated.service.facade.CourrierObjectService;
-import ma.zs.generated.service.facade.CourrierService;
-import ma.zs.generated.service.facade.CourrierServiceItemService;
-import ma.zs.generated.service.facade.EvaluationService;
-import ma.zs.generated.service.facade.ExpeditorService;
-import ma.zs.generated.service.facade.ExpeditorTypeService;
-import ma.zs.generated.service.facade.LeServiceService;
-import ma.zs.generated.service.facade.NatureCourrierService;
-import ma.zs.generated.service.facade.StatusService;
-import ma.zs.generated.service.facade.SubdivisionService;
-import ma.zs.generated.service.facade.TaskService;
-import ma.zs.generated.service.facade.TypeCourrierService;
-import ma.zs.generated.service.facade.VoieService;
 import ma.zs.generated.service.util.ListUtil;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CourrierServiceImpl extends AbstractService<Courrier> implements CourrierService {
@@ -69,6 +62,10 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	private EntityManager entityManager;
 	@Autowired
 	private MailService mailService;
+
+	@Autowired
+	private CourrierPieceJointService courrierPieceJointService;
+
 
 	@Override
 	public List<Long> getStat(Date dateMin, Date dateMax, String titleCoordinator) {
@@ -225,6 +222,23 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return courrierDao.countByStatusLibelle(libelle);
 	}
 
+	@Override
+	public void uploadFiles(List<MultipartFile> files, Long idCourrier) throws IOException {
+
+		String path = System.getProperty("user.home") + "/pieces-jointes/";
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		Courrier courrier = courrierDao.findById(idCourrier).get();
+		for (MultipartFile file : files){
+			CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
+			courrierPieceJoint.setChemin(file.getOriginalFilename());
+			courrierPieceJoint.setCourier(courrier);
+			Files.write(Paths.get(path + courrierPieceJoint.getChemin()), file.getBytes());
+			courrierPieceJointService.save(courrierPieceJoint);
+		}
+	}
 	@Override
 	public List<Courrier> findAll() {
 		String query = initQuery("o","courrierItem","taskItemm");
@@ -756,11 +770,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 //		}
 //		}
 		Courrier savedCourrier = courrierDao.save(courrier);
-//		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
-//		for (CourrierPieceJoint courrierPieceJoint : courrier.getCourriersPieceJoint()) {
-//			courrierPieceJoint.setCourier(savedCourrier);
-//			courrierPieceJointDao.save(courrierPieceJoint);
-//		}
+
 		if (ListUtil.isNotEmpty(courrier.getTasks())) {
 			savedCourrier.setTasks(taskService.create(prepareTasks(savedCourrier, courrier.getTasks())));
 		}
