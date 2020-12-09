@@ -699,6 +699,14 @@ private CourrierPieceJointService courrierPieceJointService;
         Map<String, Object> parameters = new HashMap<>();
         return GeneratePdf.generatePdfs("courriers", parameters, toPrint, "/reports/courriers.jasper");
     }
+    @PostMapping("upload/{courrier}")
+    public void uploadFiles(@RequestParam("file") List<MultipartFile> files,@PathVariable Long courrier) throws IOException {
+        System.out.println("Id courrier= " + courrier);
 
+        System.out.println("file.size() = " + files.size());
+
+
+        courrierService.uploadFiles(files, courrier);
+    }
 
 }

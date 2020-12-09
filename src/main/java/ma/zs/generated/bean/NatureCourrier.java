@@ -34,8 +34,10 @@ public class NatureCourrier {
 	private User createdBy ;
      @ManyToOne
 	private User updatedBy ;
+     
+    private Integer categorie;
 
-     public NatureCourrier(){
+	public NatureCourrier(){
        super();
      }
 
@@ -99,6 +101,15 @@ public class NatureCourrier {
      public void setUpdatedBy(User updatedBy){
           this.updatedBy = updatedBy;
      }
+
+	public Integer getCategorie() {
+		return categorie;
+	}
+
+
+	public void setCategorie(Integer categorie) {
+		this.categorie = categorie;
+	}
 
 
 

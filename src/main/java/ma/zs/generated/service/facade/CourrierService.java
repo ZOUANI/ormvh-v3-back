@@ -1,5 +1,6 @@
 package ma.zs.generated.service.facade;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,10 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ma.zs.generated.bean.Courrier;
 import ma.zs.generated.bean.CourrierPieceJoint;
@@ -296,6 +301,6 @@ public interface CourrierService {
 	 * @throws MessagingException
 	 */
 	int sendCourrierRelance(List<Courrier> courriers) throws MessagingException;
-
+	 void uploadFiles(List<MultipartFile> files,Long courrier) throws IOException;
 
 }

@@ -33,8 +33,12 @@ public class NatureCourrierVo {
      private String delaiMin ;
      private String relanceMax ;
      private String relanceMin ;
+     
+     private String categorie;
 
- public NatureCourrierVo(){
+
+
+public NatureCourrierVo(){
        super();
      }
 
@@ -193,6 +197,14 @@ public class NatureCourrierVo {
           this.updatedByVo = updatedByVo;
      }
    
+
+ 	public String getCategorie() {
+ 		return categorie;
+ 	}
+
+ 	public void setCategorie(String categorie) {
+ 		this.categorie = categorie;
+ 	}
 
 
 

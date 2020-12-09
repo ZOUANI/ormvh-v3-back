@@ -72,6 +72,11 @@ private CourrierPieceJointDao courrierPieceJointDao;
 	public CourrierPieceJoint findByCourierId(Long id) {
 		return courrierPieceJointDao.findByCourierId(id);
 	}
+	
+	@Override
+	public void save(CourrierPieceJoint courrierPieceJoint) {
+		courrierPieceJointDao.save(courrierPieceJoint);
+	}
 
 	
 }

@@ -1,5 +1,8 @@
 package ma.zs.generated.service.impl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,13 +15,16 @@ import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.security.SecurityUtil;
 import ma.zs.generated.service.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import ma.zs.generated.dao.CourrierDao;
 import ma.zs.generated.dao.CourrierPieceJointDao;
 import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.service.facade.CourrierObjectService;
+import ma.zs.generated.service.facade.CourrierPieceJointService;
 import ma.zs.generated.service.facade.CourrierService;
 import ma.zs.generated.service.facade.CourrierServiceItemService;
 import ma.zs.generated.service.facade.EvaluationService;
@@ -69,6 +75,9 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	private EntityManager entityManager;
 	@Autowired
 	private MailService mailService;
+	
+	@Autowired
+	private CourrierPieceJointService courrierPieceJointService;
 
 	@Override
 	public List<Long> getStat(Date dateMin, Date dateMax, String titleCoordinator) {
@@ -673,7 +682,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 
 			String format = String.format("%06d", ++num);
-			String numOrder = format + "_" + year;
+			String numOrder = year+  "_" +format ;
 			courrier.setIdCourrier(numOrder);
 
 		}
@@ -1145,6 +1154,27 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 					composeEmailContent(entry.getValue()));
 		}
 		return 1;
+	}
+
+
+	@Override
+	public void uploadFiles(List<MultipartFile> files, Long idCourrier) throws IOException {
+		Courrier courrier = courrierDao.findById(idCourrier).get();
+		for (MultipartFile file : files){
+			CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
+			courrierPieceJoint.setChemin(file.getOriginalFilename());
+			courrierPieceJoint.setCourier(courrier);
+			Files.write(Paths.get(System.getProperty("user.home") + "/pieces-jointes/" + courrierPieceJoint.getChemin()), file.getBytes());
+			courrierPieceJointService.save(courrierPieceJoint);
+		}
+/*
+		CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
+		courrierPieceJoint.setChemin(file.getName()+".png");
+		courrierPieceJoint.setCourier(courrier);
+		Files.write(Paths.get(System.getProperty("user.home") + "/pieces-jointes/" + courrierPieceJoint.getChemin()), file.getBytes());
+		courrierPieceJointService.save(courrierPieceJoint);
+		
+	}*/
 	}
 
 }

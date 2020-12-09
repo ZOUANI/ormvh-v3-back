@@ -94,4 +94,5 @@ public interface StatusService {
      */
 	List<Status> findByCriteria( StatusVo statusVo);
     Status findByCode(String code);
+    List<Status> findStatusByCode();
 }

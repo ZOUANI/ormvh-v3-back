@@ -149,5 +149,10 @@ public class StatusRest {
 	 	this.statusService=statusService;
 	}
 	
+	@ApiOperation("Finds a  status by code")
+    @GetMapping("/findByCode")
+	public List<StatusVo> findStatusByCode( ){
+		return  statusConverter.toVo(statusService.findStatusByCode());
+	}
 
 }

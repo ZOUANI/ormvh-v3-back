@@ -187,5 +187,10 @@ public class StatusServiceImpl extends AbstractService<Status> implements Status
         return statusDao.findByCode(code);
     }
 
+	@Override
+	public List<Status> findStatusByCode() {
+	return statusDao.findStatusByCode();
+	}
+
 
 }

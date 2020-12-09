@@ -42,6 +42,9 @@ public class NatureCourrierConverter extends AbstractConverter<NatureCourrier,Na
                   item.setId(NumberUtil.toLong(vo.getId()));
 			 if(StringUtil.isNotEmpty(vo.getLibelle()))
                   item.setLibelle(vo.getLibelle());
+			 if(StringUtil.isNotEmpty(vo.getCategorie()))
+                 item.setCategorie(NumberUtil.toInt(vo.getCategorie()));
+
 //             if(vo.getCreatedByVo()!=null && this.createdBy)
 //			     item.setCreatedBy(userConverter.toItem(vo.getCreatedByVo())) ;
 //             if(vo.getUpdatedByVo()!=null && this.updatedBy)
@@ -83,8 +86,10 @@ public class NatureCourrierConverter extends AbstractConverter<NatureCourrier,Na
 			   } 
             if(item.getUpdatedBy()!=null && this.updatedBy) {
 				   vo.setUpdatedByVo(userConverter.toVo(item.getUpdatedBy())) ;
-			   } 
-
+            }
+			 if(item.getCategorie()!=null)
+				vo.setCategorie(NumberUtil.toString(item.getCategorie()));
+            
  			return vo;
  
  		}
