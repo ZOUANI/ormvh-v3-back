@@ -86,7 +86,11 @@ public class SecurityUtil {
     }
     public static boolean isCai() {
         User user= getCurrentUser();
-       return (user.getLeService()!=null && user.getLeService().getCode()!=null && user.getLeService().getCode().equals("cai"));
+       boolean isInCai= (user.getLeService()!=null && user.getLeService().getCode()!=null && user.getLeService().getCode().equals("cai"));
+        List<Role> roles = user.getRoles();
+        List<String> agentBureauRoles= Arrays.asList("AGENT_CAI");
+        boolean isAgentCai= isInRole(roles,agentBureauRoles);
+        return isInCai || isAgentCai ;
     }
     public static boolean isChargeRequette() {
         User user= getCurrentUser();
@@ -103,6 +107,10 @@ public class SecurityUtil {
 
     public static  boolean isChefService( List<Role> roles) {
         List<String> agentBureauRoles= Arrays.asList("CHEF_DE_SERVICE");
+        return isInRole(roles,agentBureauRoles);
+    }
+    public static  boolean isCai( List<Role> roles) {
+        List<String> agentBureauRoles= Arrays.asList("AGENT_CAI");
         return isInRole(roles,agentBureauRoles);
     }
 

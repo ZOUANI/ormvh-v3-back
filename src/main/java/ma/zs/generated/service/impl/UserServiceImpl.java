@@ -170,6 +170,10 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
                 }
             }
+            if(SecurityUtil.isCai(user.getRoles())){
+                mySaved.setLeService(leServiceService.findByTitle("CAI"));
+                userDao.save(mySaved);
+            }
             return mySaved;
         }
     }

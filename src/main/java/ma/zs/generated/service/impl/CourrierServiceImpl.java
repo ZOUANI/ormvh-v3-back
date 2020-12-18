@@ -12,6 +12,7 @@ import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 
 import ma.zs.generated.bean.*;
+import ma.zs.generated.dao.BordereauDao;
 import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.security.SecurityUtil;
 import ma.zs.generated.service.facade.*;
@@ -65,7 +66,12 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Autowired
 	private CourrierPieceJointService courrierPieceJointService;
-
+	@Autowired
+	private TypeRequetteService typeRequetteService;
+	@Autowired
+	private NatureClientService natureClientService;
+	@Autowired
+	private PhaseAdminService phaseAdminService;
 
 	@Override
 	public List<Long> getStat(Date dateMin, Date dateMax, String titleCoordinator) {
@@ -689,7 +695,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 
 			String format = String.format("%06d", ++num);
-			String numOrder = format + "_" + year;
+			String numOrder = year + "_" +format ;
 			courrier.setIdCourrier(numOrder);
 
 		}
@@ -705,6 +711,19 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			CourrierObject courrierObject = courrierObjectService.findByTitle(courrier.getCourrierObject().getTitle());
 			courrier.setCourrierObject(courrierObject);
 		}
+		if (courrier.getTypeRequette() != null) {
+			TypeRequette typeRequette = typeRequetteService.findByLibelle(courrier.getTypeRequette().getLibelle());
+			courrier.setTypeRequette(typeRequette);
+		}
+		if (courrier.getNatureClient() != null) {
+			NatureClient natureClient = natureClientService.findByLibelle(courrier.getNatureClient().getLibelle());
+			courrier.setNatureClient(natureClient);
+		}
+		if (courrier.getPhaseAdmin() != null) {
+			PhaseAdmin phaseAdmin = phaseAdminService.findByLibelle(courrier.getPhaseAdmin().getLibelle());
+			courrier.setPhaseAdmin(phaseAdmin);
+		}
+
 
 		if (courrier.getVoie() != null) {
 			Voie voie = voieService.findByLibelle(courrier.getVoie().getLibelle());
@@ -744,7 +763,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 		if (courrier.getEvaluation() != null) {
 			Evaluation evaluation = evaluationService.findByTitle(courrier.getEvaluation().getTitle());
-
 			courrier.setEvaluation(evaluation);
 		}
 
@@ -917,18 +935,17 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		if(ListUtil.isNotEmpty(roles)){
 			if(SecurityUtil.isDirecteur()) {
 				query+=" AND "+ courrierItem + ".etatCourrier.id in (2,3,4,5)";
-			}
-			else if(SecurityUtil.isChefService()) {
+			}else if(SecurityUtil.isChefService()) {
 				query =  " AND " + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "'";
 				query+=" AND "+ courrierItem + ".etatCourrier.id in (3,4,5)";
+			}else if(SecurityUtil.isCai() || SecurityUtil.isChargeRequette()) {
+				query +=  " AND " + courrierItem + ".natureCourrier.code in ('requete','reclamation')";
 			}else if(SecurityUtil.isAgentBureau()){
 				query = " AND (" + courrierItem + ".id= " + taskItem + ".courrier.id AND " + taskItem + ".assigne.username='" + username + "')";
                 query+=" AND "+ courrierItem + ".etatCourrier.id in (4,5)";
-            }else if(SecurityUtil.isCai() || SecurityUtil.isChargeRequette()) {
-				query +=  "AND" + courrierItem + ".natureCourrier.code in ('requete','reclamation')";
-			}
-
+            }
 		}
+		System.out.println("query = " + query);
 		return query;
 
 
