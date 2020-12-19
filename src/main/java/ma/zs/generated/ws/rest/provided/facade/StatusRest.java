@@ -145,14 +145,17 @@ public class StatusRest {
 	public StatusService getStatusService(){
 		return statusService;
 	}
+	
+	
+   	@ApiOperation("Finds a  status by code")
+@GetMapping("/findByCode")
+public List<StatusVo> findStatusByCode( ){
+	return  statusConverter.toVo(statusService.findStatusByCode());
+}
+   	
 	public void setStatusService( StatusService statusService){
 	 	this.statusService=statusService;
 	}
 	
-	@ApiOperation("Finds a  status by code")
-    @GetMapping("/findByCode")
-	public List<StatusVo> findStatusByCode( ){
-		return  statusConverter.toVo(statusService.findStatusByCode());
-	}
 
 }

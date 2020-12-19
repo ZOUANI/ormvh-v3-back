@@ -26,8 +26,9 @@ public interface StatusDao extends JpaRepository<Status,Long> {
        int deleteByUpdatedByUsername(String username);       
        List<Status> findByUpdatedById(Long id);
        int deleteByUpdatedById(Long id);
+      	@Query("SELECT status FROM Status status WHERE status.code NOT IN ('ouvert', 'brouillant')")
+      	 List<Status> findStatusByCode();
        
-   	@Query("SELECT status FROM Status status WHERE status.code NOT IN ('ouvert', 'brouillant')")
-   	 List<Status> findStatusByCode();
+
 
 }
