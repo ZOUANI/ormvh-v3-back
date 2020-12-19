@@ -18,8 +18,12 @@ import ma.zs.generated.bean.Courrier;
 import ma.zs.generated.bean.CourrierPieceJoint;
 import ma.zs.generated.bean.LeService;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CourrierService {
+
+
+    void uploadFiles(List<MultipartFile> files, Long courrier) throws IOException;
 
     /**
      * find all Courrier in database
@@ -301,6 +305,5 @@ public interface CourrierService {
 	 * @throws MessagingException
 	 */
 	int sendCourrierRelance(List<Courrier> courriers) throws MessagingException;
-	 void uploadFiles(List<MultipartFile> files,Long courrier) throws IOException;
 
 }

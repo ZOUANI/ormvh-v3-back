@@ -54,7 +54,7 @@ import ma.zs.generated.service.util.ListUtil;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
 
 @Service
-public class CourrierPieceJointServiceImpl extends AbstractService<Courrier> implements CourrierPieceJointService {
+public class CourrierPieceJointServiceImpl extends AbstractService<CourrierPieceJoint> implements CourrierPieceJointService {
 @Autowired
 private CourrierPieceJointDao courrierPieceJointDao;
 	@Override
@@ -63,20 +63,14 @@ private CourrierPieceJointDao courrierPieceJointDao;
 	}
 
 	@Override
-	public Courrier save(Courrier t) {
-		// TODO Auto-generated method stub
-		return null;
+	public CourrierPieceJoint save(CourrierPieceJoint courrierPieceJoint) {
+		return courrierPieceJointDao.save(courrierPieceJoint);
 	}
-
 	@Override
 	public CourrierPieceJoint findByCourierId(Long id) {
 		return courrierPieceJointDao.findByCourierId(id);
 	}
 	
-	@Override
-	public void save(CourrierPieceJoint courrierPieceJoint) {
-		courrierPieceJointDao.save(courrierPieceJoint);
-	}
 
 	
 }

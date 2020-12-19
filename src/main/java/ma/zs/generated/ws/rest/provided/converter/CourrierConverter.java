@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import ma.zs.generated.bean.*;
+import ma.zs.generated.ws.rest.provided.vo.CourrierServiceItemVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -186,11 +191,18 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
 			if (ListUtil.isNotEmpty(vo.getTasksVo()) && this.tasks)
 				item.setTasks(taskConverter.toItem(vo.getTasksVo()));
 
-			if (ListUtil.isNotEmpty(vo.getCourrierServiceItemsVo()) && this.courrierServiceItems)
-				item.setCourrierServiceItems(courrierServiceItemConverter.toItem(vo.getCourrierServiceItemsVo()));
+			if (ListUtil.isNotEmpty(vo.getCourrierServiceItemsVo()) && this.courrierServiceItems) {
+				List<CourrierServiceItemVo> list = vo.getCourrierServiceItemsVo().stream().filter(distinctByKey(p -> p.getServiceVo().getId())).collect(Collectors.toList());
+				System.out.println(" haaaa list.size() = " + list.size());
+				item.setCourrierServiceItems(courrierServiceItemConverter.toItem(list));
+			}
 
 			return item;
 		}
+	}
+	public  <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor){
+		Map<Object, Boolean> map = new ConcurrentHashMap<>();
+		return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
 	}
 
 	@Override

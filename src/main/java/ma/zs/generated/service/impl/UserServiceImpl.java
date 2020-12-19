@@ -55,7 +55,11 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public List<User> findAll() {
-        return userDao.findAll();
+        if(SecurityUtil.isChefService()){
+            return userDao.findByLeServiceId(SecurityUtil.getCurrentUser().getLeService().getId());
+        }else{
+            return userDao.findAll();
+        }
     }
 
     @Override
@@ -165,6 +169,10 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
                    leServiceService.update(mySaved.getLeService());
 
                 }
+            }
+            if(SecurityUtil.isCai(user.getRoles())){
+                mySaved.setLeService(leServiceService.findByTitle("CAI"));
+                userDao.save(mySaved);
             }
             return mySaved;
         }

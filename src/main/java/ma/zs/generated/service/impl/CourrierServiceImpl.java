@@ -1,5 +1,8 @@
 package ma.zs.generated.service.impl;
 
+
+import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,8 +14,10 @@ import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 
 import ma.zs.generated.bean.*;
+import ma.zs.generated.dao.BordereauDao;
 import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.security.SecurityUtil;
+import ma.zs.generated.service.facade.*;
 import ma.zs.generated.service.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -22,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ma.zs.generated.dao.CourrierDao;
 import ma.zs.generated.dao.CourrierPieceJointDao;
-import ma.zs.generated.helper.mail.service.facade.MailService;
+
 import ma.zs.generated.service.facade.CourrierObjectService;
 import ma.zs.generated.service.facade.CourrierPieceJointService;
 import ma.zs.generated.service.facade.CourrierService;
@@ -39,6 +44,7 @@ import ma.zs.generated.service.facade.TypeCourrierService;
 import ma.zs.generated.service.facade.VoieService;
 import ma.zs.generated.service.util.ListUtil;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CourrierServiceImpl extends AbstractService<Courrier> implements CourrierService {
@@ -78,6 +84,14 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	
 	@Autowired
 	private CourrierPieceJointService courrierPieceJointService;
+
+
+	@Autowired
+	private TypeRequetteService typeRequetteService;
+	@Autowired
+	private NatureClientService natureClientService;
+	@Autowired
+	private PhaseAdminService phaseAdminService;
 
 	@Override
 	public List<Long> getStat(Date dateMin, Date dateMax, String titleCoordinator) {
@@ -235,8 +249,27 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	}
 
 	@Override
+	public void uploadFiles(List<MultipartFile> files, Long idCourrier) throws IOException {
+
+		String path = System.getProperty("user.home") + "/pieces-jointes/";
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		Courrier courrier = courrierDao.findById(idCourrier).get();
+		for (MultipartFile file : files){
+			CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
+			courrierPieceJoint.setChemin(file.getOriginalFilename());
+			courrierPieceJoint.setCourier(courrier);
+			Files.write(Paths.get(path + courrierPieceJoint.getChemin()), file.getBytes());
+			courrierPieceJointService.save(courrierPieceJoint);
+		}
+	}
+	@Override
 	public List<Courrier> findAll() {
 		String query = initQuery("o","courrierItem","taskItemm");
+		query+=" ORDER BY o.sentAt DESC,  o.idCourrier DESC";
+
 		System.out.println("+++++++++++++ haaa query ::::: "+query);
 		return entityManager.createQuery(query).getResultList();
 	}
@@ -682,7 +715,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 
 			String format = String.format("%06d", ++num);
-			String numOrder = year+  "_" +format ;
+			String numOrder = year + "_" +format ;
 			courrier.setIdCourrier(numOrder);
 
 		}
@@ -698,6 +731,19 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			CourrierObject courrierObject = courrierObjectService.findByTitle(courrier.getCourrierObject().getTitle());
 			courrier.setCourrierObject(courrierObject);
 		}
+		if (courrier.getTypeRequette() != null) {
+			TypeRequette typeRequette = typeRequetteService.findByLibelle(courrier.getTypeRequette().getLibelle());
+			courrier.setTypeRequette(typeRequette);
+		}
+		if (courrier.getNatureClient() != null) {
+			NatureClient natureClient = natureClientService.findByLibelle(courrier.getNatureClient().getLibelle());
+			courrier.setNatureClient(natureClient);
+		}
+		if (courrier.getPhaseAdmin() != null) {
+			PhaseAdmin phaseAdmin = phaseAdminService.findByLibelle(courrier.getPhaseAdmin().getLibelle());
+			courrier.setPhaseAdmin(phaseAdmin);
+		}
+
 
 		if (courrier.getVoie() != null) {
 			Voie voie = voieService.findByLibelle(courrier.getVoie().getLibelle());
@@ -737,7 +783,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 		if (courrier.getEvaluation() != null) {
 			Evaluation evaluation = evaluationService.findByTitle(courrier.getEvaluation().getTitle());
-
 			courrier.setEvaluation(evaluation);
 		}
 
@@ -763,11 +808,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 //		}
 //		}
 		Courrier savedCourrier = courrierDao.save(courrier);
-//		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
-//		for (CourrierPieceJoint courrierPieceJoint : courrier.getCourriersPieceJoint()) {
-//			courrierPieceJoint.setCourier(savedCourrier);
-//			courrierPieceJointDao.save(courrierPieceJoint);
-//		}
+
 		if (ListUtil.isNotEmpty(courrier.getTasks())) {
 			savedCourrier.setTasks(taskService.create(prepareTasks(savedCourrier, courrier.getTasks())));
 		}
@@ -914,18 +955,17 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		if(ListUtil.isNotEmpty(roles)){
 			if(SecurityUtil.isDirecteur()) {
 				query+=" AND "+ courrierItem + ".etatCourrier.id in (2,3,4,5)";
-			}
-			else if(SecurityUtil.isChefService()) {
+			}else if(SecurityUtil.isChefService()) {
 				query =  " AND " + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "'";
 				query+=" AND "+ courrierItem + ".etatCourrier.id in (3,4,5)";
+			}else if(SecurityUtil.isCai() || SecurityUtil.isChargeRequette()) {
+				query +=  " AND " + courrierItem + ".natureCourrier.code in ('requete','reclamation')";
 			}else if(SecurityUtil.isAgentBureau()){
 				query = " AND (" + courrierItem + ".id= " + taskItem + ".courrier.id AND " + taskItem + ".assigne.username='" + username + "')";
                 query+=" AND "+ courrierItem + ".etatCourrier.id in (4,5)";
-            }else if(SecurityUtil.isCai() || SecurityUtil.isChargeRequette()) {
-				query +=  "AND" + courrierItem + ".natureCourrier.code in ('requete','reclamation')";
-			}
-
+            }
 		}
+		System.out.println("query = " + query);
 		return query;
 
 
@@ -946,9 +986,9 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 		}
 			query+=" where 1=1" ;
-		query+=" ORDER BY "+courrierItem+".sentAt DESC,  "+courrierItem+".idCourrier DESC";
 
 		query+=addRolesConstraint(roles,courrierItem,courrierServiceItem,taskItem,user.getUsername());
+
 		return query;
     }
 	public List<Courrier> findByCriteria(CourrierVo courrierVo) {
@@ -1064,6 +1104,8 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			query += addConstraint("o", "updatedBy.username", "LIKE", courrierVo.getUpdatedByVo().getUsername());
 		}
 
+		query+=" ORDER BY o.sentAt DESC,  o.idCourrier DESC";
+
 		return entityManager.createQuery(query).getResultList();
 	}
 
@@ -1157,24 +1199,6 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	}
 
 
-	@Override
-	public void uploadFiles(List<MultipartFile> files, Long idCourrier) throws IOException {
-		Courrier courrier = courrierDao.findById(idCourrier).get();
-		for (MultipartFile file : files){
-			CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
-			courrierPieceJoint.setChemin(file.getOriginalFilename());
-			courrierPieceJoint.setCourier(courrier);
-			Files.write(Paths.get(System.getProperty("user.home") + "/pieces-jointes/" + courrierPieceJoint.getChemin()), file.getBytes());
-			courrierPieceJointService.save(courrierPieceJoint);
-		}
-/*
-		CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
-		courrierPieceJoint.setChemin(file.getName()+".png");
-		courrierPieceJoint.setCourier(courrier);
-		Files.write(Paths.get(System.getProperty("user.home") + "/pieces-jointes/" + courrierPieceJoint.getChemin()), file.getBytes());
-		courrierPieceJointService.save(courrierPieceJoint);
-		
-	}*/
-	}
+
 
 }

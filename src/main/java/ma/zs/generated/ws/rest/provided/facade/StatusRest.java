@@ -146,7 +146,6 @@ public class StatusRest {
 		return statusService;
 	}
 	
-	
 	//lolo
    	@ApiOperation("Finds a  status by code")
 @GetMapping("/findByCode")

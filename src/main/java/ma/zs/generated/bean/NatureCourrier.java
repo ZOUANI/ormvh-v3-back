@@ -26,6 +26,7 @@ public class NatureCourrier {
      @Temporal(TemporalType.TIMESTAMP)
      private Date updatedAt ;
      private Double delai ;
+     private Integer categorie ;
      private Double relance ;
      private String libelleArab ;
      private String libelle ;
@@ -34,8 +35,7 @@ public class NatureCourrier {
 	private User createdBy ;
      @ManyToOne
 	private User updatedBy ;
-     
-    private Integer categorie;
+ 
 
 	public NatureCourrier(){
        super();
@@ -102,6 +102,7 @@ public class NatureCourrier {
           this.updatedBy = updatedBy;
      }
 
+
 	public Integer getCategorie() {
 		return categorie;
 	}
@@ -110,7 +111,6 @@ public class NatureCourrier {
 	public void setCategorie(Integer categorie) {
 		this.categorie = categorie;
 	}
-
 
 
 }

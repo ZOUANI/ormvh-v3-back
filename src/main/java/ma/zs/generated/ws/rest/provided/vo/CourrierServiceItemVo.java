@@ -1,6 +1,8 @@
 package  ma.zs.generated.ws.rest.provided.vo;
 
 
+import java.util.Objects;
+
 public class CourrierServiceItemVo {
 
      private String id ;
@@ -49,9 +51,19 @@ public class CourrierServiceItemVo {
      public void setServiceVo(LeServiceVo serviceVo){
           this.serviceVo = serviceVo;
      }
-   
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CourrierServiceItemVo that = (CourrierServiceItemVo) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(serviceVo, that.serviceVo);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, serviceVo);
+    }
 }

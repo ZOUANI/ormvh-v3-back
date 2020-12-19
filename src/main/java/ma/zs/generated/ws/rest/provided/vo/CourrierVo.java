@@ -5,8 +5,10 @@ import java.util.List;
 
 import ma.zs.generated.bean.CourrierPieceJoint;
 import ma.zs.generated.bean.PhaseAdmin;
+import org.springframework.web.multipart.MultipartFile;
 
 public class CourrierVo {
+
 
     private String sujet;
 
@@ -625,4 +627,6 @@ public class CourrierVo {
     public void setEtatCourrierVo(EtatCourrierVo etatCourrierVo) {
         this.etatCourrierVo = etatCourrierVo;
     }
+
+
 }

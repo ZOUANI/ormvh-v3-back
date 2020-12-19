@@ -50,6 +50,12 @@ public class CourrierRest {
 
     @Autowired
     private CourrierService courrierService;
+    @Autowired
+    private CourrierPieceJointService courrierPieceJointService;
+    @Autowired
+    private CourrierConverter courrierConverter;
+    @Autowired
+    private ServletContext servletContext;
     private ArrayList<CourrierPieceJoint> courrierPieceJoint = new ArrayList<CourrierPieceJoint>();
     
 
@@ -60,12 +66,7 @@ public class CourrierRest {
 	public void setCourrierPieceJoint(ArrayList<CourrierPieceJoint> courrierPieceJoint) {
 		this.courrierPieceJoint = courrierPieceJoint;
 	}
-@Autowired
-private CourrierPieceJointService courrierPieceJointService;
-	@Autowired
-    private CourrierConverter courrierConverter;
-	@Autowired
-    private ServletContext servletContext;
+
 	   @GetMapping("/downloadFile/{id}")
 	    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable Long id,HttpServletResponse response) throws IOException {
 	        // Load file as Resource
@@ -73,35 +74,12 @@ private CourrierPieceJointService courrierPieceJointService;
 	        File convFile = null;
 	        convFile = new File(databaseFile.getChemin());
             convFile.createNewFile();
-	               /* fileName = convFile.getName();
-	                System.out.println(fileName);
-	                 response.setHeader("Content-Disposition", "attachment; filename=" +fileName);
-	   	  	     response.setHeader("Content-Transfer-Encoding", "binary");
-	   	  	      try {
-	   	  	    	  BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
-	   	  	    	  FileInputStream fis = new FileInputStream(fileLocation + fileName);
-	   	  	    	  int len;
-	   	  	    	  byte[] buf = new byte[1024];
-	   	  	    	  while((len = fis.read(buf)) > 0) {
-	   	  	    		  bos.write(buf,0,len);
-	   	  	    	  }
-	   	  	    	  bos.close();
-	   	  	    	  response.flushBuffer();
-	   	  	    System.out.println("ana hna");
-	   	  	      }
-	   	  	      catch(IOException e) {
-	   	  	    	  e.printStackTrace();
-	   	  	    	  
-	   	  	      }*/
 	        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, databaseFile.getChemin());
            InputStreamResource resource = new InputStreamResource(new FileInputStream(convFile));
            
 	        return ResponseEntity.ok()
-                   // Content-Disposition
                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + convFile.getName())
-                   // Content-Type
                    .contentType(mediaType)
-                   // Contet-Length
                    .contentLength(convFile.length()) //
                    .body(resource);
 	 	   }
@@ -118,16 +96,16 @@ private CourrierPieceJointService courrierPieceJointService;
 		}
         return 1 ;
     }
+
+
+
+
     @ApiOperation("creates the specified courrier")
     @PostMapping("/")
-    public int create(@RequestBody CourrierVo courrierVo) {
+    public int create(@RequestBody CourrierVo courrierVo) throws IOException {
         System.out.println("haaa courrierVo.getSentAt() = " + courrierVo.getSentAt());
     	Courrier courrier = courrierConverter.toItem(courrierVo);
-//    	for (CourrierPieceJoint courrierPieceJoint2 : this.courrierPieceJoint) {
-//			courrier.getCourriersPieceJoint().add(courrierPieceJoint2);
-//		}
-//    	this.courrierPieceJoint = null;
-         courrierService.create(courrier);
+        Courrier loadedCourrier = courrierService.create(courrier);
         System.out.println("DateUtil.formateDate(courrier.getSentAt()) = " + DateUtil.formateDate(courrier.getSentAt()));
     	  return 1 ;
     }
@@ -700,13 +678,8 @@ private CourrierPieceJointService courrierPieceJointService;
         return GeneratePdf.generatePdfs("courriers", parameters, toPrint, "/reports/courriers.jasper");
     }
     @PostMapping("upload/{courrier}")
-    public void uploadFiles(@RequestParam("file") List<MultipartFile> files,@PathVariable Long courrier) throws IOException {
-        System.out.println("Id courrier= " + courrier);
-
-        System.out.println("file.size() = " + files.size());
-
-
-        courrierService.uploadFiles(files, courrier);
+    public void uploadFiles(@RequestParam("files") List<MultipartFile> files,@PathVariable Long idCourrier) throws IOException {
+        courrierService.uploadFiles(files, idCourrier);
     }
 
 }

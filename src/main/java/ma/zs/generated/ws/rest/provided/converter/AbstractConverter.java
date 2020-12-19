@@ -1,13 +1,13 @@
 package  ma.zs.generated.ws.rest.provided.converter;
 
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public abstract class AbstractConverter<T, VO> {
+
 
     public abstract T toItem(VO vo);
 
