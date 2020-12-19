@@ -182,6 +182,7 @@ public class StatusServiceImpl extends AbstractService<Status> implements Status
         return entityManager.createQuery(query).getResultList();
     }
     
+  //lolo
  	@Override
 public List<Status> findStatusByCode() {
 return statusDao.findStatusByCode();

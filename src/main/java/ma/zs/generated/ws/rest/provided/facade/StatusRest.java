@@ -147,6 +147,7 @@ public class StatusRest {
 	}
 	
 	
+	//lolo
    	@ApiOperation("Finds a  status by code")
 @GetMapping("/findByCode")
 public List<StatusVo> findStatusByCode( ){
