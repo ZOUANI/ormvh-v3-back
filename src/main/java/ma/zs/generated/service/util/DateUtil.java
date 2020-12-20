@@ -113,5 +113,8 @@ public class DateUtil {
         cal.setTime(date);
         return  cal.get(Calendar.MONTH)+1;
     }
+    public static int getTrimestre(Date date){
+        return (int) Math.ceil((double) DateUtil.getMonth(date) / 3.0);
+    }
 
 }

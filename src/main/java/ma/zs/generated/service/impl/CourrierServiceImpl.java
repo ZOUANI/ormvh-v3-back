@@ -888,7 +888,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
             courrierServiceItemService
                     .create(prepareCourrierServiceItems(courrier, courrier.getCourrierServiceItems()));
         }
-        courrier.setTrimestre((int) Math.ceil((double) DateUtil.getMonth(courrier.getSentAt()) / 3.0));
+        courrier.setTrimestre(DateUtil.getTrimestre(courrier.getSentAt()));
         return courrierDao.save(courrier);
 
     }
