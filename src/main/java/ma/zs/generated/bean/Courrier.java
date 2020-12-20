@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import io.swagger.models.auth.In;
 import ma.zs.generated.bean.CourrierObject;
 import ma.zs.generated.bean.Voie;
 import ma.zs.generated.bean.NatureCourrier;
@@ -35,6 +36,7 @@ public class Courrier {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     @Temporal(TemporalType.TIMESTAMP)
     private Date sentAt;
+    private Integer trimestre;
     private String destinataireDesc;
     private String destinataireVille;
     private Double relance;
@@ -479,6 +481,12 @@ public class Courrier {
 		this.type = type;
 	}
 
+    public Integer getTrimestre() {
+        return trimestre;
+    }
 
+    public void setTrimestre(Integer trimestre) {
+        this.trimestre = trimestre;
+    }
 }
 

@@ -108,5 +108,10 @@ public class DateUtil {
             return null;
         }
     }
+    public static int getMonth(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return  cal.get(Calendar.MONTH)+1;
+    }
 
 }

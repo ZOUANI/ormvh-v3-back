@@ -18,6 +18,8 @@ public class CourrierVo {
 
     private String sentAt;
 
+    private String trimestre;
+
     private String destinataireDesc;
 
     private String destinataireVille;
@@ -281,6 +283,13 @@ public class CourrierVo {
         this.delai = delai;
     }
 
+    public String getTrimestre() {
+        return trimestre;
+    }
+
+    public void setTrimestre(String trimestre) {
+        this.trimestre = trimestre;
+    }
 
     public String getSentAtMax() {
         return this.sentAtMax;
@@ -548,7 +557,9 @@ public class CourrierVo {
         this.updatedByVo = updatedByVo;
     }
 
-    public UserVo getChef() { return chef;  }
+    public UserVo getChef() {
+        return chef;
+    }
 
     public void setChef(UserVo chef) {
         this.chef = chef;
@@ -579,14 +590,14 @@ public class CourrierVo {
     }
 
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public PhaseAdminVo getPhaseAdminVo() {
         return phaseAdminVo;
