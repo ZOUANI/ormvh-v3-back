@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface CourrierService {
 
 
-    void uploadFiles(List<MultipartFile> files, Long courrier) throws IOException;
+    int uploadFiles(List<MultipartFile> files, String idCourrier) throws IOException;
 
     /**
      * find all Courrier in database
