@@ -249,22 +249,27 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return courrierDao.countByStatusLibelle(libelle);
 	}
 
+
 	@Override
-	public void uploadFiles(List<MultipartFile> files, Long idCourrier) throws IOException {
+	public int uploadFiles(List<MultipartFile> files, String idCourrier) throws IOException {
 
 		String path = System.getProperty("user.home") + "/pieces-jointes/";
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
-		Courrier courrier = courrierDao.findById(idCourrier).get();
-		for (MultipartFile file : files){
-			CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
-			courrierPieceJoint.setChemin(file.getOriginalFilename());
-			courrierPieceJoint.setCourier(courrier);
-			Files.write(Paths.get(path + courrierPieceJoint.getChemin()), file.getBytes());
-			courrierPieceJointService.save(courrierPieceJoint);
+		Courrier courrier = courrierDao.findByIdCourrier(idCourrier);
+		if(courrier != null) {
+			for (MultipartFile file : files) {
+				CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
+				courrierPieceJoint.setChemin(file.getOriginalFilename());
+				courrierPieceJoint.setCourier(courrier);
+				Files.write(Paths.get(path + courrierPieceJoint.getChemin()), file.getBytes());
+				courrierPieceJointService.save(courrierPieceJoint);
+			}
+			return 1;
 		}
+		else return -1;
 	}
 	@Override
 	public List<Courrier> findAll() {

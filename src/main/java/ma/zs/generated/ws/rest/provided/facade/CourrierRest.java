@@ -678,9 +678,9 @@ public class CourrierRest {
         Map<String, Object> parameters = new HashMap<>();
         return GeneratePdf.generatePdfs("courriers", parameters, toPrint, "/reports/courriers.jasper");
     }
-    @PostMapping("upload/{courrier}")
-    public void uploadFiles(@RequestParam("files") List<MultipartFile> files,@PathVariable Long idCourrier) throws IOException {
-        courrierService.uploadFiles(files, idCourrier);
+    @PostMapping("upload/{idCourrier}")
+    public int uploadFiles(@RequestParam("files") List<MultipartFile> files,@PathVariable String idCourrier) throws IOException {
+        return courrierService.uploadFiles(files, idCourrier);
     }
 
 
