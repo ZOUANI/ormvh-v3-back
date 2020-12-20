@@ -2,24 +2,18 @@ package ma.zs.generated.service.facade;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.mail.MessagingException;
 
 import ma.zs.generated.ws.rest.provided.vo.StatistiqueVo;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ma.zs.generated.bean.Courrier;
-import ma.zs.generated.bean.CourrierPieceJoint;
 import ma.zs.generated.bean.LeService;
 import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface CourrierService {
 
@@ -307,5 +301,27 @@ public interface CourrierService {
 	 */
 	int sendCourrierRelance(List<Courrier> courriers) throws MessagingException;
 
-    List<StatistiqueVo> countCourrierByNatureClient();
+    Map<String, List<StatistiqueVo>> countCourrierByNatureClient();
+    public Map<String, List<StatistiqueVo>> countCourrierByExpeditorSex();
+    public Map<String, List<StatistiqueVo>> countCourrierByDestinatorSex();
+    public Map<String, List<StatistiqueVo>> countCourrierBySubject();
+    public Map<String, List<StatistiqueVo>> countCourrierByVoie();
+    public Map<String, List<StatistiqueVo>> countCourrierByServiceEmeteur();
+    public Map<String, List<StatistiqueVo>> countCourrierByServiceCoord();
+
+    public Map<String, List<StatistiqueVo>> countCourrierByEtatEval();
+    public Map<String, List<StatistiqueVo>> countCourrierAcceptedBySubject();
+    public Map<String, List<StatistiqueVo>> countCourrierRefusedBySubject();
+
+    Map<String, List<StatistiqueVo>> countCourrierAcceptedByNatureClient();
+
+    Map<String, List<StatistiqueVo>> countCourrierRefusedByNatureClient();
+
+    Map<String, List<StatistiqueVo>> countCourrierRefusedByReason();
+
+    Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceEmeteur();
+
+    Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceCoord();
+
+    Map<String, List<StatistiqueVo>> countCourrierTraiteByNatureClient();
 }

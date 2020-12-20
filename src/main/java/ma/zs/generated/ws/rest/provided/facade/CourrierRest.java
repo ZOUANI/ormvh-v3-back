@@ -2,7 +2,6 @@ package ma.zs.generated.ws.rest.provided.facade;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -31,8 +30,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import ma.zs.generated.bean.Courrier;
 import ma.zs.generated.bean.CourrierPieceJoint;
-import ma.zs.generated.bean.ModelLettreReponse;
-import ma.zs.generated.dao.CourrierPieceJointDao;
 import ma.zs.generated.service.facade.CourrierPieceJointService;
 import ma.zs.generated.service.facade.CourrierService;
 import ma.zs.generated.service.impl.MediaTypeUtils;
@@ -686,8 +683,98 @@ public class CourrierRest {
 
     @ApiOperation("countCourrierByNatureClient")
     @GetMapping("/countCourrierByNatureClient")
-    public List<StatistiqueVo>countCourrierByNatureClient(){
+    public Map<String, List<StatistiqueVo>> countCourrierByNatureClient(){
         return courrierService.countCourrierByNatureClient();
     }
+
+    @ApiOperation("countCourrierByExpeditorSex")
+    @GetMapping("/countCourrierByExpeditorSex")
+    public Map<String, List<StatistiqueVo>> countCourrierByExpeditorSex(){
+        return courrierService.countCourrierByExpeditorSex();
+    }
+
+    @ApiOperation("countCourrierByDestinatorSex")
+    @GetMapping("/countCourrierByDestinatorSex")
+    public Map<String, List<StatistiqueVo>> countCourrierByDestinatorSex(){
+        return courrierService.countCourrierByDestinatorSex();
+    }
+    @ApiOperation("countCourrierBySubject")
+    @GetMapping("/countCourrierBySubject")
+    public Map<String, List<StatistiqueVo>> countCourrierBySubject(){
+        return courrierService.countCourrierBySubject();
+    }
+    @ApiOperation("countCourrierByVoie")
+    @GetMapping("/countCourrierByVoie")
+    public Map<String, List<StatistiqueVo>> countCourrierByVoie(){
+        return courrierService.countCourrierByVoie();
+    }
+
+    @ApiOperation("countCourrierByServiceEmeteur")
+    @GetMapping("/countCourrierByServiceEmeteur")
+    public Map<String, List<StatistiqueVo>> countCourrierByServiceEmeteur(){
+        return courrierService.countCourrierByServiceEmeteur();
+    }
+
+    @ApiOperation("countCourrierByServiceEmeteur")
+    @GetMapping("/countCourrierByServiceEmeteur")
+    public Map<String, List<StatistiqueVo>> countCourrierByServiceCoord(){
+        return courrierService.countCourrierByServiceCoord();
+    }
+
+    @ApiOperation("countCourrierByEtatEval")
+    @GetMapping("/countCourrierByEtatEval")
+    public Map<String, List<StatistiqueVo>> countCourrierByEtatEval(){
+        return courrierService.countCourrierByEtatEval();
+    }
+
+    @ApiOperation("countCourrierAcceptedBySubject")
+    @GetMapping("/countCourrierAcceptedBySubject")
+    public Map<String, List<StatistiqueVo>> countCourrierAcceptedBySubject(){
+        return courrierService.countCourrierAcceptedBySubject();
+    }
+
+    @ApiOperation("countCourrierRefusedBySubject")
+    @GetMapping("/countCourrierRefusedBySubject")
+    public Map<String, List<StatistiqueVo>> countCourrierRefusedBySubject(){
+        return courrierService.countCourrierRefusedBySubject();
+    }
+
+    @ApiOperation("countCourrierAcceptedByNatureClient")
+    @GetMapping("/countCourrierAcceptedByNatureClient")
+    public Map<String, List<StatistiqueVo>> countCourrierAcceptedByNatureClient(){
+        return courrierService.countCourrierAcceptedByNatureClient();
+    }
+
+    @ApiOperation("countCourrierRefusedByNatureClient")
+    @GetMapping("/countCourrierRefusedByNatureClient")
+    public Map<String, List<StatistiqueVo>> countCourrierRefusedByNatureClient(){
+        return courrierService.countCourrierRefusedByNatureClient();
+    }
+
+    @ApiOperation("countCourrierRefusedByReason")
+    @GetMapping("/countCourrierRefusedByReason")
+    public Map<String, List<StatistiqueVo>> countCourrierRefusedByReason(){
+        return courrierService.countCourrierRefusedByReason();
+    }
+
+    @ApiOperation("countCourrierTraiteByServiceEmeteur")
+    @GetMapping("/countCourrierTraiteByServiceEmeteur")
+    public Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceEmeteur(){
+        return courrierService.countCourrierTraiteByServiceEmeteur();
+    }
+
+    @ApiOperation("countCourrierTraiteByServiceCoord")
+    @GetMapping("/countCourrierTraiteByServiceCoord")
+    public Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceCoord(){
+        return courrierService.countCourrierTraiteByServiceCoord();
+    }
+
+    @ApiOperation("countCourrierTraiteByNatureClient")
+    @GetMapping("/countCourrierTraiteByNatureClient")
+    public Map<String, List<StatistiqueVo>> countCourrierTraiteByNatureClient(){
+        return courrierService.countCourrierTraiteByNatureClient();
+    }
+
+
 
 }
