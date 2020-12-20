@@ -1126,7 +1126,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
             }
         }
         String format = String.format("%06d", ++num);
-        String numOrder = format + "-" + year;
+        String numOrder = year + "-" + format;
         return numOrder;
 
     }
