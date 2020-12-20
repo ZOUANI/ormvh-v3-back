@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
+import ma.zs.generated.ws.rest.provided.vo.StatistiqueVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -680,6 +681,13 @@ public class CourrierRest {
     @PostMapping("upload/{courrier}")
     public void uploadFiles(@RequestParam("files") List<MultipartFile> files,@PathVariable Long idCourrier) throws IOException {
         courrierService.uploadFiles(files, idCourrier);
+    }
+
+
+    @ApiOperation("countCourrierByNatureClient")
+    @GetMapping("/countCourrierByNatureClient")
+    public List<StatistiqueVo>countCourrierByNatureClient(){
+        return courrierService.countCourrierByNatureClient();
     }
 
 }

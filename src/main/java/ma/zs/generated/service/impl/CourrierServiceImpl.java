@@ -19,6 +19,7 @@ import ma.zs.generated.helper.mail.service.facade.MailService;
 import ma.zs.generated.security.SecurityUtil;
 import ma.zs.generated.service.facade.*;
 import ma.zs.generated.service.util.DateUtil;
+import ma.zs.generated.ws.rest.provided.vo.StatistiqueVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -807,6 +808,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 //			courrierPieceJointDao.save(courrierPieceJoint);
 //		}
 //		}
+		// calculer trim (01-03) : 1 (04-06) : 2 (07-09) : 3 (10-12) : 4 :: sentAt
 		Courrier savedCourrier = courrierDao.save(courrier);
 
 		if (ListUtil.isNotEmpty(courrier.getTasks())) {
@@ -1198,7 +1200,38 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return 1;
 	}
 
+	@Override
+	public List<StatistiqueVo> countCourrierByNatureClient(){
+		return execQuery("natureClient.libelle", "natureClient.libelle", false);
+	}
+
+
+	private List<StatistiqueVo> execQuery(String criteriaGroupByInQuey,String criteriaGroupBy,boolean service){
+		List<String> list = Arrays.asList("oservations", "propositions", "reclamations");
+		List<String> queries= new ArrayList<>();
+		List<StatistiqueVo> resultat= new ArrayList<>();
+		for (String s : list) {
+			queries.add(constructQuery(s,criteriaGroupByInQuey,criteriaGroupBy,service));
+		}
+		System.out.println("queries = " + queries);
+		for (String query : queries) {
+			resultat.add((StatistiqueVo) entityManager.createQuery(query).getSingleResult());
+		}
+		System.out.println("resultat = " + resultat);
+		return resultat;
+	}
+
+	private String constructQuery(String typeRequetteCode,String criteriaGroupByInQuey,String criteriaGroupBy ,boolean service){
+		String query= "Select NEW ma.zs.generated.ws.rest.provided.vo.StatistiqueVo(COUNT(c.id), "+criteriaGroupByInQuey+") FROM Courrier c";
+		if(service){
+			query += " , CourrierServiceItem csi"  ;
+		}
+		query+=" WHERE c.typeRequette.code ='"+typeRequetteCode+"'";
+		query+=" GROUP BY "+criteriaGroupBy;
+		return query;
+	}
 
 
 
-}
+
+	}
