@@ -307,6 +307,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return courrierDao.countByTypeCourrierLibelleAndCreatedAtBetween(typeCourrier_libelle, createdAt, createdAt2);
 	}
 
+
 	@Override
 	public Long countByAccuseAndCreatedAt(Boolean accuse, Date createdAt) {
 		return courrierDao.countByAccuseAndCreatedAt(accuse, createdAt);
@@ -1127,7 +1128,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 		}
 		String format = String.format("%06d", ++num);
-		String numOrder = format + "-" + year;
+		String numOrder = year + "-" +format ;
 		return numOrder;
 
 	}
@@ -1203,155 +1204,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return 1;
 	}
 
-            //-----------------------------------------------------------------------------------------
 
-	private Map<String, List<StatistiqueVo>> execQuery(String criteriaGroupByInQuey,String criteriaGroupBy,boolean service){
-		return execQuery(criteriaGroupByInQuey,criteriaGroupBy,service,"");
-	}
-	private Map<String, List<StatistiqueVo>> execQuery(String criteriaGroupByInQuey,String criteriaGroupBy,boolean service,String additionalCriterias,Date d1,Date d2){
-
-		String add = additionalCriterias;
-        add+=" and sentAt BETWEEN '"+DateUtil.formateDate(d1)+"' and '"+DateUtil.formateDate(d2)+"' ";
-		return execQuery(criteriaGroupByInQuey,criteriaGroupBy,service,add);
-	}
-	private Map<String, List<StatistiqueVo>> execQuery(String criteriaGroupByInQuey,String criteriaGroupBy,boolean service,String additionalCriterias){
-		List<String> list = Arrays.asList("oservations", "propositions", "reclamations");
-		List<String> queries= new ArrayList<>();
-        List<StatistiqueVo> resQuery;
-		Map<String, List<StatistiqueVo>> resultat= new HashMap<>();
-		for (String s : list) {
-			queries.add(constructQuery(s,criteriaGroupByInQuey,criteriaGroupBy,service,additionalCriterias));
-		}
-		System.out.println("queries = " + queries);
-		for (String query : queries) {
-			resQuery=new ArrayList<>();
-			for(Object res : entityManager.createQuery(query).getResultList()){
-              resQuery.add((StatistiqueVo) res);
-			}
-			resultat.put(list.get(queries.indexOf(query)),resQuery);
-		}
-		System.out.println("resultat = " + resultat);
-		return resultat;
-	}
-
-
-	private String constructQuery(String typeRequetteCode,String criteriaGroupByInQuey,String criteriaGroupBy ,boolean service,String additionnalConditions){
-		String query= "Select NEW ma.zs.generated.ws.rest.provided.vo.StatistiqueVo(COUNT(c.id)";
-		if(StringUtil.isNotEmpty(criteriaGroupByInQuey)) query+=", "+criteriaGroupByInQuey;
-		query+=") FROM Courrier c";
-		if(service){
-			query += " , CourrierServiceItem csi"  ;
-		}
-		query+=" WHERE c.typeRequette.code ='"+typeRequetteCode+"' " + additionnalConditions;
-		if(StringUtil.isNotEmpty(criteriaGroupBy))query+=" GROUP BY "+criteriaGroupBy;
-		return query;
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierByNatureClient(){
-		return execQuery("c.natureClient.libelle", "c.natureClient.libelle", false);
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierByExpeditorSex(){
-		return execQuery("c.expeditor.sex.libelle", "c.expeditor.sex.libelle", false);
-	}
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierByDestinatorSex(){
-		return execQuery("c.destinator.sex.libelle", "c.destinator.sex.libelle", false);
-	}
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierBySubject(){
-		return execQuery("c.subject","c.subject",false);
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierByVoie(){
-		return execQuery("c.voie.libelle","c.voie.libelle",false);
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierByServiceEmeteur(){
-		return execQuery("c.emetteur.code","c.emetteur.code",false);
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierByServiceCoord(){
-		return execQuery("c.coordinator.code","c.coordinator.code",false);
-	}
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierByService(){
-		return execQuery("csi.service.title","csi.service.title",true,"and csi.courrier.id=c.id");
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierByEtatEval(){
-		Map<String, List<StatistiqueVo>> accepted =  execQuery("","",false, "and c.evaluation.code='conforme'");
-		Map<String, List<StatistiqueVo>> refused =  execQuery("","",false,"and c.evaluation.code is not null and c.evaluation.code!='conforme'");
-		for (List<StatistiqueVo> res:
-			 accepted.values()) {
-			for (StatistiqueVo stat:
-				 res) {
-				stat.setGroupe("accepted");
-			}
-		}
-		for (List<StatistiqueVo> res:
-				refused.values()) {
-			for (StatistiqueVo stat:
-					res) {
-				stat.setGroupe("refused");
-			}
-		}
-		for (String key:
-			 accepted.keySet()) {
-			accepted.get(key).addAll(refused.get(key));
-		}
-      return accepted;
-
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierAcceptedBySubject(){
-		return execQuery("c.subject","c.subject",false, "and c.evaluation.code='conforme'");
-	}
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierRefusedBySubject(){
-		return execQuery("c.subject","c.subject",false,"and c.evaluation.code is not null and c.evaluation.code!='conforme'") ;
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierAcceptedByNatureClient(){
-		return execQuery("c.natureClient.libelle", "c.natureClient.libelle", false,"and c.evaluation.code='conforme'");
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierRefusedByNatureClient(){
-		return execQuery("c.natureClient.libelle", "c.natureClient.libelle", false,"and c.evaluation.code is not null and c.evaluation.code!='conforme'");
-	}
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierRefusedByReason(){
-		return execQuery("c.evaluation.title", "c.evaluation.title", false,"and c.evaluation.code is not null and c.evaluation.code!='conforme'");
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceEmeteur(){
-		return execQuery("c.emetteur.code","c.emetteur.code",false,"and c.status.code='traite'");
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceCoord(){
-		return execQuery("c.coordinator.code","c.coordinator.code",false,"and c.status.code='traite'");
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierTraiteByService(){
-		return execQuery("csi.service.title","csi.service.title",true,"and c.status.code='traite' and csi.courrier.id=c.id ");
-	}
-
-	@Override
-	public Map<String, List<StatistiqueVo>> countCourrierTraiteByNatureClient(){
-		return execQuery("c.natureClient.libelle", "c.natureClient.libelle", false,"and c.status.code='traite'");
-	}
 
 
 	}

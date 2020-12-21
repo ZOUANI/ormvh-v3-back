@@ -301,40 +301,4 @@ public interface CourrierService {
 	 */
 	int sendCourrierRelance(List<Courrier> courriers) throws MessagingException;
 
-    Map<String, List<StatistiqueVo>> countCourrierByNatureClient();
-    public Map<String, List<StatistiqueVo>> countCourrierByExpeditorSex();
-    public Map<String, List<StatistiqueVo>> countCourrierByDestinatorSex();
-    public Map<String, List<StatistiqueVo>> countCourrierBySubject();
-    public Map<String, List<StatistiqueVo>> countCourrierByVoie();
-    public Map<String, List<StatistiqueVo>> countCourrierByServiceEmeteur();
-    public Map<String, List<StatistiqueVo>> countCourrierByServiceCoord();
-
-    /*@Override
-    public Map<String, List<StatistiqueVo>> countCourrierByServiceEmeteur(){
-        return execQuery("c.emetteur.code","c.emetteur.code",false);
-    }
-
-    @Override
-    public Map<String, List<StatistiqueVo>> countCourrierByServiceCoord(){
-        return execQuery("c.coordinator.code","c.coordinator.code",false);
-    }*/
-    Map<String, List<StatistiqueVo>> countCourrierByService();
-
-    public Map<String, List<StatistiqueVo>> countCourrierByEtatEval();
-    public Map<String, List<StatistiqueVo>> countCourrierAcceptedBySubject();
-    public Map<String, List<StatistiqueVo>> countCourrierRefusedBySubject();
-
-    Map<String, List<StatistiqueVo>> countCourrierAcceptedByNatureClient();
-
-    Map<String, List<StatistiqueVo>> countCourrierRefusedByNatureClient();
-
-    Map<String, List<StatistiqueVo>> countCourrierRefusedByReason();
-
-    Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceEmeteur();
-
-    Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceCoord();
-
-    Map<String, List<StatistiqueVo>> countCourrierTraiteByService();
-
-    Map<String, List<StatistiqueVo>> countCourrierTraiteByNatureClient();
 }
