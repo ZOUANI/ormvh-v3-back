@@ -801,6 +801,9 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
             TypeCourrier typeCourrier = typeCourrierService.findByLibelle(courrier.getTypeCourrier().getLibelle());
             courrier.setTypeCourrier(typeCourrier);
         }
+        if (courrier.getSentAt()!=null && courrier.getDateReponse()!=null){
+            courrier.setDelaiReponse(DateUtil.getDifferenceDays(courrier.getSentAt(),courrier.getDateReponse()));
+        }
 //		System.out.println(courrier.getCourriersPieceJoint());
 //		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
 //			System.out.println("ha ana ldakhel");
@@ -810,7 +813,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 //		}
         // calculer trim (01-03) : 1 (04-06) : 2 (07-09) : 3 (10-12) : 4 :: sentAt
 
-        courrier.setTrimestre((int) Math.ceil((double) DateUtil.getMonth(courrier.getSentAt()) / 3.0));
+        courrier.setTrimestre(DateUtil.getTrimestre(courrier.getSentAt()));
         Courrier savedCourrier = courrierDao.save(courrier);
 
         if (ListUtil.isNotEmpty(courrier.getTasks())) {
@@ -840,8 +843,8 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 
             courrier.getCourrierServiceItems().add(courrierServiceItem);
-            List<String> reauettes = Arrays.asList("reclamation", "requete");
-            if (courrier.getTypeCourrier() != null && reauettes.contains(courrier.getNatureCourrier().getCode())) {
+            List<String> requettes = Arrays.asList("reclamation", "requete");
+            if (courrier.getTypeCourrier() != null && !requettes.contains(courrier.getNatureCourrier().getCode())) {
                 courrier.setTypeRequette(null);
                 courrier.setCourrierObject(null);
                 courrier.setEvaluation(null);
@@ -887,6 +890,9 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
         if (ListUtil.isNotEmpty(courrier.getCourrierServiceItems())) {
             courrierServiceItemService
                     .create(prepareCourrierServiceItems(courrier, courrier.getCourrierServiceItems()));
+        }
+        if (courrier.getSentAt()!=null && courrier.getDateReponse()!=null){
+            courrier.setDelaiReponse(DateUtil.getDifferenceDays(courrier.getSentAt(),courrier.getDateReponse()));
         }
         courrier.setTrimestre(DateUtil.getTrimestre(courrier.getSentAt()));
         return courrierDao.save(courrier);

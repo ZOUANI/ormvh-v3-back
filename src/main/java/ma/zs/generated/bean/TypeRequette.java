@@ -80,7 +80,18 @@ public class TypeRequette {
           this.updatedBy = updatedBy;
      }
 
-
-
+     @Override
+     public String toString() {
+          return "TypeRequette{" +
+                  "id=" + id +
+                  ", createdAt=" + createdAt +
+                  ", updatedAt=" + updatedAt +
+                  ", libelleArab='" + libelleArab + '\'' +
+                  ", code='" + code + '\'' +
+                  ", libelle='" + libelle + '\'' +
+                  ", createdBy=" + createdBy +
+                  ", updatedBy=" + updatedBy +
+                  '}';
+     }
 }
 

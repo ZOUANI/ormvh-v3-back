@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DateUtil {
 
@@ -116,5 +117,8 @@ public class DateUtil {
     public static int getTrimestre(Date date){
         return (int) Math.ceil((double) DateUtil.getMonth(date) / 3.0);
     }
-
+    public static long getDifferenceDays(Date d1, Date d2) {
+        long diff = d2.getTime() - d1.getTime();
+        return  TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
 }

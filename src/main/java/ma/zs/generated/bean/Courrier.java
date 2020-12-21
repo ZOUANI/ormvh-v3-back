@@ -71,6 +71,7 @@ public class Courrier {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
     private Double delai;
+    private Long delaiReponse;
     private String type;
     @OneToMany
     private List<CourrierPieceJoint> courriersPieceJoint = new ArrayList<CourrierPieceJoint>();
@@ -166,6 +167,15 @@ public class Courrier {
 
     public void setNatureClient(NatureClient natureClient) {
         this.natureClient = natureClient;
+    }
+
+
+    public Long getDelaiReponse() {
+        return delaiReponse;
+    }
+
+    public void setDelaiReponse(Long delaiReponse) {
+        this.delaiReponse = delaiReponse;
     }
 
     public PhaseAdmin getPhaseAdmin() {
