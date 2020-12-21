@@ -721,6 +721,12 @@ public class CourrierRest {
         return courrierService.countCourrierByServiceCoord();
     }
 
+    @ApiOperation("countCourrierByService")
+    @GetMapping("/countCourrierByService")
+    public Map<String, List<StatistiqueVo>> countCourrierByService(){
+        return courrierService.countCourrierByService();
+    }
+
     @ApiOperation("countCourrierByEtatEval")
     @GetMapping("/countCourrierByEtatEval")
     public Map<String, List<StatistiqueVo>> countCourrierByEtatEval(){

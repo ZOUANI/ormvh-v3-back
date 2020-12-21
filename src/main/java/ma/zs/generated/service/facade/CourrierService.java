@@ -309,6 +309,17 @@ public interface CourrierService {
     public Map<String, List<StatistiqueVo>> countCourrierByServiceEmeteur();
     public Map<String, List<StatistiqueVo>> countCourrierByServiceCoord();
 
+    /*@Override
+    public Map<String, List<StatistiqueVo>> countCourrierByServiceEmeteur(){
+        return execQuery("c.emetteur.code","c.emetteur.code",false);
+    }
+
+    @Override
+    public Map<String, List<StatistiqueVo>> countCourrierByServiceCoord(){
+        return execQuery("c.coordinator.code","c.coordinator.code",false);
+    }*/
+    Map<String, List<StatistiqueVo>> countCourrierByService();
+
     public Map<String, List<StatistiqueVo>> countCourrierByEtatEval();
     public Map<String, List<StatistiqueVo>> countCourrierAcceptedBySubject();
     public Map<String, List<StatistiqueVo>> countCourrierRefusedBySubject();
@@ -322,6 +333,8 @@ public interface CourrierService {
     Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceEmeteur();
 
     Map<String, List<StatistiqueVo>> countCourrierTraiteByServiceCoord();
+
+    Map<String, List<StatistiqueVo>> countCourrierTraiteByService();
 
     Map<String, List<StatistiqueVo>> countCourrierTraiteByNatureClient();
 }
