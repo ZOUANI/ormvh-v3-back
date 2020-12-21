@@ -12,6 +12,11 @@ public class StatistiqueVo {
         this.groupe = groupe;
     }
 
+    public StatistiqueVo(Long count) {
+        this.count = count;
+
+    }
+
     public Long getCount() {
         return count;
     }
