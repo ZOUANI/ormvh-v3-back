@@ -27,6 +27,9 @@ public class Expeditor {
      @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss.SSS")
      @Temporal(TemporalType.TIMESTAMP)
      private Date updatedAt ;
+     @JsonFormat(pattern="yyyy-MM-dd")
+     @Temporal(TemporalType.DATE)
+     private Date dateNaissance ;
      private String code ;
      private String description ;
      @ManyToOne
@@ -136,7 +139,12 @@ public class Expeditor {
           this.updatedBy = updatedBy;
      }
 
+     public Date getDateNaissance() {
+          return dateNaissance;
+     }
 
-
+     public void setDateNaissance(Date dateNaissance) {
+          this.dateNaissance = dateNaissance;
+     }
 }
 

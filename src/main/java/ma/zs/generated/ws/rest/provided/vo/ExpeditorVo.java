@@ -9,7 +9,8 @@ public class ExpeditorVo {
      private String createdAt ;
    
      private String updatedAt ;
-   
+     private String dateNaissance ;
+
      private String code ;
    
      private String description ;
@@ -98,8 +99,15 @@ public class ExpeditorVo {
           this.age = age;
      }
 
+    public String getDateNaissance() {
+        return dateNaissance;
+    }
 
-     public String getId(){
+    public void setDateNaissance(String dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
+    public String getId(){
           return this.id;
      }
       public void setId(String id){

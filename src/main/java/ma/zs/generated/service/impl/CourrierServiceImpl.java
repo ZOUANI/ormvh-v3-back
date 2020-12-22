@@ -78,7 +78,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	private EntityManager entityManager;
 	@Autowired
 	private MailService mailService;
-	
+
 	@Autowired
 	private CourrierPieceJointService courrierPieceJointService;
 
@@ -159,34 +159,34 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	 * newDateMax, "arrive", leServiceCoordinatorTitle));
 	 * res.add(getStatTypeCourrierCodeAndLeServiceCoordinator(newDateMin,
 	 * newDateMax, "sortie", leServiceCoordinatorTitle));
-	 * 
+	 *
 	 * res.add(getStatStatusCodeAndLeServiceCoordinator(newDateMin, newDateMax,
 	 * "ouvert", leServiceCoordinatorTitle));
 	 * res.add(getStatStatusCodeAndLeServiceCoordinator(newDateMin, newDateMax,
 	 * "encours", leServiceCoordinatorTitle));
 	 * res.add(getStatStatusCodeAndLeServiceCoordinator(newDateMin, newDateMax,
 	 * "traite", leServiceCoordinatorTitle));
-	 * 
+	 *
 	 * res.add(getStatAccuseAndLeServiceCoordinator(newDateMin, newDateMax,
 	 * Boolean.TRUE, leServiceCoordinatorTitle));
 	 * res.add(getStatReponseAndLeServiceCoordinator(newDateMin, newDateMax,
 	 * Boolean.TRUE, leServiceCoordinatorTitle));
-	 * 
+	 *
 	 * //Long sum = res.stream().mapToLong(Long::valueOf).sum();
 	 * res.add(getStatLeServiceCoordinator(newDateMin, newDateMax,
 	 * leServiceCoordinatorTitle));
-	 * 
+	 *
 	 * return res;
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * private Long getStatLeServiceCoordinator(Date dateMin, Date dateMax, String
 	 * leServiceCoordinatorTitle) { String query =
 	 * "SELECT COUNT(c.id) FROM Courrier c where 1=1 "; query +=
 	 * addConstraintMinMaxDate("c", "sentAt", dateMin, dateMax); query +=
 	 * addConstraint("c", "coordinator.title", "=", leServiceCoordinatorTitle);
 	 * return (Long) entityManager.createQuery(query).getSingleResult(); }
-	 * 
+	 *
 	 * private Long getStatTypeCourrierCodeAndLeServiceCoordinator(Date dateMin,
 	 * Date dateMax, String typeCourrierCode, String leServiceCoordinatorTitle) {
 	 * String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 "; query +=
@@ -194,7 +194,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	 * addConstraint("c", "typeCourrier.code", "=", typeCourrierCode); query +=
 	 * addConstraint("c", "coordinator.title", "=", leServiceCoordinatorTitle);
 	 * return (Long) entityManager.createQuery(query).getSingleResult(); }
-	 * 
+	 *
 	 * private Long getStatStatusCodeAndLeServiceCoordinator(Date dateMin, Date
 	 * dateMax, String statusCourrierCode, String leServiceCoordinatorTitle) {
 	 * String query = "SELECT COUNT(c.id) FROM Courrier c where 1=1 "; query +=
@@ -202,7 +202,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	 * addConstraint("c", "status.code", "=", statusCourrierCode); query +=
 	 * addConstraint("c", "coordinator.title", "=", leServiceCoordinatorTitle);
 	 * return (Long) entityManager.createQuery(query).getSingleResult(); }
-	 * 
+	 *
 	 * private Long getStatAccuseAndLeServiceCoordinator(Date dateMin, Date dateMax,
 	 * Boolean accuse, String leServiceCoordinatorTitle) { String query =
 	 * "SELECT COUNT(c.id) FROM Courrier c where 1=1 "; query +=
@@ -210,7 +210,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	 * addConstraint("c", "accuse", "=", accuse); query += addConstraint("c",
 	 * "coordinator.title", "=", leServiceCoordinatorTitle); return (Long)
 	 * entityManager.createQuery(query).getSingleResult(); }
-	 * 
+	 *
 	 * private Long getStatReponseAndLeServiceCoordinator(Date dateMin, Date
 	 * dateMax, Boolean reponse, String leServiceCoordinatorTitle) { String query =
 	 * "SELECT COUNT(c.id) FROM Courrier c where 1=1 "; query +=
@@ -255,7 +255,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			dir.mkdir();
 		}
 		Courrier courrier = courrierDao.findByIdCourrier(idCourrier);
-		if(courrier != null) {
+		if (courrier != null) {
 			for (MultipartFile file : files) {
 				CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
 				courrierPieceJoint.setChemin(file.getOriginalFilename());
@@ -264,15 +264,15 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 				courrierPieceJointService.save(courrierPieceJoint);
 			}
 			return 1;
-		}
-		else return -1;
+		} else return -1;
 	}
+
 	@Override
 	public List<Courrier> findAll() {
-		String query = initQuery("o","courrierItem","taskItemm");
-		query+=" ORDER BY o.sentAt DESC,  o.idCourrier DESC";
+		String query = initQuery("o", "courrierItem", "taskItemm");
+		query += " ORDER BY o.sentAt DESC,  o.idCourrier DESC";
 
-		System.out.println("+++++++++++++ haaa query ::::: "+query);
+		System.out.println("+++++++++++++ haaa query ::::: " + query);
 		return entityManager.createQuery(query).getResultList();
 	}
 
@@ -303,7 +303,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Override
 	public Long countByTypeCourrierLibelleAndCreatedAtBetween(String typeCourrier_libelle, Date createdAt,
-			Date createdAt2) {
+															  Date createdAt2) {
 		return courrierDao.countByTypeCourrierLibelleAndCreatedAtBetween(typeCourrier_libelle, createdAt, createdAt2);
 	}
 
@@ -718,7 +718,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 
 			String format = String.format("%06d", ++num);
-			String numOrder = year + "_" +format ;
+			String numOrder = year + "_" + format;
 			courrier.setIdCourrier(numOrder);
 
 		}
@@ -727,7 +727,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Override
 	public Courrier save(Courrier courrier) {
-        prepare(courrier,courrier.getCourrierServiceItems());
+		prepare(courrier, courrier.getCourrierServiceItems());
 		// prepareCourrierId(courrier);
 
 		if (courrier.getCourrierObject() != null) {
@@ -803,6 +803,10 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			TypeCourrier typeCourrier = typeCourrierService.findByLibelle(courrier.getTypeCourrier().getLibelle());
 			courrier.setTypeCourrier(typeCourrier);
 		}
+		if (courrier.getSentAt() != null && courrier.getDateReponse() != null) {
+
+			courrier.setDelaiReponse(DateUtil.getDifferenceDays(courrier.getSentAt(), courrier.getDateReponse()));
+		}
 //		System.out.println(courrier.getCourriersPieceJoint());
 //		if (ListUtil.isNotEmpty(courrier.getCourriersPieceJoint())) {
 //			System.out.println("ha ana ldakhel");
@@ -810,10 +814,10 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 //			courrierPieceJointDao.save(courrierPieceJoint);
 //		}
 //		}
-        // calculer trim (01-03) : 1 (04-06) : 2 (07-09) : 3 (10-12) : 4 :: sentAt
+		// calculer trim (01-03) : 1 (04-06) : 2 (07-09) : 3 (10-12) : 4 :: sentAt
 
-        courrier.setTrimestre((int) Math.ceil((double) DateUtil.getMonth(courrier.getSentAt()) / 3.0));
-        Courrier savedCourrier = courrierDao.save(courrier);
+		courrier.setTrimestre(DateUtil.getTrimestre(courrier.getSentAt()));
+		Courrier savedCourrier = courrierDao.save(courrier);
 
 		if (ListUtil.isNotEmpty(courrier.getTasks())) {
 			savedCourrier.setTasks(taskService.create(prepareTasks(savedCourrier, courrier.getTasks())));
@@ -826,24 +830,24 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return savedCourrier;
 	}
 
-    private void prepare(Courrier courrier,List<CourrierServiceItem> courrierServiceItems) {
+	private void prepare(Courrier courrier, List<CourrierServiceItem> courrierServiceItems) {
 		courrier.setCourrierServiceItems(courrierServiceItems);
 
-		if(courrier.getCourrierServiceItems()==null){
+		if (courrier.getCourrierServiceItems() == null) {
 			courrier.setCourrierServiceItems(new ArrayList<>());
 		}
-		if((courrier.getCoordinator()==null ||courrier.getCoordinator().getId()==null) && courrier.getCourrierServiceItems().size()==1) {
+		if ((courrier.getCoordinator() == null || courrier.getCoordinator().getId() == null) && courrier.getCourrierServiceItems().size() == 1) {
 			courrier.setCoordinator(courrier.getCourrierServiceItems().get(0).getService());
 		}
-	    if(courrier!=null && courrier.getCoordinator()!=null){
-            CourrierServiceItem courrierServiceItem= new CourrierServiceItem();
-            courrierServiceItem.setService(courrier.getCoordinator());
-            courrierServiceItem.setCoordinateur(true);
+		if (courrier != null && courrier.getCoordinator() != null) {
+			CourrierServiceItem courrierServiceItem = new CourrierServiceItem();
+			courrierServiceItem.setService(courrier.getCoordinator());
+			courrierServiceItem.setCoordinateur(true);
 
 
-            courrier.getCourrierServiceItems().add(courrierServiceItem);
-            List<String> reauettes= Arrays.asList("reclamation","requete");
-			if(courrier.getTypeCourrier()!=null && reauettes.contains(courrier.getNatureCourrier().getCode())){
+			courrier.getCourrierServiceItems().add(courrierServiceItem);
+			List<String> reauettes = Arrays.asList("reclamation", "requete");
+			if (courrier.getTypeCourrier() != null && !reauettes.contains(courrier.getNatureCourrier().getCode())) {
 				courrier.setTypeRequette(null);
 				courrier.setCourrierObject(null);
 				courrier.setEvaluation(null);
@@ -852,11 +856,11 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 				courrier.setPhaseAdmin(null);
 				courrier.setStatus(null);
 			}
-        }
+		}
 
-    }
+	}
 
-    private List<Task> prepareTasks(Courrier courrier, List<Task> tasks) {
+	private List<Task> prepareTasks(Courrier courrier, List<Task> tasks) {
 		for (Task task : tasks) {
 			task.setId(null);
 			task.setCourrier(courrier);
@@ -865,7 +869,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	}
 
 	private List<CourrierServiceItem> prepareCourrierServiceItems(Courrier courrier,
-			List<CourrierServiceItem> courrierServiceItems) {
+																  List<CourrierServiceItem> courrierServiceItems) {
 		for (CourrierServiceItem courrierServiceItem : courrierServiceItems) {
 			courrierServiceItem.setId(null);
 			courrierServiceItem.setCourrier(courrier);
@@ -876,7 +880,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Override
 	public Courrier update(Courrier courrier) {
-		prepare(courrier,courrier.getCourrierServiceItems());
+		prepare(courrier, courrier.getCourrierServiceItems());
 		Courrier foundedCourrier = findById(courrier.getId());
 
 		if (foundedCourrier == null)
@@ -890,6 +894,11 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			courrierServiceItemService
 					.create(prepareCourrierServiceItems(courrier, courrier.getCourrierServiceItems()));
 		}
+		if (courrier.getSentAt() != null && courrier.getDateReponse() != null) {
+
+			courrier.setDelaiReponse(DateUtil.getDifferenceDays(courrier.getSentAt(), courrier.getDateReponse()));
+		}
+		courrier.setTrimestre(DateUtil.getTrimestre(courrier.getSentAt()));
 		return courrierDao.save(courrier);
 
 	}
@@ -955,21 +964,20 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	}
 
 
-
-	private String addRolesConstraint(List<Role> roles,String courrierItem,String courrierServiceItem,String taskItem,String username) {
-		String query ="";
-		if(ListUtil.isNotEmpty(roles)){
-			if(SecurityUtil.isDirecteur()) {
-				query+=" AND "+ courrierItem + ".etatCourrier.id in (2,3,4,5)";
-			}else if(SecurityUtil.isChefService()) {
-				query =  " AND " + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "'";
-				query+=" AND "+ courrierItem + ".etatCourrier.id in (3,4,5)";
-			}else if(SecurityUtil.isCai() || SecurityUtil.isChargeRequette()) {
-				query +=  " AND " + courrierItem + ".natureCourrier.code in ('requete','reclamation')";
-			}else if(SecurityUtil.isAgentBureau()){
+	private String addRolesConstraint(List<Role> roles, String courrierItem, String courrierServiceItem, String taskItem, String username) {
+		String query = "";
+		if (ListUtil.isNotEmpty(roles)) {
+			if (SecurityUtil.isDirecteur()) {
+				query += " AND " + courrierItem + ".etatCourrier.id in (2,3,4,5)";
+			} else if (SecurityUtil.isChefService()) {
+				query = " AND " + courrierItem + ".id= " + courrierServiceItem + ".courrier.id AND " + courrierServiceItem + ".service.chef.username='" + username + "'";
+				query += " AND " + courrierItem + ".etatCourrier.id in (3,4,5)";
+			} else if (SecurityUtil.isCai() || SecurityUtil.isChargeRequette()) {
+				query += " AND " + courrierItem + ".natureCourrier.code in ('requete','reclamation')";
+			} else if (SecurityUtil.isAgentBureau()) {
 				query = " AND (" + courrierItem + ".id= " + taskItem + ".courrier.id AND " + taskItem + ".assigne.username='" + username + "')";
-                query+=" AND "+ courrierItem + ".etatCourrier.id in (4,5)";
-            }
+				query += " AND " + courrierItem + ".etatCourrier.id in (4,5)";
+			}
 		}
 		System.out.println("query = " + query);
 		return query;
@@ -978,28 +986,28 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 	}
 
 
-
-	private String initQuery(String courrierItem,String courrierServiceItem,String taskItem ){
-        String query = "SELECT DISTINCT  "+courrierItem+" FROM Courrier "+courrierItem;
-		User user= SecurityUtil.getCurrentUser();
+	private String initQuery(String courrierItem, String courrierServiceItem, String taskItem) {
+		String query = "SELECT DISTINCT  " + courrierItem + " FROM Courrier " + courrierItem;
+		User user = SecurityUtil.getCurrentUser();
 		List<Role> roles = user.getRoles();
 
-        if(ListUtil.isNotEmpty(roles)){
-			if(SecurityUtil.isChefService()) {
-				query += " , CourrierServiceItem "+ courrierServiceItem  ;
-			}else if(SecurityUtil.isAgentBureau()){
-				query += " , Task "  + taskItem ;
+		if (ListUtil.isNotEmpty(roles)) {
+			if (SecurityUtil.isChefService()) {
+				query += " , CourrierServiceItem " + courrierServiceItem;
+			} else if (SecurityUtil.isAgentBureau()) {
+				query += " , Task " + taskItem;
 			}
 		}
-			query+=" where 1=1" ;
+		query += " where 1=1";
 
-		query+=addRolesConstraint(roles,courrierItem,courrierServiceItem,taskItem,user.getUsername());
+		query += addRolesConstraint(roles, courrierItem, courrierServiceItem, taskItem, user.getUsername());
 
 		return query;
-    }
+	}
+
 	public List<Courrier> findByCriteria(CourrierVo courrierVo) {
 
-		String query = initQuery("o","courrierItem","taskItemm");
+		String query = initQuery("o", "courrierItem", "taskItemm");
 		query += addConstraint("o", "instruction", "LIKE", courrierVo.getInstruction());
 
 		query += addConstraint("o", "expediteurDesc", "LIKE", courrierVo.getExpediteurDesc());
@@ -1110,7 +1118,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			query += addConstraint("o", "updatedBy.username", "LIKE", courrierVo.getUpdatedByVo().getUsername());
 		}
 
-		query+=" ORDER BY o.sentAt DESC,  o.idCourrier DESC";
+		query += " ORDER BY o.sentAt DESC,  o.idCourrier DESC";
 
 		return entityManager.createQuery(query).getResultList();
 	}
@@ -1128,21 +1136,21 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			}
 		}
 		String format = String.format("%06d", ++num);
-		String numOrder = year + "-" +format ;
+		String numOrder = year + "-" + format;
 		return numOrder;
 
 	}
 
 	@Override
-	public int reservation(Courrier courrier, String idCourier, int nbr,String description) {
+	public int reservation(Courrier courrier, String idCourier, int nbr, String description) {
 
 		String onlyNumericText = idCourier.replaceAll("[^\\w\\s\\.]", "");
 		String firstSixChar = onlyNumericText.substring(0, 6);
 		String year = onlyNumericText.substring(6, 10);
 		int id = Integer.parseInt(firstSixChar) - 1;
-        Status status = statusService.findByCode("brouillant");
-        TypeCourrier typeCourrier= typeCourrierService.findByCode("sortie");
-        System.out.println("<<<<<<<<<<<<<<<<<<<<"+status);
+		Status status = statusService.findByCode("brouillant");
+		TypeCourrier typeCourrier = typeCourrierService.findByCode("sortie");
+		System.out.println("<<<<<<<<<<<<<<<<<<<<" + status);
 		for (int i = 0; i < nbr; i++) {
 			String idCourrierNew = String.format("%06d", ++id) + '-' + year;
 			courrier = new Courrier();
@@ -1204,7 +1212,4 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		return 1;
 	}
 
-
-
-
-	}
+}

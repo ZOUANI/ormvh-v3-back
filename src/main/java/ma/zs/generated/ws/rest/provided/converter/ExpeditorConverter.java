@@ -41,6 +41,8 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
 			      item.setCreatedAt(DateUtil.parse(vo.getCreatedAt()));
              if(StringUtil.isNotEmpty(vo.getUpdatedAt()))
 			      item.setUpdatedAt(DateUtil.parse(vo.getUpdatedAt()));
+             if(StringUtil.isNotEmpty(vo.getDateNaissance()))
+			      item.setDateNaissance(DateUtil.parse(vo.getDateNaissance()));
 			 if(StringUtil.isNotEmpty(vo.getCode()))
                   item.setCode(vo.getCode());
 			 if(StringUtil.isNotEmpty(vo.getDescription()))
@@ -85,7 +87,9 @@ public class ExpeditorConverter extends AbstractConverter<Expeditor,ExpeditorVo>
             if(item.getCreatedAt()!=null)
 			    vo.setCreatedAt(DateUtil.formateDate(item.getCreatedAt()));	     
             if(item.getUpdatedAt()!=null)
-			    vo.setUpdatedAt(DateUtil.formateDate(item.getUpdatedAt()));	     
+			    vo.setUpdatedAt(DateUtil.formateDate(item.getUpdatedAt()));
+            if(item.getDateNaissance()!=null)
+			    vo.setDateNaissance(DateUtil.formateDate(item.getDateNaissance()));
 			if(StringUtil.isNotEmpty(item.getCode()))
 				vo.setCode(item.getCode());
 			

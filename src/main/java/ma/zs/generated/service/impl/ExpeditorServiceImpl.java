@@ -183,6 +183,11 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
             expeditor.setNationality(nationality);
         }
+        if (DateUtil.getAge(expeditor.getDateNaissance()) != expeditor.getAge()) {
+
+
+            expeditor.setAge(DateUtil.getAge(expeditor.getDateNaissance()));
+        }
 
 
         Expeditor savedExpeditor = expeditorDao.save(expeditor);
@@ -196,6 +201,11 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
         if (foundedExpeditor == null)
             return null;
         prepareUpdate(expeditor);
+        if (DateUtil.getAge(expeditor.getDateNaissance()) != expeditor.getAge()) {
+
+
+            expeditor.setAge(DateUtil.getAge(expeditor.getDateNaissance()));
+        }
         return expeditorDao.save(expeditor);
 
     }
