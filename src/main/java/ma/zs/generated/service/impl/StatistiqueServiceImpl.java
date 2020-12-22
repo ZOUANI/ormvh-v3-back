@@ -44,7 +44,7 @@ public class StatistiqueServiceImpl extends  AbstractService<StatistiqueVo> impl
         List<TrancheAge> tranches = trancheAgeService.findAll();
         Map<String,List<StatistiqueVo>> results = new HashMap<String, List<StatistiqueVo>>() {
         };
-        tranches.forEach( tr -> execQuery("",false,addConstraintMinMax("c","destinator.age",tr.getAgeMin(),tr.getAgeMax()),dateMin,dateMax).forEach( (k,v) -> results.merge(k,v,(v1, v2) -> Stream.concat(v1.stream(), v1.stream())
+        tranches.forEach( tr -> execQuery("",false,addConstraintMinMax("c","destinator.age",tr.getAgeMin(),tr.getAgeMax()),dateMin,dateMax).forEach( (k,v) -> results.merge(k,v.stream().map(e -> new StatistiqueVo(e.getCount(),tr.getAgeMin().toString()+"-"+tr.getAgeMax().toString())).collect(Collectors.toList()), (v1, v2) -> Stream.concat(v1.stream(), v2.stream())
                 .collect(Collectors.toList()))));
         return results;
     }
@@ -145,19 +145,19 @@ public class StatistiqueServiceImpl extends  AbstractService<StatistiqueVo> impl
         return execQuery("c.natureClient.libelle", "c.natureClient.libelle", false,"and c.status.code='"+ StatusConstant.TRAITE +"'",dateMin,dateMax);
     }
     @Override
-    public Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeReponduByService(Date dateMin,Date dateMax){
+    public Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeReponduByService(Date dateMin, Date dateMax){
         return execQuery("csi.service.title",true,"and c.status.code!='"+ StatusConstant.TRAITE +"' and csi.courrier.id=c.id and c.delaiReponse < 15",dateMin,dateMax);
     }
     @Override
-    public Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeReponduByNatureClient(Date dateMin,Date dateMax){
+    public Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeReponduByNatureClient(Date dateMin, Date dateMax){
         return execQuery("c.natureClient.libelle",true," and c.delaiReponse < 15 and c.evaluation.code is not null and c.evaluation.code!='"+ EvaluationConstant.CONFORME+"'",dateMin,dateMax);
     }
     @Override
-    public Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeSansReponceByService(Date dateMin,Date dateMax){
+    public Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeSansReponceByService(Date dateMin, Date dateMax){
         return execQuery("csi.service.title",true,"and csi.courrier.id=c.id and c.delaiReponse > 15 and c.evaluation.code is not null and c.evaluation.code!='"+ EvaluationConstant.CONFORME+"'",dateMin,dateMax);
     }
     @Override
-    public Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeSansReponceByNatureClient(Date dateMin,Date dateMax){
+    public Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeSansReponceByNatureClient(Date dateMin, Date dateMax){
         return execQuery("c.natureClient.libelle",true," and c.delaiReponse > 15 and c.evaluation.code is not null and c.evaluation.code!='"+ EvaluationConstant.CONFORME+"'",dateMin,dateMax);
 
     }
