@@ -41,46 +41,54 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
     @Override
     public List<Expeditor> findAll() {
+        updateAge();
         return expeditorDao.findAll();
     }
 
     @Override
     public List<Expeditor> findBySexeLibelle(String libelle) {
+        updateAge();
         return expeditorDao.findBySexeLibelle(libelle);
     }
 
     @Override
     @Transactional
     public int deleteBySexeLibelle(String libelle) {
+        updateAge();
         return expeditorDao.deleteBySexeLibelle(libelle);
     }
 
     @Override
     public List<Expeditor> findBySexeId(Long id) {
+        updateAge();
         return expeditorDao.findBySexeId(id);
 
     }
 
     @Override
     @Transactional
-    public int deleteBySexeId(Long id) {
+    public int deleteBySexeId(Long id) {updateAge();
+
         return expeditorDao.deleteBySexeId(id);
 
     }
 
     @Override
     public List<Expeditor> findByNationalityLibelle(String libelle) {
+        updateAge();
         return expeditorDao.findByNationalityLibelle(libelle);
     }
 
     @Override
     @Transactional
     public int deleteByNationalityLibelle(String libelle) {
-        return expeditorDao.deleteByNationalityLibelle(libelle);
+
+        updateAge();return expeditorDao.deleteByNationalityLibelle(libelle);
     }
 
     @Override
     public List<Expeditor> findByNationalityId(Long id) {
+        updateAge();
         return expeditorDao.findByNationalityId(id);
 
     }
@@ -94,6 +102,7 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
     @Override
     public List<Expeditor> findByCreatedByUsername(String username) {
+        updateAge();
         return expeditorDao.findByCreatedByUsername(username);
     }
 
@@ -105,6 +114,7 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
     @Override
     public List<Expeditor> findByCreatedById(Long id) {
+        updateAge();
         return expeditorDao.findByCreatedById(id);
 
     }
@@ -118,6 +128,7 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
     @Override
     public List<Expeditor> findByUpdatedByUsername(String username) {
+        updateAge();
         return expeditorDao.findByUpdatedByUsername(username);
     }
 
@@ -129,6 +140,7 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
     @Override
     public List<Expeditor> findByUpdatedById(Long id) {
+        updateAge();
         return expeditorDao.findByUpdatedById(id);
 
     }
@@ -136,12 +148,14 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
     @Override
     @Transactional
     public int deleteByUpdatedById(Long id) {
+        updateAge();
         return expeditorDao.deleteByUpdatedById(id);
 
     }
 
     @Override
     public Expeditor findByTitle(String title) {
+        updateAge();
         if (title == null)
             return null;
         return expeditorDao.findByTitle(title);
@@ -156,6 +170,7 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
     @Override
     public Expeditor findById(Long id) {
+        updateAge();
         if (id == null)
             return null;
         return expeditorDao.getOne(id);
@@ -210,6 +225,16 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
     }
 
+    public void updateAge() {
+        List<Expeditor> expeditors = findAll();
+        for (Expeditor expeditor : expeditors) {
+            if (DateUtil.getAge(expeditor.getDateNaissance()) != expeditor.getAge()) {
+                expeditor.setAge(DateUtil.getAge(expeditor.getDateNaissance()));
+                expeditorDao.save(expeditor);
+            }
+        }
+    }
+
     @Override
     @Transactional
     public int delete(Expeditor expeditor) {
@@ -226,6 +251,7 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
 
     public List<Expeditor> findByCriteria(ExpeditorVo expeditorVo) {
+        updateAge();
         String query = "SELECT o FROM Expeditor o where 1=1 ";
         query += addConstraint("o", "adress", "LIKE", expeditorVo.getAdress());
 
