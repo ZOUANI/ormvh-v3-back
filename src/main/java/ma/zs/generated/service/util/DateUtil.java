@@ -129,6 +129,7 @@ public class DateUtil {
     }
 
     public static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        System.out.println("dateToConvert = " + dateToConvert.getClass());
         return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
@@ -136,5 +137,8 @@ public class DateUtil {
 
     public static int getAge(Date date) {
         return Period.between(convertToLocalDateViaInstant(date), LocalDate.now()).getYears();
+    }
+    public static int getAge(LocalDate date) {
+        return Period.between(date, LocalDate.now()).getYears();
     }
 }
