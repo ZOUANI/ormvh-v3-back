@@ -1,5 +1,6 @@
 package ma.zs.generated.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -226,10 +227,12 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
     }
 
     public void updateAge() {
-        List<Expeditor> expeditors = findAll();
+        List<Expeditor> expeditors = expeditorDao.findAll();
         for (Expeditor expeditor : expeditors) {
-            if (DateUtil.getAge(expeditor.getDateNaissance()) != expeditor.getAge()) {
-                expeditor.setAge(DateUtil.getAge(expeditor.getDateNaissance()));
+            java.sql.Date date= (java.sql.Date) expeditor.getDateNaissance();
+            int age=DateUtil.getAge(date.toLocalDate());
+            if (age != expeditor.getAge()) {
+                expeditor.setAge(age);
                 expeditorDao.save(expeditor);
             }
         }
