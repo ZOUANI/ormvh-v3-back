@@ -3,6 +3,8 @@ package ma.zs.generated.ws.rest.provided.vo;
 public class StatistiqueVo {
     private Long count;
     private String groupe;
+    private String dateMin;
+    private String dateMax;
 
     public StatistiqueVo() {
     }
@@ -31,6 +33,22 @@ public class StatistiqueVo {
 
     public void setGroupe(String groupe) {
         this.groupe = groupe;
+    }
+
+    public String getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(String dateMin) {
+        this.dateMin = dateMin;
+    }
+
+    public String getDateMax() {
+        return dateMax;
+    }
+
+    public void setDateMax(String dateMax) {
+        this.dateMax = dateMax;
     }
 
     @Override
