@@ -63,6 +63,22 @@ public class StatistiqueRest {
         return statistiqueService.countCourrierByExpeditorTrancheAge(dateMin, dateMax);
     }
 
+    @ApiOperation("countCourrierByExpeditorNationality")
+    @PostMapping("/countCourrierByExpeditorNationality")
+    public Map<String, List<StatistiqueVo>> countCourrierByExpeditorNationality(@RequestBody StatistiqueVo statistiqueVo) {
+        Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
+        Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
+        return statistiqueService.countCourrierByExpeditorNationality(dateMin, dateMax);
+    }
+
+    @ApiOperation("countCourrierByDestinatorNationality")
+    @PostMapping("/countCourrierByDestinatorNationality")
+    public Map<String, List<StatistiqueVo>> countCourrierByDestinatorNationality(@RequestBody StatistiqueVo statistiqueVo) {
+        Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
+        Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
+        return statistiqueService.countCourrierByDestinatorNationality(dateMin, dateMax);
+    }
+
     @ApiOperation("countCourrierBySubject")
     @PostMapping("/countCourrierBySubject")
     public Map<String, List<StatistiqueVo>> countCourrierBySubject(@RequestBody StatistiqueVo statistiqueVo) {
@@ -213,6 +229,14 @@ public class StatistiqueRest {
         Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
         Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
         return statistiqueService.countCourrierRejeteNonConformeSansReponceByNatureClient(dateMin, dateMax);
+    }
+
+    @ApiOperation("countCourrierByPhaseAdministrative")
+    @PostMapping("/countCourrierByPhaseAdministrative")
+    public Map<String, List<StatistiqueVo>> countCourrierByPhaseAdministrative(@RequestBody StatistiqueVo statistiqueVo) {
+        Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
+        Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
+        return statistiqueService.countCourrierByPhaseAdministrative(dateMin, dateMax);
     }
 
 
