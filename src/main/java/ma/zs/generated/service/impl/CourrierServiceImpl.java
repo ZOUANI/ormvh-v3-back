@@ -258,7 +258,8 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		if(courrier != null) {
 			for (MultipartFile file : files) {
 				CourrierPieceJoint courrierPieceJoint = new CourrierPieceJoint();
-				courrierPieceJoint.setChemin(file.getOriginalFilename());
+			//	courrierPieceJoint.setChemin(file.getOriginalFilename());
+				courrierPieceJoint.setChemin(System.currentTimeMillis()+"."+file.getOriginalFilename().split("\\.")[1]);
 				courrierPieceJoint.setCourier(courrier);
 				Files.write(Paths.get(path + courrierPieceJoint.getChemin()), file.getBytes());
 				courrierPieceJointService.save(courrierPieceJoint);

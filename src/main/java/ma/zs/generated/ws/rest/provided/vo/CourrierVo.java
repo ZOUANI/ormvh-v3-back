@@ -80,6 +80,7 @@ public class CourrierVo {
 
     private List<TaskVo> tasksVo;
     private List<CourrierServiceItemVo> courrierServiceItemsVo;
+    private List<CourrierPieceJoint> courrierPieceJoints;
 
     private String sentAtMax;
     private String sentAtMin;
@@ -99,6 +100,15 @@ public class CourrierVo {
     private String updatedAtMin;
     private String delaiMax;
     private String delaiMin;
+
+
+    public List<CourrierPieceJoint> getCourrierPieceJoints() {
+        return courrierPieceJoints;
+    }
+
+    public void setCourrierPieceJoints(List<CourrierPieceJoint> courrierPieceJoints) {
+        this.courrierPieceJoints = courrierPieceJoints;
+    }
 
     public String getDateTraitement() {
         return dateTraitement;

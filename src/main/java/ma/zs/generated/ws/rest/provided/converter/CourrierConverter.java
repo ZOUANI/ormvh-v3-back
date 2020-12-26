@@ -1,5 +1,8 @@
 package ma.zs.generated.ws.rest.provided.converter;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,6 +200,20 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
                 List<CourrierServiceItemVo> list = vo.getCourrierServiceItemsVo().stream().filter(distinctByKey(p -> p.getServiceVo().getId())).collect(Collectors.toList());
                 System.out.println(" haaaa list.size() = " + list.size());
                 item.setCourrierServiceItems(courrierServiceItemConverter.toItem(list));
+            }
+            if (ListUtil.isNotEmpty(vo.getCourrierPieceJoints())) {
+                List<CourrierPieceJoint> list = vo.getCourrierPieceJoints();
+                System.out.println(" haaaa list.size() = " + list.size());
+                vo.getCourrierPieceJoints().stream().forEach(e-> {
+                            try {
+                                byte[] bytes = Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/pieces-jointes/" + e.getChemin()));
+                                e.setContenu(bytes);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+                );
+                item.setCourriersPieceJoint(courrierPieceJoints);
             }
 
             return item;
