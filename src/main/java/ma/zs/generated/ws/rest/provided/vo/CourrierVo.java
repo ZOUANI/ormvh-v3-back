@@ -649,5 +649,72 @@ public class CourrierVo {
         this.etatCourrierVo = etatCourrierVo;
     }
 
-
+    @Override
+    public String toString() {
+        return "CourrierVo{" +
+                "sujet='" + sujet + '\'' +
+                ", instruction='" + instruction + '\'' +
+                ", expediteurDesc='" + expediteurDesc + '\'' +
+                ", sentAt='" + sentAt + '\'' +
+                ", trimestre='" + trimestre + '\'' +
+                ", destinataireDesc='" + destinataireDesc + '\'' +
+                ", destinataireVille='" + destinataireVille + '\'' +
+                ", relance='" + relance + '\'' +
+                ", dateRelance='" + dateRelance + '\'' +
+                ", accuse='" + accuse + '\'' +
+                ", reponse='" + reponse + '\'' +
+                ", dateAccuse='" + dateAccuse + '\'' +
+                ", dateReponse='" + dateReponse + '\'' +
+                ", dateTraitement='" + dateTraitement + '\'' +
+                ", receivedAt='" + receivedAt + '\'' +
+                ", id='" + id + '\'' +
+                ", idCourrier='" + idCourrier + '\'' +
+                ", subject='" + subject + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", delai='" + delai + '\'' +
+                ", type='" + type + '\'' +
+                ", phaseAdminVo=" + phaseAdminVo +
+                ", natureClientVo=" + natureClientVo +
+                ", courrierObjectVo=" + courrierObjectVo +
+                ", voieVo=" + voieVo +
+                ", natureCourrierVo=" + natureCourrierVo +
+                ", linkedToVo=" + linkedToVo +
+                ", expeditorVo=" + expeditorVo +
+                ", destinatorVo=" + destinatorVo +
+                ", coordinatorVo=" + coordinatorVo +
+                ", emetteurVo=" + emetteurVo +
+                ", evaluationVo=" + evaluationVo +
+                ", subdivisionVo=" + subdivisionVo +
+                ", statusVo=" + statusVo +
+                ", typeCourrierVo=" + typeCourrierVo +
+                ", createdByVo=" + createdByVo +
+                ", updatedByVo=" + updatedByVo +
+                ", etatCourrierVo=" + etatCourrierVo +
+                ", typeRequetteVo=" + typeRequetteVo +
+                ", chef=" + chef +
+                ", length='" + length + '\'' +
+                ", tasksVo=" + tasksVo +
+                ", courrierServiceItemsVo=" + courrierServiceItemsVo +
+                ", sentAtMax='" + sentAtMax + '\'' +
+                ", sentAtMin='" + sentAtMin + '\'' +
+                ", relanceMax='" + relanceMax + '\'' +
+                ", relanceMin='" + relanceMin + '\'' +
+                ", dateRelanceMax='" + dateRelanceMax + '\'' +
+                ", dateRelanceMin='" + dateRelanceMin + '\'' +
+                ", dateAccuseMax='" + dateAccuseMax + '\'' +
+                ", dateAccuseMin='" + dateAccuseMin + '\'' +
+                ", dateReponseMax='" + dateReponseMax + '\'' +
+                ", dateReponseMin='" + dateReponseMin + '\'' +
+                ", receivedAtMax='" + receivedAtMax + '\'' +
+                ", receivedAtMin='" + receivedAtMin + '\'' +
+                ", createdAtMax='" + createdAtMax + '\'' +
+                ", createdAtMin='" + createdAtMin + '\'' +
+                ", updatedAtMax='" + updatedAtMax + '\'' +
+                ", updatedAtMin='" + updatedAtMin + '\'' +
+                ", delaiMax='" + delaiMax + '\'' +
+                ", delaiMin='" + delaiMin + '\'' +
+                '}';
+    }
 }
