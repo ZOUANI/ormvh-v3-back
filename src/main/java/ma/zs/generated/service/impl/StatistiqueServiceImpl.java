@@ -5,6 +5,9 @@ import ma.zs.generated.service.constant.EvaluationConstant;
 import ma.zs.generated.service.constant.StatusConstant;
 import ma.zs.generated.service.facade.StatistiqueService;
 import ma.zs.generated.service.facade.TrancheAgeService;
+import ma.zs.generated.service.util.DateUtil;
+import ma.zs.generated.service.util.NumberUtil;
+import ma.zs.generated.service.util.SearchUtil;
 import ma.zs.generated.service.util.StringUtil;
 import ma.zs.generated.ws.rest.provided.vo.StatistiqueVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +80,7 @@ public class StatistiqueServiceImpl extends AbstractService<StatistiqueVo> imple
 
     @Override
     public Map<String, List<StatistiqueVo>> countCourrierBySubject(Date dateMin, Date dateMax) {
-        return execQuery("c.subject", false, dateMin, dateMax);
+        return execQuery("c.courrierObject.title", false, dateMin, dateMax);
     }
 
     @Override
@@ -122,12 +125,12 @@ public class StatistiqueServiceImpl extends AbstractService<StatistiqueVo> imple
 
     @Override
     public Map<String, List<StatistiqueVo>> countCourrierAcceptedBySubject(Date dateMin, Date dateMax) {
-        return execQuery("c.subject", "c.subject", false, "and c.evaluation.code='" + EvaluationConstant.CONFORME + "'", dateMin, dateMax);
+        return execQuery("c.courrierObject.title", "c.courrierObject", false, "and c.evaluation.code='" + EvaluationConstant.CONFORME + "'", dateMin, dateMax);
     }
 
     @Override
     public Map<String, List<StatistiqueVo>> countCourrierRefusedBySubject(Date dateMin, Date dateMax) {
-        return execQuery("c.subject", "c.subject", false, "and c.evaluation.code is not null and c.evaluation.code!='" + EvaluationConstant.CONFORME + "'", dateMin, dateMax);
+        return execQuery("c.courrierObject.title", "c.courrierObject", false, "and c.evaluation.code is not null and c.evaluation.code!='" + EvaluationConstant.CONFORME + "'", dateMin, dateMax);
     }
 
     @Override
@@ -190,6 +193,15 @@ public class StatistiqueServiceImpl extends AbstractService<StatistiqueVo> imple
     public Map<String, List<StatistiqueVo>> countCourrierByPhaseAdministrative(Date dateMin, Date dateMax) {
         return execQuery("c.phaseAdmin.libelle", "c.phaseAdmin", false, "", dateMin, dateMax);
 
+    }
+
+    @Override
+    public Map<String, List<StatistiqueVo>> countCourrierByNatureClientTrimestre(Date dateMin, Date dateMax, Integer trimestre) {
+        Integer yearMin = DateUtil.getYear(dateMin);
+        Integer yearMax = DateUtil.getYear(dateMax);
+        String add = SearchUtil.addConstraintMinMax("c", "annee", yearMin, yearMax);
+
+        return execQuery("c.natureClient.libelle", "c.natureClient", false, add + " AND c.trimestre=" + NumberUtil.toString(trimestre));
     }
 
     //-----------------------------------------------------------------------------------------

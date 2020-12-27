@@ -60,4 +60,6 @@ public interface StatistiqueService {
     Map<String, List<StatistiqueVo>> countCourrierRejeteNonConformeSansReponceByNatureClient(Date dateMin, Date dateMax);
 
     Map<String, List<StatistiqueVo>> countCourrierByPhaseAdministrative(Date dateMin, Date dateMax);
+
+    Map<String, List<StatistiqueVo>> countCourrierByNatureClientTrimestre(Date dateMin, Date dateMax, Integer trimestre);
 }
