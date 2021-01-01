@@ -1,6 +1,8 @@
 package ma.zs.generated.service.util;
 
 
+import io.swagger.models.auth.In;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -119,6 +121,16 @@ public class DateUtil {
         return cal.get(Calendar.MONTH) + 1;
     }
 
+    public static Integer getYear(Date date) {
+        if (date != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            return cal.get(Calendar.YEAR);
+        } else {
+            return null;
+        }
+    }
+
     public static int getTrimestre(Date date) {
         return (int) Math.ceil((double) DateUtil.getMonth(date) / 3.0);
     }
@@ -138,6 +150,7 @@ public class DateUtil {
     public static int getAge(Date date) {
         return Period.between(convertToLocalDateViaInstant(date), LocalDate.now()).getYears();
     }
+
     public static int getAge(LocalDate date) {
         return Period.between(date, LocalDate.now()).getYears();
     }

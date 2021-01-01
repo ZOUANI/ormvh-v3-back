@@ -37,6 +37,7 @@ public class Courrier {
     @Temporal(TemporalType.TIMESTAMP)
     private Date sentAt;
     private Integer trimestre;
+    private Integer annee;
     private String destinataireDesc;
     private String destinataireVille;
     private Double relance;
@@ -176,6 +177,14 @@ public class Courrier {
 
     public void setDelaiReponse(Long delaiReponse) {
         this.delaiReponse = delaiReponse;
+    }
+
+    public Integer getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(Integer annee) {
+        this.annee = annee;
     }
 
     public PhaseAdmin getPhaseAdmin() {

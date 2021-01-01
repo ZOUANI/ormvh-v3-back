@@ -19,6 +19,7 @@ public class CourrierVo {
     private String sentAt;
 
     private String trimestre;
+    private String annee;
 
     private String destinataireDesc;
 
@@ -140,6 +141,13 @@ public class CourrierVo {
         this.expediteurDesc = expediteurDesc;
     }
 
+    public String getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(String annee) {
+        this.annee = annee;
+    }
 
     public String getSentAt() {
         return this.sentAt;

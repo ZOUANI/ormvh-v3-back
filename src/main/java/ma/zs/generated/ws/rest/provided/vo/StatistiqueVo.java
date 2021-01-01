@@ -5,6 +5,7 @@ public class StatistiqueVo {
     private String groupe;
     private String dateMin;
     private String dateMax;
+    private String trimestre;
 
     public StatistiqueVo() {
     }
@@ -41,6 +42,14 @@ public class StatistiqueVo {
 
     public void setDateMin(String dateMin) {
         this.dateMin = dateMin;
+    }
+
+    public String getTrimestre() {
+        return trimestre;
+    }
+
+    public void setTrimestre(String trimestre) {
+        this.trimestre = trimestre;
     }
 
     public String getDateMax() {

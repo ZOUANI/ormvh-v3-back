@@ -818,6 +818,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 		// calculer trim (01-03) : 1 (04-06) : 2 (07-09) : 3 (10-12) : 4 :: sentAt
 
 		courrier.setTrimestre(DateUtil.getTrimestre(courrier.getSentAt()));
+		courrier.setAnnee(DateUtil.getYear(courrier.getSentAt()));
 		Courrier savedCourrier = courrierDao.save(courrier);
 
 		if (ListUtil.isNotEmpty(courrier.getTasks())) {
@@ -900,6 +901,7 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			courrier.setDelaiReponse(DateUtil.getDifferenceDays(courrier.getSentAt(), courrier.getDateReponse()));
 		}
 		courrier.setTrimestre(DateUtil.getTrimestre(courrier.getSentAt()));
+		courrier.setAnnee(DateUtil.getYear(courrier.getSentAt()));
 		return courrierDao.save(courrier);
 
 	}

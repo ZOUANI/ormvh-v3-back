@@ -2,8 +2,10 @@ package ma.zs.generated.ws.rest.provided.facade;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import ma.zs.generated.service.facade.StatistiqueService;
 import ma.zs.generated.service.util.DateUtil;
+import ma.zs.generated.service.util.NumberUtil;
 import ma.zs.generated.ws.rest.provided.vo.ExpeditorVo;
 import ma.zs.generated.ws.rest.provided.vo.StatistiqueVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,15 @@ public class StatistiqueRest {
         Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
         Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
         return statistiqueService.countCourrierByNatureClient(dateMin, dateMax);
+    }
+
+    @ApiOperation("countCourrierByNatureClientTrimestre")
+    @PostMapping("/countCourrierByNatureClientTrimestre")
+    public Map<String, List<StatistiqueVo>> countCourrierByNatureClientTrimestre(@RequestBody StatistiqueVo statistiqueVo) {
+        Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
+        Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
+        Integer trimestre = NumberUtil.toInt(statistiqueVo.getTrimestre());
+        return statistiqueService.countCourrierByNatureClientTrimestre(dateMin, dateMax, trimestre);
     }
 
     @ApiOperation("countCourrierByExpeditorSex")
@@ -61,6 +72,22 @@ public class StatistiqueRest {
         Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
         Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
         return statistiqueService.countCourrierByExpeditorTrancheAge(dateMin, dateMax);
+    }
+
+    @ApiOperation("countCourrierByExpeditorNationality")
+    @PostMapping("/countCourrierByExpeditorNationality")
+    public Map<String, List<StatistiqueVo>> countCourrierByExpeditorNationality(@RequestBody StatistiqueVo statistiqueVo) {
+        Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
+        Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
+        return statistiqueService.countCourrierByExpeditorNationality(dateMin, dateMax);
+    }
+
+    @ApiOperation("countCourrierByDestinatorNationality")
+    @PostMapping("/countCourrierByDestinatorNationality")
+    public Map<String, List<StatistiqueVo>> countCourrierByDestinatorNationality(@RequestBody StatistiqueVo statistiqueVo) {
+        Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
+        Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
+        return statistiqueService.countCourrierByDestinatorNationality(dateMin, dateMax);
     }
 
     @ApiOperation("countCourrierBySubject")
@@ -213,6 +240,14 @@ public class StatistiqueRest {
         Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
         Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
         return statistiqueService.countCourrierRejeteNonConformeSansReponceByNatureClient(dateMin, dateMax);
+    }
+
+    @ApiOperation("countCourrierByPhaseAdministrative")
+    @PostMapping("/countCourrierByPhaseAdministrative")
+    public Map<String, List<StatistiqueVo>> countCourrierByPhaseAdministrative(@RequestBody StatistiqueVo statistiqueVo) {
+        Date dateMin = DateUtil.convert(statistiqueVo.getDateMin());
+        Date dateMax = DateUtil.convert(statistiqueVo.getDateMax());
+        return statistiqueService.countCourrierByPhaseAdministrative(dateMin, dateMax);
     }
 
 
