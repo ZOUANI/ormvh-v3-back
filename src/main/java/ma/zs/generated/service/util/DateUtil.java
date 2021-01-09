@@ -116,9 +116,13 @@ public class DateUtil {
     }
 
     public static int getMonth(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return cal.get(Calendar.MONTH) + 1;
+        if(date!=null){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            return cal.get(Calendar.MONTH) + 1;
+        }
+        return 0;
+
     }
 
     public static Integer getYear(Date date) {
@@ -132,7 +136,9 @@ public class DateUtil {
     }
 
     public static int getTrimestre(Date date) {
+        if(date!=null)
         return (int) Math.ceil((double) DateUtil.getMonth(date) / 3.0);
+        return 0;
     }
 
     public static long getDifferenceDays(Date d1, Date d2) {

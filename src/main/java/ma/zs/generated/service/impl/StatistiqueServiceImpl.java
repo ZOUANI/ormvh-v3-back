@@ -3,6 +3,7 @@ package ma.zs.generated.service.impl;
 import ma.zs.generated.bean.TrancheAge;
 import ma.zs.generated.service.constant.EvaluationConstant;
 import ma.zs.generated.service.constant.StatusConstant;
+import ma.zs.generated.service.facade.ExpeditorService;
 import ma.zs.generated.service.facade.StatistiqueService;
 import ma.zs.generated.service.facade.TrancheAgeService;
 import ma.zs.generated.service.util.DateUtil;
@@ -24,8 +25,12 @@ public class StatistiqueServiceImpl extends AbstractService<StatistiqueVo> imple
     @Autowired
     EntityManager entityManager;
 
+
     @Autowired
     TrancheAgeService trancheAgeService;
+
+    @Autowired
+    ExpeditorService expeditorService;
 
 
     @Override
@@ -57,12 +62,14 @@ public class StatistiqueServiceImpl extends AbstractService<StatistiqueVo> imple
 
     @Override
     public Map<String, List<StatistiqueVo>> countCourrierByExpeditorTrancheAge(Date dateMin, Date dateMax) {
+        expeditorService.updateAge();
         List<TrancheAge> tranches = trancheAgeService.findAll();
-        Map<String, List<StatistiqueVo>> results = new HashMap<String, List<StatistiqueVo>>() {
-        };
-//        tranches.forEach( tr -> execQuery("",false,addConstraintMinMax("c","expeditor.age",tr.getAgeMin(),tr.getAgeMax()),dateMin,dateMax).forEach( (k,v) -> results.merge(k,v,(v1, v2) -> Stream.concat(v1.stream(), v2.stream())
-//                .collect(Collectors.toList()))));
-        tranches.forEach(tr -> execQuery("", false, addConstraintMinMax("c", "expeditor.age", tr.getAgeMin(), tr.getAgeMax()), dateMin, dateMax).forEach((k, v) -> results.merge(k, v.stream().map(e -> e.getCount() != 0 ? new StatistiqueVo(e.getCount(), tr.getAgeMin().toString() + "-" + tr.getAgeMax().toString()) : null).filter(Objects::nonNull).collect(Collectors.toList()), (v1, v2) -> Stream.concat(v1.stream(), v2.stream())
+        Map<String, List<StatistiqueVo>> results = new HashMap<String, List<StatistiqueVo>>();
+
+        tranches.forEach(tr -> execQuery("", false, addConstraintMinMax("c", "expeditor.age", tr.getAgeMin(), tr.getAgeMax()), dateMin, dateMax).
+                forEach((k, v) -> results.merge(k, v.stream().map(e -> e.getCount() != 0 ? new StatistiqueVo(e.getCount(), tr.getAgeMin().toString() + "-" + tr.getAgeMax().toString()) : null).
+                        filter(Objects::nonNull).
+                        collect(Collectors.toList()), (v1, v2) -> Stream.concat(v1.stream(), v2.stream())
                 .collect(Collectors.toList()))));
         System.out.println("results = " + results);
         return results;

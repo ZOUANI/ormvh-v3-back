@@ -81,8 +81,10 @@ public interface ExpeditorService {
      * @return the updated Expeditor, If the Expeditor can't be updated return null.
      */
     Expeditor update(Expeditor expeditor);
-    
-       /**
+
+    List<Expeditor>  updateAge();
+
+    /**
      * delete Expeditor from database
      * @param expeditor - Expeditor to be deleted
      * @return 1 if Expeditor deleted successfully, If the Expeditor can't be deleted return negative int

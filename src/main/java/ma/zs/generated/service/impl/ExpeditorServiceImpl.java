@@ -226,7 +226,8 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
     }
 
-    public void updateAge() {
+    @Override
+    public List<Expeditor>  updateAge() {
         List<Expeditor> expeditors = expeditorDao.findAll();
         for (Expeditor expeditor : expeditors) {
             java.sql.Date date= (java.sql.Date) expeditor.getDateNaissance();
@@ -236,6 +237,7 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
                 expeditorDao.save(expeditor);
             }
         }
+        return expeditors;
     }
 
     @Override
@@ -254,7 +256,7 @@ public class ExpeditorServiceImpl extends AbstractService<Expeditor> implements 
 
 
     public List<Expeditor> findByCriteria(ExpeditorVo expeditorVo) {
-        updateAge();
+
         String query = "SELECT o FROM Expeditor o where 1=1 ";
         query += addConstraint("o", "adress", "LIKE", expeditorVo.getAdress());
 
