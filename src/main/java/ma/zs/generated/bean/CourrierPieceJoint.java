@@ -27,11 +27,20 @@ public class CourrierPieceJoint {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String chemin;
+    private String absoluteChemin = "C:\\Users\\" + System.getProperty("user.name") + "\\pieces-jointes\\" + chemin;
     private byte[] contenu;
     private String type;
     @ManyToOne
     private Courrier courier;
-    
+
+	public String getAbsoluteChemin() {
+		return absoluteChemin;
+	}
+
+	public void setAbsoluteChemin(String absoluteChemin) {
+		this.absoluteChemin = absoluteChemin;
+	}
+
 	public String getChemin() {
 		return chemin;
 	}
@@ -59,6 +68,7 @@ public class CourrierPieceJoint {
 	public CourrierPieceJoint() {
 		super();
 		// TODO Auto-generated constructor stub
+		this.absoluteChemin = "C:\\Users\\" + System.getProperty("user.name") + "\\pieces-jointes\\" + chemin;
 	}
 
 
@@ -69,6 +79,7 @@ public class CourrierPieceJoint {
 		this.contenu = contenu;
 		this.type = type;
 		this.courier = courier;
+		this.absoluteChemin = "C:\\Users\\" + System.getProperty("user.name") + "\\pieces-jointes\\" + chemin;
 	}
 	@Override
 	public String toString() {

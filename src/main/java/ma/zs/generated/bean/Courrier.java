@@ -116,7 +116,7 @@ public class Courrier {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "courrier")
     private List<CourrierServiceItem> courrierServiceItems;
-    private List<CourrierPieceJoint> getCourriersPieceJoint() {
+    public List<CourrierPieceJoint> getCourriersPieceJoint() {
         return courriersPieceJoint;
     }
 

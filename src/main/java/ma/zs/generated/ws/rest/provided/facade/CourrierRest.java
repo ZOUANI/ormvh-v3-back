@@ -3,6 +3,8 @@ package ma.zs.generated.ws.rest.provided.facade;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 import javax.mail.MessagingException;
@@ -15,6 +17,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,11 +69,17 @@ public class CourrierRest {
 	}
 
 	   @GetMapping("/downloadFile/{id}")
-	    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable Long id,HttpServletResponse response) throws IOException {
+	    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable Long id,HttpServletResponse response) throws IOException, URISyntaxException {
 	        // Load file as Resource
-	        CourrierPieceJoint databaseFile = courrierPieceJointService.findByCourierId(id);
+	        CourrierPieceJoint databaseFile = courrierPieceJointService.findById(id);
 	        File convFile = null;
-	        convFile = new File(databaseFile.getChemin());
+	        String newAbsoluteChemin = databaseFile.getAbsoluteChemin();
+	        StringBuilder sb = new StringBuilder(newAbsoluteChemin);
+	        for (int i = 0; i <= 6; i++) {
+                sb.deleteCharAt(0);
+            }
+	        newAbsoluteChemin = sb.toString();
+	        convFile = new File(newAbsoluteChemin);
             convFile.createNewFile();
 	        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, databaseFile.getChemin());
            InputStreamResource resource = new InputStreamResource(new FileInputStream(convFile));
@@ -81,6 +90,12 @@ public class CourrierRest {
                    .contentLength(convFile.length()) //
                    .body(resource);
 	 	   }
+
+	@GetMapping("/downloadBlob/{id}")
+	public byte[] downloadBlob(@PathVariable Long id) {
+        CourrierPieceJoint cpj = courrierPieceJointService.findById(id);
+        return cpj.getContenu();
+    }
 
 	@ApiOperation("creates the specified courrier")
     @PostMapping("/create")
@@ -675,9 +690,22 @@ public class CourrierRest {
         Map<String, Object> parameters = new HashMap<>();
         return GeneratePdf.generatePdfs("courriers", parameters, toPrint, "/reports/courriers.jasper");
     }
-    @PostMapping("upload/{idCourrier}")
+    @PostMapping("/upload/{idCourrier}")
     public int uploadFiles(@RequestParam("files") List<MultipartFile> files,@PathVariable String idCourrier) throws IOException {
         return courrierService.uploadFiles(files, idCourrier);
+    }
+
+    @GetMapping("/searchbyCourrierid/{id}")
+    public List<CourrierPieceJoint> searchByCourrierId(@PathVariable Long id) {
+        Courrier c = new Courrier();
+        c.setCourriersPieceJoint(this.courrierPieceJointService.searchByCourierId(id));
+        CourrierVo co = courrierConverter.toVo(c);
+        return co.getCourrierPieceJoints();
+    }
+
+    @DeleteMapping("/piecejointid/{id}")
+    public void deletePieceJointById(@PathVariable Long id) {
+        this.courrierPieceJointService.deleteById(id);
     }
 
 

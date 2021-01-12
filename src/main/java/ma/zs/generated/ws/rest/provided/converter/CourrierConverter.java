@@ -367,6 +367,10 @@ public class CourrierConverter extends AbstractConverter<Courrier, CourrierVo> {
                 vo.setCourrierServiceItemsVo(courrierServiceItemConverter.toVo(item.getCourrierServiceItems()));
                 courrierServiceItemConverter.setCourrier(true);
             }
+            for (CourrierPieceJoint c: item.getCourriersPieceJoint()) {
+                c.setCourier(null);
+            }
+            vo.setCourrierPieceJoints(item.getCourriersPieceJoint());
 
             return vo;
 

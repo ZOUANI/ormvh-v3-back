@@ -70,7 +70,16 @@ private CourrierPieceJointDao courrierPieceJointDao;
 	public CourrierPieceJoint findByCourierId(Long id) {
 		return courrierPieceJointDao.findByCourierId(id);
 	}
-	
 
-	
+	@Override
+	public List<CourrierPieceJoint> searchByCourierId(Long id) {
+		return courrierPieceJointDao.searchByCourierId(id);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		this.courrierPieceJointDao.deleteById(id);
+	}
+
+
 }

@@ -10,4 +10,8 @@ public interface CourrierPieceJointService {
 	    CourrierPieceJoint save(CourrierPieceJoint courrierPieceJoint);
 
 	    CourrierPieceJoint findByCourierId(Long id);
+
+	    List<CourrierPieceJoint> searchByCourierId(Long id);
+
+	    void deleteById(Long id);
 }

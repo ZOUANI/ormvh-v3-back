@@ -261,7 +261,9 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 			//	courrierPieceJoint.setChemin(file.getOriginalFilename());
 				courrierPieceJoint.setChemin(System.currentTimeMillis()+"."+file.getOriginalFilename().split("\\.")[1]);
 				courrierPieceJoint.setCourier(courrier);
+				courrierPieceJoint.setAbsoluteChemin("file://C://Users//" + System.getProperty("user.name") + "//pieces-jointes//" + System.currentTimeMillis()+"."+file.getOriginalFilename().split("\\.")[1]);
 				Files.write(Paths.get(path + courrierPieceJoint.getChemin()), file.getBytes());
+				courrierPieceJoint.setContenu(file.getBytes());
 				courrierPieceJointService.save(courrierPieceJoint);
 			}
 			return 1;
