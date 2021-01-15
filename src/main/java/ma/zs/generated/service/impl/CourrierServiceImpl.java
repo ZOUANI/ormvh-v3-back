@@ -81,6 +81,10 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 
 	@Autowired
 	private CourrierPieceJointService courrierPieceJointService;
+	@Autowired
+	private CourrierPieceJointTraiteService courrierPieceJointTraiteService;
+	@Autowired
+	private CourrierPieceJointReponseService courrierPieceJointReponseService;
 
 
 	@Autowired
@@ -265,6 +269,51 @@ public class CourrierServiceImpl extends AbstractService<Courrier> implements Co
 				Files.write(Paths.get(path + courrierPieceJoint.getChemin()), file.getBytes());
 				courrierPieceJoint.setContenu(file.getBytes());
 				courrierPieceJointService.save(courrierPieceJoint);
+			}
+			return 1;
+		} else return -1;
+	}
+
+	@Override
+	public int uploadFilesTraite(List<MultipartFile> files, String idCourrier) throws IOException {
+		String path = System.getProperty("user.home") + "/pieces-jointes-traite/";
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		Courrier courrier = courrierDao.findByIdCourrier(idCourrier);
+		if (courrier != null) {
+			for (MultipartFile file : files) {
+				CourrierPieceJointTraite courrierPieceJointTraite = new CourrierPieceJointTraite();
+				//	courrierPieceJoint.setChemin(file.getOriginalFilename());
+				courrierPieceJointTraite.setChemin(System.currentTimeMillis()+"."+file.getOriginalFilename().split("\\.")[1]);
+				courrierPieceJointTraite.setCourier(courrier);
+				courrierPieceJointTraite.setAbsoluteChemin("file://C://Users//" + System.getProperty("user.name") + "//pieces-jointes-traite//" + System.currentTimeMillis()+"."+file.getOriginalFilename().split("\\.")[1]);
+				Files.write(Paths.get(path + courrierPieceJointTraite.getChemin()), file.getBytes());
+				courrierPieceJointTraite.setContenu(file.getBytes());
+				courrierPieceJointTraiteService.save(courrierPieceJointTraite);
+			}
+			return 1;
+		} else return -1;
+	}
+	@Override
+	public int uploadFilesReponse(List<MultipartFile> files, String idCourrier) throws IOException {
+		String path = System.getProperty("user.home") + "/pieces-jointes-reponse/";
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		Courrier courrier = courrierDao.findByIdCourrier(idCourrier);
+		if (courrier != null) {
+			for (MultipartFile file : files) {
+				CourrierPieceJointReponse courrierPieceJointReponse = new CourrierPieceJointReponse();
+				//	courrierPieceJoint.setChemin(file.getOriginalFilename());
+				courrierPieceJointReponse.setChemin(System.currentTimeMillis()+"."+file.getOriginalFilename().split("\\.")[1]);
+				courrierPieceJointReponse.setCourier(courrier);
+				courrierPieceJointReponse.setAbsoluteChemin("file://C://Users//" + System.getProperty("user.name") + "//pieces-jointes-reponse//" + System.currentTimeMillis()+"."+file.getOriginalFilename().split("\\.")[1]);
+				Files.write(Paths.get(path + courrierPieceJointReponse.getChemin()), file.getBytes());
+				courrierPieceJointReponse.setContenu(file.getBytes());
+				courrierPieceJointReponseService.save(courrierPieceJointReponse);
 			}
 			return 1;
 		} else return -1;

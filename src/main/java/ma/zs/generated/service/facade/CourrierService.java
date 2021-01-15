@@ -18,7 +18,11 @@ import ma.zs.generated.ws.rest.provided.vo.CourrierVo;
 public interface CourrierService {
 
 
+
     int uploadFiles(List<MultipartFile> files, String idCourrier) throws IOException;
+
+    int uploadFilesTraite(List<MultipartFile> files, String idCourrier) throws IOException;
+    int uploadFilesReponse(List<MultipartFile> files, String idCourrier) throws IOException;
 
     /**
      * find all Courrier in database
@@ -275,7 +279,7 @@ public interface CourrierService {
 
     String generateIdCourrier();
 
-    int reservation(Courrier courrier, String idCourier, int nbr,String description);
+    int reservation(Courrier courrier, String idCourier, int nbr, String description);
 
     String verifyIdCourier(String IdCourier);
 
@@ -285,20 +289,20 @@ public interface CourrierService {
     Map<LeService, List<Courrier>> findCourrierSusceptibleRelance(CourrierVo courrierVo);
 
 
-	/**
-	 * @param to
-	 * @param subject
-	 * @param content
-	 * @return
-	 * @throws MessagingException
-	 */
-	int sendCourrierRedirection(String to, String subject, String content) throws MessagingException;
+    /**
+     * @param to
+     * @param subject
+     * @param content
+     * @return
+     * @throws MessagingException
+     */
+    int sendCourrierRedirection(String to, String subject, String content) throws MessagingException;
 
-	/**
-	 * @param courriers
-	 * @return
-	 * @throws MessagingException
-	 */
-	int sendCourrierRelance(List<Courrier> courriers) throws MessagingException;
+    /**
+     * @param courriers
+     * @return
+     * @throws MessagingException
+     */
+    int sendCourrierRelance(List<Courrier> courriers) throws MessagingException;
 
 }

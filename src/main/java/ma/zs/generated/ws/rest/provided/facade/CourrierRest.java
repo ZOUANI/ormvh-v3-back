@@ -11,6 +11,10 @@ import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
+import ma.zs.generated.bean.CourrierPieceJointReponse;
+import ma.zs.generated.bean.CourrierPieceJointTraite;
+import ma.zs.generated.service.facade.CourrierPieceJointReponseService;
+import ma.zs.generated.service.facade.CourrierPieceJointTraiteService;
 import ma.zs.generated.ws.rest.provided.vo.StatistiqueVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -54,73 +58,75 @@ public class CourrierRest {
     @Autowired
     private CourrierPieceJointService courrierPieceJointService;
     @Autowired
+    private CourrierPieceJointTraiteService courrierPieceJointTraiteService;
+    @Autowired
+    private CourrierPieceJointReponseService courrierPieceJointReponseService;
+    @Autowired
     private CourrierConverter courrierConverter;
     @Autowired
     private ServletContext servletContext;
     private ArrayList<CourrierPieceJoint> courrierPieceJoint = new ArrayList<CourrierPieceJoint>();
-    
+
 
     public ArrayList<CourrierPieceJoint> getCourrierPieceJoint() {
-		return courrierPieceJoint;
-	}
+        return courrierPieceJoint;
+    }
 
-	public void setCourrierPieceJoint(ArrayList<CourrierPieceJoint> courrierPieceJoint) {
-		this.courrierPieceJoint = courrierPieceJoint;
-	}
+    public void setCourrierPieceJoint(ArrayList<CourrierPieceJoint> courrierPieceJoint) {
+        this.courrierPieceJoint = courrierPieceJoint;
+    }
 
-	   @GetMapping("/downloadFile/{id}")
-	    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable Long id,HttpServletResponse response) throws IOException, URISyntaxException {
-	        // Load file as Resource
-	        CourrierPieceJoint databaseFile = courrierPieceJointService.findById(id);
-	        File convFile = null;
-	        String newAbsoluteChemin = databaseFile.getAbsoluteChemin();
-	        StringBuilder sb = new StringBuilder(newAbsoluteChemin);
-	        for (int i = 0; i <= 6; i++) {
-                sb.deleteCharAt(0);
-            }
-	        newAbsoluteChemin = sb.toString();
-	        convFile = new File(newAbsoluteChemin);
-            convFile.createNewFile();
-	        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, databaseFile.getChemin());
-           InputStreamResource resource = new InputStreamResource(new FileInputStream(convFile));
-           
-	        return ResponseEntity.ok()
-                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + convFile.getName())
-                   .contentType(mediaType)
-                   .contentLength(convFile.length()) //
-                   .body(resource);
-	 	   }
+    @GetMapping("/downloadFile/{id}")
+    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable Long id, HttpServletResponse response) throws IOException, URISyntaxException {
+        // Load file as Resource
+        CourrierPieceJoint databaseFile = courrierPieceJointService.findById(id);
+        File convFile = null;
+        String newAbsoluteChemin = databaseFile.getAbsoluteChemin();
+        StringBuilder sb = new StringBuilder(newAbsoluteChemin);
+        for (int i = 0; i <= 6; i++) {
+            sb.deleteCharAt(0);
+        }
+        newAbsoluteChemin = sb.toString();
+        convFile = new File(newAbsoluteChemin);
+        convFile.createNewFile();
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, databaseFile.getChemin());
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(convFile));
 
-	@GetMapping("/downloadBlob/{id}")
-	public byte[] downloadBlob(@PathVariable Long id) {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + convFile.getName())
+                .contentType(mediaType)
+                .contentLength(convFile.length()) //
+                .body(resource);
+    }
+
+    @GetMapping("/downloadBlob/{id}")
+    public byte[] downloadBlob(@PathVariable Long id) {
         CourrierPieceJoint cpj = courrierPieceJointService.findById(id);
         return cpj.getContenu();
     }
 
-	@ApiOperation("creates the specified courrier")
+    @ApiOperation("creates the specified courrier")
     @PostMapping("/create")
     public int create(@RequestParam("file") MultipartFile file) {
-		try {
-			System.out.println(file.getOriginalFilename().split(".")[0]);
-			this.courrierPieceJoint.add(new CourrierPieceJoint(null, file.getOriginalFilename().split(".")[0], file.getBytes(),file.getContentType(), null));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return 1 ;
+        try {
+            System.out.println(file.getOriginalFilename().split(".")[0]);
+            this.courrierPieceJoint.add(new CourrierPieceJoint(null, file.getOriginalFilename().split(".")[0], file.getBytes(), file.getContentType(), null));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return 1;
     }
-
-
 
 
     @ApiOperation("creates the specified courrier")
     @PostMapping("/")
     public int create(@RequestBody CourrierVo courrierVo) throws IOException {
         System.out.println("haaa courrierVo.getSentAt() = " + courrierVo.getSentAt());
-    	Courrier courrier = courrierConverter.toItem(courrierVo);
+        Courrier courrier = courrierConverter.toItem(courrierVo);
         Courrier loadedCourrier = courrierService.create(courrier);
         System.out.println("DateUtil.formateDate(courrier.getSentAt()) = " + DateUtil.formateDate(courrier.getSentAt()));
-    	  return 1 ;
+        return 1;
     }
 
     @ApiOperation("Delete the specified courrier")
@@ -143,6 +149,7 @@ public class CourrierRest {
     public List<CourrierVo> findAll() {
         return courrierConverter.toVo(courrierService.findAll());
     }
+
     @GetMapping("/findAllcourrierPieceJoint/{id}")
     public CourrierPieceJoint findAllcourrierPieceJoint(@PathVariable Long id) {
         return courrierPieceJointService.findByCourierId(id);
@@ -544,8 +551,8 @@ public class CourrierRest {
     }
 
     @PostMapping("/courriers/reservation/idCourier/{idCourier}/nbr/{nbr}/description/{description}")
-    public int reservation(@RequestBody Courrier courrier, @PathVariable String idCourier, @PathVariable int nbr,@PathVariable String description) {
-        return courrierService.reservation(courrier, idCourier, nbr,description);
+    public int reservation(@RequestBody Courrier courrier, @PathVariable String idCourier, @PathVariable int nbr, @PathVariable String description) {
+        return courrierService.reservation(courrier, idCourier, nbr, description);
     }
 
     @ApiOperation("get all stats")
@@ -668,18 +675,19 @@ public class CourrierRest {
     }
 
     @PostMapping("/couriersusceptiblerelance")
-    public Map<LeServiceVo,List<CourrierVo>> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
-    	return courrierConverter.convertMapToVo(courrierService.findCourrierSusceptibleRelance(courrierVo));
+    public Map<LeServiceVo, List<CourrierVo>> findCourrierSusceptibleRelance(@RequestBody CourrierVo courrierVo) {
+        return courrierConverter.convertMapToVo(courrierService.findCourrierSusceptibleRelance(courrierVo));
     }
 
     @PostMapping("/sendcourierredirection/to/{to}/subject/{subject}/content/{content}")
     public int sendCourrierRedirection(@PathVariable String to, @PathVariable String subject, @PathVariable String content) throws MessagingException {
- 		return courrierService.sendCourrierRedirection(to, subject, content);
- 	}
+        return courrierService.sendCourrierRedirection(to, subject, content);
+    }
+
     @PostMapping("/sendcourierrelance")
     public int sendCourrierRelance(@RequestBody List<CourrierVo> courrierVos) throws MessagingException {
-		return courrierService.sendCourrierRelance(courrierConverter.toItem(courrierVos));
-	}
+        return courrierService.sendCourrierRelance(courrierConverter.toItem(courrierVos));
+    }
 
     @PostMapping("/pdf")
     public ResponseEntity<Object> CommandePrint(@RequestBody List<CourrierVo> courriers) throws IOException, JRException {
@@ -690,17 +698,50 @@ public class CourrierRest {
         Map<String, Object> parameters = new HashMap<>();
         return GeneratePdf.generatePdfs("courriers", parameters, toPrint, "/reports/courriers.jasper");
     }
+
     @PostMapping("/upload/{idCourrier}")
-    public int uploadFiles(@RequestParam("files") List<MultipartFile> files,@PathVariable String idCourrier) throws IOException {
+    public int uploadFiles(@RequestParam("files") List<MultipartFile> files, @PathVariable String idCourrier) throws IOException {
         return courrierService.uploadFiles(files, idCourrier);
+    }
+
+    @PostMapping("/uploadTraite/{idCourrier}")
+    public int uploadFilesTraite(@RequestParam("files") List<MultipartFile> files, @PathVariable String idCourrier) throws IOException {
+        return courrierService.uploadFilesTraite(files, idCourrier);
+    }
+    @PostMapping("/uploadReponse/{idCourrier}")
+    public int uploadFilesReponse(@RequestParam("files") List<MultipartFile> files, @PathVariable String idCourrier) throws IOException {
+        return courrierService.uploadFilesReponse(files, idCourrier);
     }
 
     @GetMapping("/searchbyCourrierid/{id}")
     public List<CourrierPieceJoint> searchByCourrierId(@PathVariable Long id) {
-        Courrier c = new Courrier();
-        c.setCourriersPieceJoint(this.courrierPieceJointService.searchByCourierId(id));
-        CourrierVo co = courrierConverter.toVo(c);
-        return co.getCourrierPieceJoints();
+        List<CourrierPieceJoint> courrierPieceJoints=this.courrierPieceJointService.searchByCourierId(id);
+        for (CourrierPieceJoint c:courrierPieceJoints
+             ) {
+            c.setCourier(null);
+        }
+        return courrierPieceJoints;
+    }
+
+    @GetMapping("/searchbyCourrieridTraite/{id}")
+    public List<CourrierPieceJointTraite> searchByCourrierIdTraite(@PathVariable Long id) {
+        List<CourrierPieceJointTraite> courrierPieceJoints=this.courrierPieceJointTraiteService.searchByCourierId(id);
+        for (CourrierPieceJointTraite c:courrierPieceJoints
+        ) {
+            c.setCourier(null);
+        }
+        return courrierPieceJoints;
+
+    }
+    @GetMapping("/searchbyCourrieridReponse/{id}")
+    public List<CourrierPieceJointReponse> searchByCourrierIdReponse(@PathVariable Long id) {
+        List<CourrierPieceJointReponse> courrierPieceJoints=this.courrierPieceJointReponseService.searchByCourierId(id);
+        for (CourrierPieceJointReponse c:courrierPieceJoints
+        ) {
+            c.setCourier(null);
+        }
+        return courrierPieceJoints;
+
     }
 
     @DeleteMapping("/piecejointid/{id}")
@@ -708,7 +749,14 @@ public class CourrierRest {
         this.courrierPieceJointService.deleteById(id);
     }
 
-
+    @DeleteMapping("/piecejointTraiteid/{id}")
+    public void deletePieceJointTraiteById(@PathVariable Long id) {
+        this.courrierPieceJointTraiteService.deleteById(id);
+    }
+    @DeleteMapping("/piecejointReponseid/{id}")
+    public void deletePieceJointReponseById(@PathVariable Long id) {
+        this.courrierPieceJointReponseService.deleteById(id);
+    }
 
 
 }

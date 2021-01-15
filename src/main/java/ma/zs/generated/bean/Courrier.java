@@ -76,6 +76,10 @@ public class Courrier {
     private String type;
     @OneToMany
     private List<CourrierPieceJoint> courriersPieceJoint = new ArrayList<CourrierPieceJoint>();
+    @OneToMany
+    private List<CourrierPieceJointTraite> courriersPieceJointTraite = new ArrayList<CourrierPieceJointTraite>();
+    @OneToMany
+    private List<CourrierPieceJointReponse> courrierPieceJointReponse = new ArrayList<CourrierPieceJointReponse>();
 
     @ManyToOne
     private CourrierObject courrierObject;
@@ -111,15 +115,23 @@ public class Courrier {
     private NatureClient natureClient;
     @ManyToOne
     private PhaseAdmin phaseAdmin;
-    @OneToMany(mappedBy = "courrier",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "courrier", cascade = CascadeType.REMOVE)
     private List<Task> tasks;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "courrier")
     private List<CourrierServiceItem> courrierServiceItems;
+
     public List<CourrierPieceJoint> getCourriersPieceJoint() {
         return courriersPieceJoint;
     }
 
+    public List<CourrierPieceJointTraite> getCourriersPieceJointTraite() {
+        return courriersPieceJointTraite;
+    }
+
+    public void setCourriersPieceJointTraite(List<CourrierPieceJointTraite> courriersPieceJointTraite) {
+        this.courriersPieceJointTraite = courriersPieceJointTraite;
+    }
 
     public TypeRequette getTypeRequette() {
         return typeRequette;
@@ -481,24 +493,26 @@ public class Courrier {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
     public List<CourrierServiceItem> getCourrierServiceItems() {
         return this.courrierServiceItems;
     }
 
-	public void setCourriersPieceJoint(List<CourrierPieceJoint> courriersPieceJoint) {
-		this.courriersPieceJoint = courriersPieceJoint;
-	}
+    public void setCourriersPieceJoint(List<CourrierPieceJoint> courriersPieceJoint) {
+        this.courriersPieceJoint = courriersPieceJoint;
+    }
+
     public void setCourrierServiceItems(List<CourrierServiceItem> courrierServiceItems) {
         this.courrierServiceItems = courrierServiceItems;
     }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Integer getTrimestre() {
         return trimestre;
